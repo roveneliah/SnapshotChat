@@ -59,9 +59,9 @@ export default function Vote() {
   }
 
   const ifHodler = async () => signer.getAddress().then(getKrauseBalance).then(gte(100));
-  const submitPost = async () => {
+  const submit = async (msg) => {
     // check if this person has a token balance
-    const signature = await signer.signMessage(postText);
+    const signature = await signer.signMessage(msg);
     console.log(signature);
     console.log(ethers.utils.verifyMessage(msg, signature));
   }
@@ -120,6 +120,32 @@ export default function Vote() {
         {selectedProposal 
           ? fullProposal(proposalById(proposals, selectedProposal)) 
           : proposalsList()}
+        {selectedProposal && (
+          <>
+            <div>
+              <h1>fat tony</h1>
+              <p>The ask is a small percentage of our budget, and the upside is massive.</p>
+              <p style={{color: "green"}}>Approve 5000 $KRAUSE</p>
+              {connected && (
+                <>
+                  <button onClick={() => submit("upvote")}>Upvote</button>
+                  <button onClick={() => submit("downvote")}>Downvote</button>
+                </>
+              )}
+            </div>
+            <div>
+            <h1>greg_</h1>
+            <p>I've worked with them before and they always overdeliver.  Easy yes.</p>
+            <p style={{color: "green"}}>Approve 10000 $KRAUSE</p>
+            {connected && (
+              <>
+                <button onClick={() => submit("upvote")}>Upvote</button>
+                <button onClick={() => submit("downvote")}>Downvote</button>
+              </>
+            )}
+          </div>
+          </>
+        )}
         
       </main>
 
