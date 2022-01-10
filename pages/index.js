@@ -54,7 +54,7 @@ export default function Vote() {
     // we'd store the messages
     
     setKrauseBalance(await getKrauseBalance(address));
-    setTicketBalance(await getCrowdfundBalance("0x28d17dA9De37c8eB0F5C7e20fCFBEecB6FcE3f42"));
+    setTicketBalance(await getCrowdfundBalance(address));
     setConnected(true);
   }
 
@@ -125,13 +125,13 @@ export default function Vote() {
 
       <footer className={styles.footer}>
         <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="krausehouse.club"
           target="_blank"
           rel="noopener noreferrer"
         >
           Powered by{' '}
           <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+            <Image src="/kh_holo.png" alt="KH Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
