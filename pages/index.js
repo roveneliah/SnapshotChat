@@ -135,7 +135,7 @@ export default function Vote() {
             </div>
             <div>
             <h1>greg_</h1>
-            <p>I've worked with them before and they always overdeliver.  Easy yes.</p>
+            <p>Ive worked with them before and they always overdeliver.  Easy yes.</p>
             <p style={{color: "green"}}>Approve 10000 $KRAUSE</p>
             {connected && (
               <>
@@ -151,13 +151,13 @@ export default function Vote() {
 
       <footer className={styles.footer}>
         <a
-          href="krausehouse.club"
+          href="https://krausehouse.club"
           target="_blank"
           rel="noopener noreferrer"
         >
           Powered by{' '}
           <span className={styles.logo}>
-            <Image src="/kh_holo.png" alt="KH Logo" width={72} height={16} />
+            <Image src="/kh_holo.png" alt="KH Logo" width={16} height={16} />
           </span>
         </a>
       </footer>
