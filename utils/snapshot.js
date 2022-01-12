@@ -7,7 +7,6 @@ const liveProposals = `query Proposals {
     skip: 0,
     where: {
       space_in: ["krausehouse.eth"],
-      state: "active",
     },
     orderBy: "created",
     orderDirection: asc

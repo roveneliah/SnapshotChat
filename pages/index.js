@@ -1,35 +1,42 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
-import { $KRAUSE, balanceOfAbi, CROWDFUND } from '../config'
 import { compose, gte, prop, map, filter, equals } from 'ramda'
+
+import styles from '../styles/Home.module.css'
+import { balanceOf } from '../utils/balanceOf'
 import { getProposals } from '../utils/snapshot'
-import Markdown from 'markdown-to-jsx'
+import { Header } from '../components/Header'
+import { Footer } from '../components/Footer'
+import { ConnectButton } from '../components/ConnectButton'
+import PostForm from '../components/PostForm'
+import { proposalById } from '../utils/functional'
+import { ViewProposalsButton } from '../components/ViewProposalsButton'
+import { Wallet } from '../components/Wallet'
+import { FullProposal } from '../components/FullProposal'
+import { Posts } from '../components/Posts'
+import { ProposalsList } from '../components/ProposalsList'
+import { submit, submitPost } from '../utils/submit'
+
+import {posts} from '../dummyData/posts'
 
 export default function Vote() {
 
-  const [krauseBalance, setKrauseBalance] = useState();
-  const [ticketBalance, setTicketBalance] = useState();
-  const [connected, setConnected] = useState(false);
+  const [provider, setProvider] = useState();
   const [signer, setSigner] = useState();
+  const [connected, setConnected] = useState(false);
   const [proposals, setProposals] = useState()
   const [selectedProposal, setSelectedProposal] = useState();
+  const [postText, setPostText] = useState("");
 
   useEffect(() => {
     getProposals().then(setProposals)
   }, [])
 
-  const balanceOf = (provider, contractAddress) => async (address) => {
-    const contract = new ethers.Contract(contractAddress, balanceOfAbi, provider);
-    return await contract.balanceOf(address).then(x => x.toString());
-  }
-
-  // connect
-  const connect = async () => {
+  
+  const connect = async (setSigner) => {
     const providerOptions = {
       walletconnect: {
         package: WalletConnectProvider, // required
@@ -41,61 +48,11 @@ export default function Vote() {
     const web3Modal = new Web3Modal({ providerOptions, theme: "dark" });
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
-    setSigner(provider.getSigner());
-    console.log(signer)
-    const address = await signer.getAddress()
-    
-
-    const getKrauseBalance = balanceOf(provider, $KRAUSE); 
-    const getCrowdfundBalance = balanceOf(provider, CROWDFUND);
-
-    
-    // woah so we can verify that the person is a token holder when we do something with this...
-    // we'd store the messages
-    
-    setKrauseBalance(await getKrauseBalance(address));
-    setTicketBalance(await getCrowdfundBalance(address));
+    setProvider(provider);
+    setSigner(provider.getSigner())
     setConnected(true);
   }
-
-  const ifHodler = async () => signer.getAddress().then(getKrauseBalance).then(gte(100));
-  const submit = async (msg) => {
-    // check if this person has a token balance
-    const signature = await signer.signMessage(msg);
-    console.log(signature);
-    console.log(ethers.utils.verifyMessage(msg, signature));
-  }
-
   
-
-  const head = (arr) => arr ? arr[0] : null;
-  const proposalById = (proposals, id) => head(proposals.filter(compose(equals(id), prop("id"))))
-
-  const fullProposal = ({ title, author, id, body }) => (
-    <div>
-      <h1>{title}</h1>
-      <Markdown>{body}</Markdown>
-    </div>
-  )
-
-  const proposalsList = () => (
-    <p>{proposals && proposals.map(formatProposal)}</p>
-  )
-
-  const formatProposal = ({ title, author, id, body }) => (
-    <>
-      <h2 onClick={() => setSelectedProposal(id)}>{title}</h2>
-      <h5>{author}</h5>
-      <a href={`https://snapshot.org/#/krausehouse.eth/proposal/${id}`}>
-        View on Snapshot
-      </a>
-      <br/>
-      <button onClick={() => setSelectedProposal(id)}>Select</button>
-      <br/><br/> 
-    </>
-  )
-  
-
   return (
     <div className={styles.container}>
       <Head>
@@ -103,64 +60,23 @@ export default function Vote() {
         <meta name="description" content="web3's Home Team" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <main>
+        <Header />      
+        {!connected && <ConnectButton connect={connect} setSigner={setSigner}/>}
+        {connected && <Wallet provider={provider} signer={signer}/>}
 
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          <a href="" style={{color: "purple"}}>🏀 The Front Office</a>
-        </h1>
-      
-        {!connected && <button onClick={connect}>
-          Connect
-        </button>}
-
-        {connected && <h1>{krauseBalance} $KRAUSE, {ticketBalance} Tickets</h1>}
-
-        {selectedProposal && <button onClick={() => setSelectedProposal()}>View Proposals</button>}
+        {selectedProposal && <ViewProposalsButton setSelectedProposal={setSelectedProposal}/>}
         {selectedProposal 
-          ? fullProposal(proposalById(proposals, selectedProposal)) 
-          : proposalsList()}
-        {selectedProposal && (
-          <>
-            <div>
-              <h1>fat tony</h1>
-              <p>The ask is a small percentage of our budget, and the upside is massive.</p>
-              <p style={{color: "green"}}>Approve 5000 $KRAUSE</p>
-              {connected && (
-                <>
-                  <button onClick={() => submit("upvote")}>Upvote</button>
-                  <button onClick={() => submit("downvote")}>Downvote</button>
-                </>
-              )}
-            </div>
-            <div>
-            <h1>greg_</h1>
-            <p>Ive worked with them before and they always overdeliver.  Easy yes.</p>
-            <p style={{color: "green"}}>Approve 10000 $KRAUSE</p>
-            {connected && (
-              <>
-                <button onClick={() => submit("upvote")}>Upvote</button>
-                <button onClick={() => submit("downvote")}>Downvote</button>
-              </>
-            )}
-          </div>
-          </>
-        )}
-        
-      </main>
+          ? <FullProposal proposal={proposalById(proposals, selectedProposal)}/>
+          : <ProposalsList proposals={proposals} setSelectedProposal={setSelectedProposal}/>}
 
-      <footer className={styles.footer}>
-        <a
-          href="https://krausehouse.club"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/kh_holo.png" alt="KH Logo" width={16} height={16} />
-          </span>
-        </a>
-      </footer>
+
+        {/* Posts */}
+        {connected && <PostForm postText={postText} setPostText={setPostText} submitPost={() => submitPost(signer)(postText)}/>}
+        {selectedProposal && <Posts posts={posts} submit={submit(signer)} connected={connected}/>}
+      </main>
+      <Footer />
     </div>
   )
 }
