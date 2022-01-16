@@ -19,8 +19,10 @@ import { FullProposal } from '../components/FullProposal'
 import { Posts } from '../components/Posts'
 import { ProposalsList } from '../components/ProposalsList'
 import { submit, submitPost } from '../utils/submit'
+import { fetchWalletBalance } from '../utils/fetchWallet'
 
 import {posts} from '../dummyData/posts'
+import { $KRAUSE, CROWDFUND } from '../config'
 
 export default function Vote() {
 
@@ -30,11 +32,22 @@ export default function Vote() {
   const [proposals, setProposals] = useState()
   const [selectedProposal, setSelectedProposal] = useState();
   const [postText, setPostText] = useState("");
+  const [wallet, setWallet] = useState({});
 
   useEffect(() => {
     getProposals().then(setProposals)
   }, [])
 
+  useEffect(async () => {
+    const getKrauseBalance = balanceOf(provider, $KRAUSE);
+    const getTicketBalance = balanceOf(provider, CROWDFUND);
+    signer?.getAddress().then(async (address) => {
+      setWallet({
+        $KRAUSE: await getKrauseBalance(address) / 1e18,
+        TICKETS: await getTicketBalance(address)
+      })
+    })
+  }, [signer])
   
   const connect = async (setSigner) => {
     const providerOptions = {
@@ -52,31 +65,43 @@ export default function Vote() {
     setSigner(provider.getSigner())
     setConnected(true);
   }
-  
+
+  useEffect(() => {
+    fetchWalletBalance(provider, signer)
+      .then(setWallet)
+  }, [])
+
+  console.log("INDEX")
+  console.log(wallet)
+  console.log(signer)
   return (
-    <div className={styles.container}>
+    <div className="bg-gray-800 h-max">
       <Head>
         <title>Krause House</title>
         <meta name="description" content="web3's Home Team" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/kh_holo.png" />
       </Head>
       <main>
-        <Header />      
-        {!connected && <ConnectButton connect={connect} setSigner={setSigner}/>}
-        {connected && <Wallet provider={provider} signer={signer}/>}
-
-
-        {selectedProposal && <ViewProposalsButton setSelectedProposal={setSelectedProposal}/>}
+        <Header
+          connected={connected}
+          connect={connect}
+          signer={signer}
+          setSigner={setSigner}
+          wallet={wallet}/>
+        
         {selectedProposal 
-          ? <FullProposal proposal={proposalById(proposals, selectedProposal)}/>
-          : <ProposalsList proposals={proposals} setSelectedProposal={setSelectedProposal}/>}
-
-
-        {/* Posts */}
-        {connected && <PostForm postText={postText} setPostText={setPostText} submitPost={() => submitPost(signer)(postText)}/>}
-        {selectedProposal && <Posts posts={posts} submit={submit(signer)} connected={connected}/>}
+          ? <FullProposal
+              proposal={proposalById(proposals, selectedProposal)}
+              setSelectedProposal={setSelectedProposal}
+              posts={posts}
+              signer={signer}
+              submit={submit(signer)}
+              connected={connected}/>
+          : <ProposalsList
+              proposals={proposals}
+              setSelectedProposal={setSelectedProposal}/>}
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }
