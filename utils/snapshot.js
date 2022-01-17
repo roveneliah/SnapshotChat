@@ -9,7 +9,7 @@ const liveProposals = `query Proposals {
       space_in: ["krausehouse.eth"],
     },
     orderBy: "created",
-    orderDirection: asc
+    orderDirection: desc
   ) {
     id
     title
@@ -17,8 +17,8 @@ const liveProposals = `query Proposals {
     choices
     start
     end
-    # snapshot
-    # state
+    snapshot
+    state
     author
     # space {
     #   id

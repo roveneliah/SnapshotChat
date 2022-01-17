@@ -1,4 +1,8 @@
 
+import { addPost } from "./firestore";
+import { balanceOf } from "./balanceOf";
+import { CROWDFUND } from "../config"; 
+
 export const submit = (signer) => async (msg) => {
     // check if this person has a token balance
     const signature = await signer.signMessage(msg);
@@ -6,13 +10,27 @@ export const submit = (signer) => async (msg) => {
     console.log(ethers.utils.verifyMessage(msg, signature));
 }
 
-export const submitPost = (signer) => async (postText) => {
-    // what checks do we want to do on this?
-    // even if something got in db, we could prune it out
-    // we want to make sure it's really the person who claims is connected, which requires signature for db
+export const submitPost = (provider) => async (proposalId, post, outcome) => {
+    console.log("GETTING TICKET BALANCE")
+    const signer = await provider.getSigner()
+    const tickets = await balanceOf(provider, CROWDFUND)(await signer.getAddress())
+    console.log(tickets);
+    const ticketHolder = provider && tickets > 0;
+    console.log("TICKETHOLDER")
+    console.log(ticketHolder)
+
+    if (!ticketHolder) return;
+
     const signature = await signer.signMessage(JSON.stringify({
       author: await signer.getAddress(),
-      body: postText
+      post,
+      outcome,
     }));
-    // post into a firebase db with { message, author, signature (to verify)}
+
+    await addPost(provider)(proposalId, {
+      author: await signer.getAddress(),
+      post,
+      outcome,
+      signature
+    })
 }

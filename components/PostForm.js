@@ -13,7 +13,7 @@ const PostInput = ({ postText, setPostText }) => (
 
 export default ({postText, setPostText, submitPost}) => (
     <div>
-        <h1></h1>
+        <h1>asdfsd</h1>
         <PostInput postText={postText} setPostText={setPostText} />
         <PostButton onClick={submitPost} />
     </div>

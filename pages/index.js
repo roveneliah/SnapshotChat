@@ -3,26 +3,18 @@ import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
-import { compose, gte, prop, map, filter, equals } from 'ramda'
+import { AlchemyProvider, EtherscanProvider } from '@ethersproject/providers'
 
-import styles from '../styles/Home.module.css'
 import { balanceOf } from '../utils/balanceOf'
 import { getProposals } from '../utils/snapshot'
 import { Header } from '../components/Header'
-import { Footer } from '../components/Footer'
-import { ConnectButton } from '../components/ConnectButton'
-import PostForm from '../components/PostForm'
-import { proposalById } from '../utils/functional'
-import { ViewProposalsButton } from '../components/ViewProposalsButton'
-import { Wallet } from '../components/Wallet'
+import { printPass, proposalById } from '../utils/functional'
 import { FullProposal } from '../components/FullProposal'
-import { Posts } from '../components/Posts'
 import { ProposalsList } from '../components/ProposalsList'
-import { submit, submitPost } from '../utils/submit'
-import { fetchWalletBalance } from '../utils/fetchWallet'
+import { submit } from '../utils/submit'
+import { getKHWallet } from '../utils/getKHWallet'
 
-import {posts} from '../dummyData/posts'
-import { $KRAUSE, CROWDFUND } from '../config'
+import { addPost, writeTest, writeProposal, setProposal } from '../utils/firestore'
 
 export default function Vote() {
 
@@ -31,23 +23,28 @@ export default function Vote() {
   const [connected, setConnected] = useState(false);
   const [proposals, setProposals] = useState()
   const [selectedProposal, setSelectedProposal] = useState();
-  const [postText, setPostText] = useState("");
   const [wallet, setWallet] = useState({});
+  const [hodler, setHodler] = useState(false);
 
   useEffect(() => {
-    getProposals().then(setProposals)
+    setProvider(new EtherscanProvider());
+
+    // load in proposal from firebase
+    getProposals().then((proposals) => {
+      proposals.map(setProposal);
+      setProposals(proposals);
+    });
   }, [])
 
   useEffect(async () => {
-    const getKrauseBalance = balanceOf(provider, $KRAUSE);
-    const getTicketBalance = balanceOf(provider, CROWDFUND);
-    signer?.getAddress().then(async (address) => {
-      setWallet({
-        $KRAUSE: await getKrauseBalance(address) / 1e18,
-        TICKETS: await getTicketBalance(address)
-      })
-    })
+
+    const address = await signer?.getAddress();
+    const wallet = address && await getKHWallet(provider)(address)
+    setWallet(wallet);
+    setHodler(wallet?.TICKETS > 0);
+
   }, [signer])
+
   
   const connect = async (setSigner) => {
     const providerOptions = {
@@ -66,14 +63,7 @@ export default function Vote() {
     setConnected(true);
   }
 
-  useEffect(() => {
-    fetchWalletBalance(provider, signer)
-      .then(setWallet)
-  }, [])
 
-  console.log("INDEX")
-  console.log(wallet)
-  console.log(signer)
   return (
     <div className="bg-gray-800 h-max">
       <Head>
@@ -93,10 +83,11 @@ export default function Vote() {
           ? <FullProposal
               proposal={proposalById(proposals, selectedProposal)}
               setSelectedProposal={setSelectedProposal}
-              posts={posts}
               signer={signer}
               submit={submit(signer)}
-              connected={connected}/>
+              hodler={hodler}
+              connected={connected}
+              provider={provider}/>
           : <ProposalsList
               proposals={proposals}
               setSelectedProposal={setSelectedProposal}/>}
