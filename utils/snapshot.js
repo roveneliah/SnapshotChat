@@ -34,4 +34,4 @@ const query = async (query) => {
   return x;
 }
 
-module.exports.getProposals = async () => await query(liveProposals);
+module.exports.fetchProposals = async () => await query(liveProposals);

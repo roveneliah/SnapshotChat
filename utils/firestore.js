@@ -26,7 +26,7 @@ export const writeTest = async () => (
 
 
 // don't override existing ones...
-export const setProposal = async (proposal) => (
+export const updateProposal = async (proposal) => (
     await setDoc(doc(db, "proposals", proposal.id), proposal, {merge: true})
 )
 
