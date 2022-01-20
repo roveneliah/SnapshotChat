@@ -2,7 +2,7 @@
 const buttonStyle = {
     blue: `inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`,
     red:  "inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-300 rounded-lg hover:bg-red-400 focus:ring-4 focus:ring-red-300 dark:bg-red-400 dark:hover:bg-red-500 dark:focus:ring-red-800",
-    purple: "inline-flex items-center max-w-min py-2 px-3 text-sm font-medium text-center text-purple-900 bg-purple-300 rounded-lg hover:bg-purple-400 focus:ring-4 focus:ring-purple-300 dark:bg-purple-200 dark:hover:bg-purple-300 dark:focus:ring-purple-200",
+    purple: "inline-flex items-center py-2 px-3 text-sm font-medium text-center text-purple-900 bg-purple-300 rounded-lg hover:bg-purple-400 focus:ring-4 focus:ring-purple-300 dark:bg-purple-200 dark:hover:bg-purple-300 dark:focus:ring-purple-200",
     hollow: "py-2 px-4 mr-2 mb-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700",
 }
 

@@ -7,6 +7,7 @@ import ProposalCard from './ProposalCard';
 import { getPosts } from '../../utils/firestore';
 import { printPass } from '../../utils/functional';
 import { submit } from '../../utils/submit'
+import { RelevantSigners } from './ProposalCard/RelevantSigners';
 
 export default function Forum({ proposal, setSelectedProposal, connected, signer, provider, hodler}) {
   

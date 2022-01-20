@@ -26,7 +26,7 @@ export const ForumPost = (submit, connected) => (post, i) => {
 
     const { author, outcome, weight, post: comment } = post;
     return (
-        <div key={i} className="flex flex-col space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+        <div key={i} className="flex flex-col space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
             <div>
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     {author}

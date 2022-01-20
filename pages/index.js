@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { AlchemyProvider, EtherscanProvider } from '@ethersproject/providers'
 
 // Components
-import { Header } from '../components/Header'
 import { printPass, proposalById } from '../utils/functional'
 import Forum from '../components/Forum'
 import { ProposalsList } from '../components/ProposalsList/ProposalsList'
@@ -10,17 +9,15 @@ import Layout from '../components/Layout'
 
 // Functions
 import { submit } from '../utils/submit'
-import { fetchProposals } from '../utils/snapshot'
+import { fetchProposals } from '../utils/Snapshot/fetch'
 import { getKHWallet } from '../utils/getKHWallet'
 import { connectWallet } from '../utils/connectWallet'
-import { balanceOf } from '../utils/balanceOf'
 import { addPost, writeTest, writeProposal, updateProposal } from '../utils/firestore'
-import { composeP } from '../utils/functional'
 import { compose, map } from 'ramda'
 
-
-export default function Vote() {
-
+// const snapshotSpace = "krausehouse.eth"
+export default function Vote({ snapshotSpace="krausehouse.eth" }) {
+  
   const [provider, setProvider] = useState();
   const [signer, setSigner] = useState();
   const [connected, setConnected] = useState(false);
@@ -28,11 +25,11 @@ export default function Vote() {
   const [selectedProposal, setSelectedProposal] = useState();
   const [wallet, setWallet] = useState({});
   const [hodler, setHodler] = useState(false);
-
+  
   const updateDb = map(updateProposal);
   const proposalStuff = () => {
     proposals || 
-      fetchProposals()
+      fetchProposals(snapshotSpace)
       .then((proposals) => {
         updateDb(proposals);        // update in firebase
         setProposals(proposals);    // setProposals in state
@@ -53,38 +50,27 @@ export default function Vote() {
   useEffect(proposalStuff);
   useEffect(walletStuff, [signer])
 
-  const header = () => (
-    <Header
-      connected={connected}
-      connect={connectWallet({setSigner, setProvider, setConnected})}
-      signer={signer}
-      setSigner={setSigner}
-      wallet={wallet}/>
-  )
-
-  const forum = () => (
-    <Forum
-      proposal={proposalById(proposals, selectedProposal)}
-      setSelectedProposal={setSelectedProposal}
-      signer={signer}
-      submit={submit(signer)}
-      hodler={hodler}
-      connected={connected}
-      provider={provider}/>
-  )
-
-  const proposalsList = () => (
-    <ProposalsList
-      proposals={proposals}
-      setSelectedProposal={setSelectedProposal}/>
-  )
-
   return (
-    <Layout>
-      {header()}
+    <Layout
+      connected={connected}
+      connectWallet={connectWallet}
+      setSigner={setSigner}
+      setConnected={setConnected}
+      setProvider={setProvider}
+      wallet={wallet}>
       {selectedProposal 
-        ? forum()
-        : proposals && proposalsList()}
+        ? <Forum
+            proposal={proposalById(proposals, selectedProposal)}
+            setSelectedProposal={setSelectedProposal}
+            signer={signer}
+            submit={submit(signer)}
+            hodler={hodler}
+            connected={connected}
+            provider={provider}/>
+        : proposals && 
+          <ProposalsList
+            proposals={proposals}
+            setSelectedProposal={setSelectedProposal}/>}
     </Layout>
   )
 }

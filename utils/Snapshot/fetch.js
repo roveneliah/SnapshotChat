@@ -1,12 +1,12 @@
 // get data from snapshot
 const axios = require('axios')
 const uri = 'https://hub.snapshot.org/graphql'
-const liveProposals = `query Proposals {
+const liveProposals = (space) => `query Proposals {
   proposals (
     first: 20,
     skip: 0,
     where: {
-      space_in: ["krausehouse.eth"],
+      space_in: ["${space}"],
     },
     orderBy: "created",
     orderDirection: desc
@@ -18,12 +18,13 @@ const liveProposals = `query Proposals {
     start
     end
     snapshot
+    type
     state
     author
-    # space {
-    #   id
-    #   name
-    # }
+    space {
+      id
+      name
+    }
   }
 }`
 
@@ -34,4 +35,4 @@ const query = async (query) => {
   return x;
 }
 
-module.exports.fetchProposals = async () => await query(liveProposals);
+module.exports.fetchProposals = async (space) => await query(liveProposals(space));
