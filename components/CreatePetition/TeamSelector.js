@@ -56,14 +56,6 @@ export const TeamSelector = ({ addSigners }) => {
   );
 
   const addTeam = () => {
-    console.log(selectedTeam);
-    console.log(
-      teamMembers[selectedTeam].map((teamMember) => ({
-        ...teamMember,
-        tag: selectedTeam,
-      }))
-    );
-
     const taggedTeamMembers = teamMembers[selectedTeam].map((teamMember) => ({
       ...teamMember,
       tag: selectedTeam,
