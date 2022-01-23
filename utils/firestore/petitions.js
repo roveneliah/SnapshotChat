@@ -8,8 +8,9 @@ export const buildFetchPetitions = (db) => async () => (
   await getDocs(collection(db, "petitions"))
 )
 
+const nullOrProp = (obj, prop) => obj ? obj[prop] : {}
 export const buildPostSigner = (db) => (petition) => async (message) => {
   await setDoc(doc(db, "petitions", petition.id), {
-    signers: { ...petition.signers, [message.signer]: { ...petition.signers[message.signer], ...message } }
+    signers: { ...petition.signers, [message.signer]: { ...nullOrProp(petition.signers, message.signer), ...message } }
   }, { merge: true })
 }
