@@ -3,8 +3,8 @@ import { sortWith, ascend } from "ramda"
 export function SignatureList({ signers }) {
 
     const statusOrder = {
-        Approve: 1,
-        Against: 2,
+        Against: 1,
+        Approve: 2,
         Abstain: 3,
         Pending: 4
     }
@@ -16,7 +16,7 @@ export function SignatureList({ signers }) {
         Pending: "py-4 px-6 text-sm text-yellow-500 whitespace-nowrap dark:text-yellow-300",
     }
 
-    const row = ({ signer, status, signature }) => (
+    const row = ({ signer, status, signature, tag }) => (
         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <td class={colors[status]}>
                 {status}
@@ -25,7 +25,7 @@ export function SignatureList({ signers }) {
                 {signer}
             </td>
             <td class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
-                {Math.floor(1000*Math.random())} $KRAUSE
+                {tag}
             </td>
             <td class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
                 {signature}
@@ -34,7 +34,6 @@ export function SignatureList({ signers }) {
     )
 
     const sortedSigners = sortWith([ascend(({ status }) => statusOrder[status])])(signers)
-    
     return (
         <div class="flex flex-col">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -50,7 +49,7 @@ export function SignatureList({ signers }) {
                                         Signer
                                     </th>
                                     <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                        Weight
+                                        Tags
                                     </th>
                                     <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                         Signature
