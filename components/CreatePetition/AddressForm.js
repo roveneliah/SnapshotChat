@@ -45,8 +45,8 @@ export const AddressForm = ({ addSigner }) => {
 						placeholder="Lebron" />
 				</div>
 				<div className="w-1/2">
-					<div class="mb-6">
-						<label class={isInvalidAddress ? invalidForm.label : neutralForm.label }>Ethereum Address</label>
+					<div className="mb-6">
+						<label className={isInvalidAddress ? invalidForm.label : neutralForm.label }>Ethereum Address</label>
 						<input 
 							value={addressInput} 
 							onChange={(x) => {
@@ -55,7 +55,7 @@ export const AddressForm = ({ addSigner }) => {
 							}} 
 							type="text"
 							id="username-success" 
-							class={ isInvalidAddress ? invalidForm.input : neutralForm.input }
+							className={ isInvalidAddress ? invalidForm.input : neutralForm.input }
 							placeholder="lebron.eth" />
 					</div>
 				</div>
