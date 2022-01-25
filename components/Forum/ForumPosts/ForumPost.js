@@ -1,6 +1,15 @@
-const VoteButtons = ({ votes }) => (
+const VoteButtons = () => (
   <div>
-    {votes.map((vote, i) => (
+    {[
+      {
+        choice: "Upvote",
+        color: "green",
+      },
+      {
+        choice: "Downvote",
+        color: "red",
+      },
+    ].map((vote, i) => (
       // submit needs to send to firebase db
       <span
         onClick={() =>
@@ -23,18 +32,6 @@ const VoteButtons = ({ votes }) => (
 );
 
 export const ForumPost = ({ submit, connected, post }) => {
-  // TODO: should come from config
-  const votes = [
-    {
-      choice: "Upvote",
-      color: "green",
-    },
-    {
-      choice: "Downvote",
-      color: "red",
-    },
-  ];
-
   const { author, outcome, weight, post: comment } = post;
   return (
     <div className="flex flex-col space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
@@ -52,7 +49,7 @@ export const ForumPost = ({ submit, connected, post }) => {
       <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
         {comment}
       </p>
-      {/* {connected && <VoteButtons votes={votes}/>} */}
+      {/* {connected && <VoteButtons />} */}
     </div>
   );
 };

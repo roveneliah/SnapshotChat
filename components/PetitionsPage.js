@@ -1,23 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Petition from "./Petitions/Petition";
 import { PetitionsListView } from "./Petitions/PetitionsListView";
-import { connectWallet } from "../utils/connectWallet";
-import { createPetition, fetchPetitions } from "../utils/firestore";
-import { itemByProp, printPass, proposalById } from "../utils/functional";
 
-const petitionById = itemByProp("id");
+import { itemByProp } from "../utils/functional";
+import { useGetPetitions } from "../hooks/useGetPetitions";
+
 export function PetitionsPage(props) {
-  const [petitions, setPetitions] = useState([]);
-  const [selectedPetition, setSelectedPetition] = useState();
-
-  useEffect(() => {
-    // petitions.map(createPetition);
-    petitions.length === 0 &&
-      fetchPetitions()
-        .then((x) => x.docs.map((doc) => doc.data()))
-        .then(setPetitions);
-  }, []);
+  const [selectedPetition, setSelectedPetition] = useState(); // TODO: should add custom hook where I pass in petitions itself and get a selector from that
+  const petitions = useGetPetitions();
+  const petitionById = itemByProp("id");
 
   return selectedPetition ? (
     <Petition
