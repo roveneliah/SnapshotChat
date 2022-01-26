@@ -15,8 +15,6 @@ export function ForumPage(props) {
       setSelectedProposal={setSelectedProposal}
       signer={props.signer}
       submit={submit(props.signer)}
-      hodler={props.hodler}
-      connected={props.connected}
       provider={props.provider}
     />
   ) : (

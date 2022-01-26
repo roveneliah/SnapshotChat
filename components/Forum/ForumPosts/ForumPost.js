@@ -31,7 +31,7 @@ const VoteButtons = () => (
   </div>
 );
 
-export const ForumPost = ({ submit, connected, post }) => {
+export const ForumPost = ({ submit, post }) => {
   const { author, outcome, weight, post: comment } = post;
   return (
     <div className="flex flex-col space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">

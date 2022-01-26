@@ -13,7 +13,7 @@ export const PetitionsListView = ({ petitions, setSelectedPetition }) => (
           community members."
           size="md"
         />
-        {petitions.map((petition, i) => (
+        {petitions?.map((petition, i) => (
           <PetitionPreviewCard
             petition={petition}
             setSelected={() => setSelectedPetition(petition.id)}

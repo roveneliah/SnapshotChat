@@ -1,8 +1,7 @@
+import Head from "next/head";
+import { Header } from "./Header";
 
-import Head from "next/head"
-import { Header } from "./Header"
-
-export default function Layout({ connected, connectWallet, setSigner, setConnected, setProvider, wallet, children }) {
+export default function Layout({ connect, wallet, children }) {
   return (
     <div className="dark:bg-gray-800 h-max">
       <Head>
@@ -11,13 +10,9 @@ export default function Layout({ connected, connectWallet, setSigner, setConnect
         <link rel="icon" href="/kh_holo.png" />
       </Head>
       <main>
-        <Header
-          connected={connected}
-          connect={connectWallet({setSigner, setProvider, setConnected})}
-          setSigner={setSigner}
-          wallet={wallet}/>
+        <Header connect={connect} wallet={wallet} />
         {children}
       </main>
     </div>
-  )
+  );
 }

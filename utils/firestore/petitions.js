@@ -6,6 +6,7 @@ import {
   getFirestore,
   getDoc,
   getDocs,
+  onSnapshot,
 } from "firebase/firestore";
 
 export const buildCreatePetition = (db) => async (petition) =>
@@ -29,4 +30,11 @@ export const buildPostSigner = (db) => (petition) => async (message) => {
     },
     { merge: true }
   );
+};
+
+export const buildListenForPetitions = (db) => async (callback) => {
+  onSnapshot(collection(db, "petitions"), (snapshot) => {
+    const petitions = snapshot.docs.map((doc) => doc.data());
+    callback(petitions);
+  });
 };

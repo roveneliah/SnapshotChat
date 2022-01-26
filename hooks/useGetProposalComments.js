@@ -1,13 +1,15 @@
+import { onSnapshot } from "firebase/firestore";
+import { map } from "ramda";
 import { useState, useEffect } from "react";
-import { getPosts } from "../utils/firestore";
-import { printPass } from "../utils/functional";
+import { getPosts, listenForPosts } from "../utils/firestore";
+import { composeP, printPass } from "../utils/functional";
 
 export const useGetProposalComments = (provider, { id: proposalId }) => {
   const [posts, setPosts] = useState();
 
   useEffect(() => {
     // set the post data, need to load the current token weight
-    getPosts(provider)(proposalId).then(printPass).then(setPosts);
+    listenForPosts(provider)(proposalId, setPosts);
   }, []);
 
   return posts;
