@@ -143,8 +143,11 @@ export default function Forum({
         <div className="flex flex-row space-x-2">
           {sortedPosts &&
             stats &&
-            Object.keys(stats).map((key) => (
-              <span class="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
+            Object.keys(stats).map((key, i) => (
+              <span
+                key={i}
+                className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900"
+              >
                 {`${key} ${stats[key]}`}
               </span>
             ))}

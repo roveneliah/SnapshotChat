@@ -41,7 +41,7 @@ export const PetitionPreview = ({
       </div>
     )}
     {canPetition(wallet) ? (
-      <Link href="/petitions">
+      <Link href="/petitions" passHref>
         <Button
           title="Submit"
           icon={true}
