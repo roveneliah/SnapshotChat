@@ -16,6 +16,8 @@ import {
   reduce,
 } from "ramda";
 import { createPetition } from "../utils/firestore";
+import { submit, submitIf } from "../utils/submit";
+import { signMessage } from "../utils/submit";
 
 export default function CreatePetitionPage(props) {
   // proposal form
@@ -42,66 +44,69 @@ export default function CreatePetitionPage(props) {
     );
   };
 
-  const submitPetition = () => {
-    if (!hodler) return;
-    createPetition({
+  const submitPetition = async () => {
+    if (!props.hodler) return;
+
+    const petition = await signMessage(props.signer)({
       title: title || "",
       description: description || "",
       signers: signers.reduce(
         (acc, signer) => ({ ...acc, [signer.address]: signer }),
         {}
       ),
+      author: await props.signer.getAddress(),
       id: `${Math.floor(Math.random() * 1000)}`,
     });
+
+    console.log(petition);
+    createPetition(petition);
   };
 
   return (
     <div className="flex flex-row justify-center">
-      <div className="flex flex-col w-2/3 space-y-4 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-        <div className="flex flex-col space-y-12 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
-          <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-            <Heading title="Create a petition." size="2xl" />
-            <Heading
-              title="Petitions allow you to request signatures from specific people to demonstrate support for a sentiment, initiative, or specific request."
-              size="lg"
-            />
-            <Heading title="Uses" size="lg" />
-            <p className="leading-relaxed dark:text-gray-400">
-              1. Use as legitimacy in more formal proposals.
-            </p>
-            <p className="leading-relaxed dark:text-gray-400">
-              2. Demonstrate grassroots social support for removing an existing
-              governance/power structure.
-            </p>
-            <p className="leading-relaxed dark:text-gray-400">
-              3. Gather advice/feedback from curated parties.
-            </p>
-            <Heading title="Examples" size="lg" />
-            <p className="leading-relaxed dark:text-gray-400">
-              1. To demonstrate support for my budget proposal, I could get sign
-              off from the dev team.
-            </p>
-            <p className="leading-relaxed dark:text-gray-400">
-              2. As a newcomer looking for full-time work, I could get sign off
-              from industry experts or coworkers.
-            </p>
-            <p className="leading-relaxed dark:text-gray-400">
-              3. To advocate we rally around Australian teams, I might get sign
-              off from NBL leaders or high school players considering going
-              overseas.
-            </p>
-          </div>
-          {PetitionPreview({
-            ...props,
-            title,
-            setTitle,
-            description,
-            setDescription,
-            signers,
-            submitPetition,
-          })}
-          {AddSignersBox({ addSigners })}
+      <div className="flex flex-col space-y-12 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
+        <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          <Heading title="Create a petition." size="2xl" />
+          <Heading
+            title="Petitions allow you to request signatures from specific people to demonstrate support for a sentiment, initiative, or specific request."
+            size="lg"
+          />
+          <Heading title="Uses" size="lg" />
+          <p className="leading-relaxed dark:text-gray-400">
+            1. Use as legitimacy in more formal proposals.
+          </p>
+          <p className="leading-relaxed dark:text-gray-400">
+            2. Demonstrate grassroots social support for removing an existing
+            governance/power structure.
+          </p>
+          <p className="leading-relaxed dark:text-gray-400">
+            3. Gather advice/feedback from curated parties.
+          </p>
+          <Heading title="Examples" size="lg" />
+          <p className="leading-relaxed dark:text-gray-400">
+            1. To demonstrate support for my budget proposal, I could get sign
+            off from the dev team.
+          </p>
+          <p className="leading-relaxed dark:text-gray-400">
+            2. As a newcomer looking for full-time work, I could get sign off
+            from industry experts or coworkers.
+          </p>
+          <p className="leading-relaxed dark:text-gray-400">
+            3. To advocate we rally around Australian teams, I might get sign
+            off from NBL leaders or high school players considering going
+            overseas.
+          </p>
         </div>
+        {PetitionPreview({
+          ...props,
+          title,
+          setTitle,
+          description,
+          setDescription,
+          signers,
+          submitPetition,
+        })}
+        {AddSignersBox({ addSigners })}
       </div>
     </div>
   );

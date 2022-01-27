@@ -8,11 +8,13 @@ import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
 // snapshot
 import { vote } from "../../../utils/Snapshot/vote";
 import { useForm } from "../../../hooks/useForm";
+import { signMessage } from "../../../utils/submit";
 
 export default function CommentBox({ proposal, provider }) {
   const [postText, updatePostText] = useForm("");
   const [selectedChoice, setSelectedChoice] = useState();
 
+  // TODO: REFACTOR SUBMIT POST, CHECKOUT THE SIGNMESSAGE FUNCTION
   const postComment = () =>
     submitPost(provider)(
       proposal.id,
@@ -49,12 +51,12 @@ export default function CommentBox({ proposal, provider }) {
       />
       <div className="flex flex-row space-x-3">
         <Button title="Post" color="purple" icon={true} onClick={postComment} />
-        <Button
+        {/* <Button
           title="Post + Vote"
           color="purple"
           icon={true}
           onClick={submitAndVote}
-        />
+        /> */}
       </div>
     </div>
   );

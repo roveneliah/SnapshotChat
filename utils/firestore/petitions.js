@@ -7,10 +7,14 @@ import {
   getDoc,
   getDocs,
   onSnapshot,
+  deleteDoc,
 } from "firebase/firestore";
 
 export const buildCreatePetition = (db) => async (petition) =>
   await setDoc(doc(db, "petitions", petition.id), petition);
+
+export const buildDeletePetition = (db) => async (petition) =>
+  await deleteDoc(doc(db, "petitions", petition.id));
 
 export const buildFetchPetitions = (db) => async () =>
   await getDocs(collection(db, "petitions"));

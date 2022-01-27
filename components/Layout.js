@@ -3,7 +3,7 @@ import { Header } from "./Header";
 
 export default function Layout({ connect, wallet, children }) {
   return (
-    <div className="dark:bg-gray-800 h-max">
+    <div className="flex justify-center dark:bg-gray-800 min-h-max min-h-screen">
       <Head>
         <title>Krause House</title>
         <meta name="description" content="web3's Home Team" />

@@ -8,15 +8,19 @@ export const SignersTable = ({
   signers,
   progressBar = false,
 }) =>
-  signers?.length > 0 && progressBar ? (
-    <div>
-      <Heading title={title} size="xl" />
-      <PercentageBar title="" percentage={percentApproved(signers)} />
-      <SignatureList signers={signers} />
-    </div>
+  signers?.length > 0 ? (
+    progressBar ? (
+      <div>
+        <Heading title={title} size="xl" />
+        <PercentageBar title="" percentage={percentApproved(signers)} />
+        <SignatureList signers={signers} />
+      </div>
+    ) : (
+      <div>
+        <Heading title={title} size="lg" />
+        <SignatureList signers={signers} />
+      </div>
+    )
   ) : (
-    <div>
-      <Heading title={title} size="lg" />
-      <SignatureList signers={signers} />
-    </div>
+    <></>
   );

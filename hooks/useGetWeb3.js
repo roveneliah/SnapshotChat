@@ -7,7 +7,6 @@ import { composeP } from "ramda";
 
 const useListenProvider = () => {
   const [provider, setProvider] = useEtherscanProviderAsDefault();
-  console.log("etherscan provider", provider);
 
   useEffect(() => {
     if (window.ethereum) {
@@ -31,9 +30,9 @@ export function useGetWeb3() {
   const [signer, setSigner] = useListenSigner(provider);
   const [wallet, hodler] = useListenWallet(provider, signer);
 
-  console.log("provider", provider);
-  console.log("signer", signer);
-  console.log("wallet", wallet);
+  // console.log("provider", provider);
+  // console.log("signer", signer);
+  // console.log("wallet", wallet);
   return {
     provider,
     setProvider,

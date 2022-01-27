@@ -4,6 +4,7 @@ import { Button } from "../Buttons/Button";
 import { Heading } from "../Generics/Headings/Heading";
 import { SignatureList } from "../Petitions/SignatureList";
 
+const canPetition = (wallet) => wallet?.TICKETS > 0;
 export const PetitionPreview = ({
   submitPetition,
   signers,
@@ -11,7 +12,7 @@ export const PetitionPreview = ({
   setTitle,
   description,
   setDescription,
-  hodler,
+  wallet,
 }) => (
   <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div>
@@ -39,7 +40,7 @@ export const PetitionPreview = ({
         <SignatureList signers={signers} />
       </div>
     )}
-    {hodler ? (
+    {canPetition(wallet) ? (
       <Link href="/petitions">
         <Button
           title="Submit"

@@ -10,12 +10,13 @@ import {
 } from "firebase/firestore";
 import { balanceOf } from "../balanceOf";
 import { $KRAUSE, CROWDFUND } from "../../config";
+import { getKHWallet } from "../getKHWallet";
 
 export const buildProposalsAdaptor = (db) => ({
   updateProposal: updateProposal(db),
   addPost: addPost(db),
   getPosts: getPosts(db),
-  listenForPosts: listenForPosts(db),
+  listenForPosts: listenForPosts2(db),
 });
 
 // don't override existing ones...
@@ -75,6 +76,22 @@ export const listenForPosts =
       return (
         posts &&
         Promise.all(Object.values(posts).map(addCurrentWeight)).then(callback)
+      );
+    });
+  };
+
+export const listenForPosts2 =
+  (db) => (provider) => async (proposalId, callback) => {
+    onSnapshot(doc(db, "proposals", proposalId), async (proposal) => {
+      const { posts } = proposal.data();
+      return (
+        posts &&
+        Promise.all(
+          Object.values(posts).map(async (post) => ({
+            ...post,
+            wallet: await getKHWallet(provider)(post.author),
+          }))
+        ).then(callback)
       );
     });
   };

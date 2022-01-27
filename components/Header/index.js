@@ -4,7 +4,7 @@ import { NavBar } from "./NavBar";
 
 const navItems = [
   {
-    title: "Forum",
+    title: "Proposals",
     href: "/",
   },
   //   {

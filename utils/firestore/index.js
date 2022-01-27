@@ -18,6 +18,7 @@ export const { updateProposal, addPost, getPosts, listenForPosts } =
 
 import {
   buildCreatePetition,
+  buildDeletePetition,
   buildFetchPetitions,
   buildPostSigner,
   buildListenForPetitions,
@@ -26,3 +27,4 @@ export const createPetition = buildCreatePetition(db);
 export const fetchPetitions = buildFetchPetitions(db);
 export const postSigner = buildPostSigner(db);
 export const listenForPetitions = buildListenForPetitions(db);
+export const deletePetition = buildDeletePetition(db);

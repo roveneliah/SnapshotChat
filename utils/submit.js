@@ -1,35 +1,43 @@
 import { addPost } from "./firestore";
 import { balanceOf } from "./balanceOf";
-import { CROWDFUND } from "../config"; 
+import { CROWDFUND } from "../config";
 
-export const submit = (signer) => async (msg) => {
-    // check if this person has a token balance
-    const signature = await signer.signMessage(msg);
-    return signature;
-}
+export const signMessage = (signer) => async (message) => {
+  console.log(1);
+  const signature = await signer.signMessage(JSON.stringify(message));
+  console.log(2);
+  return { ...message, signature };
+};
+export const submit = (signer) => async (msg) => await signer.signMessage(msg);
 
 export const submitPost = (provider) => async (proposalId, post, outcome) => {
-    console.log("GETTING TICKET BALANCE")
-    const signer = await provider.getSigner()
-    const tickets = await balanceOf(provider, CROWDFUND)(await signer.getAddress())
-    console.log(tickets);
-    const ticketHolder = provider && tickets > 0;
-    console.log("TICKETHOLDER")
-    console.log(ticketHolder)
+  console.log("GETTING TICKET BALANCE");
+  if (!provider) return;
+  const signer = await provider.getSigner();
+  const tickets = await balanceOf(
+    provider,
+    CROWDFUND
+  )(await signer.getAddress());
+  console.log(tickets);
+  const ticketHolder = provider && tickets > 0;
+  console.log("TICKETHOLDER");
+  console.log(ticketHolder);
 
-    // can only vote if ticketholder
-    if (!ticketHolder) return;
+  // can only vote if ticketholder
+  // if (!ticketHolder) return;
 
-    const signature = await signer.signMessage(JSON.stringify({
+  const signature = await signer.signMessage(
+    JSON.stringify({
       author: await signer.getAddress(),
       post,
       outcome,
-    }));
-
-    await addPost(provider)(proposalId, {
-      author: await signer.getAddress(),
-      post,
-      outcome,
-      signature
     })
-}
+  );
+
+  await addPost(provider)(proposalId, {
+    author: await signer.getAddress(),
+    post,
+    outcome,
+    signature,
+  });
+};

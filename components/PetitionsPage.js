@@ -20,6 +20,7 @@ export function PetitionsPage(props) {
   ) : (
     <PetitionsListView
       petitions={petitions}
+      wallet={props.wallet}
       setSelectedPetition={setSelectedPetition}
     />
   );
