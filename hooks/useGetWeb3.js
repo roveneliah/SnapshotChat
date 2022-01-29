@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { useListenWallet } from "./useListenWallet";
-import { useEtherscanProviderAsDefault } from "./useEtherscanProviderAsDefault";
+import {
+  useAlchemyProvider,
+  useEtherscanProviderAsDefault,
+} from "./useEtherscanProviderAsDefault";
 import { useListenSigner } from "./useListenSigner";
 import { composeP } from "ramda";
 
 const useListenProvider = () => {
-  const [provider, setProvider] = useEtherscanProviderAsDefault();
-
+  const [provider, setProvider] = useAlchemyProvider();
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", async (accounts) => {
@@ -17,9 +19,9 @@ const useListenProvider = () => {
           );
           return;
         }
+        setProvider(null);
       });
     }
-    setProvider(null);
   }, []);
 
   return [provider, setProvider];

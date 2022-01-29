@@ -3,13 +3,11 @@ import { useEffect, useState } from "react";
 import { $KRAUSE } from "../../../config";
 import { ForumPost } from "./ForumPost";
 
-export default function ForumPosts({ provider, posts, submit }) {
-  // const sortTokenWeighted = sortWith([descend(prop("weight"))]);
-
+export default function ForumPosts({ posts }) {
   return posts ? (
     <div className="flex flex-col space-y-4 dark:bg-gray-800 dark:border-gray-700">
       {posts.map((post, i) => (
-        <ForumPost submit={submit} post={post} key={i} />
+        <ForumPost post={post} key={i} />
       ))}
     </div>
   ) : (

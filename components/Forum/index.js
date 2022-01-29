@@ -45,7 +45,8 @@ const sorts = [
   {
     title: "Tickets",
     sort: (posts) =>
-      posts && sortWith([ascend(pipe(prop("wallet"), prop("TICKETS")))])(posts),
+      posts &&
+      sortWith([descend(pipe(prop("wallet"), prop("TICKETS")))])(posts),
   },
 ];
 
@@ -189,12 +190,8 @@ export default function Forum({
           ))}
         </div>
       </div>
-      <ForumPosts
-        provider={provider}
-        posts={sortedPosts || posts}
-        submit={submit(signer)}
-      />
-      <CommentBox proposal={proposal} provider={provider} />
+      <ForumPosts provider={provider} posts={sortedPosts || posts} />
+      <CommentBox proposal={proposal} signer={signer} provider={provider} />
     </div>
   );
 }

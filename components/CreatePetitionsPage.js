@@ -16,7 +16,6 @@ import {
   reduce,
 } from "ramda";
 import { createPetition } from "../utils/firestore";
-import { submit, submitIf } from "../utils/submit";
 import { signMessage } from "../utils/submit";
 
 export default function CreatePetitionPage(props) {

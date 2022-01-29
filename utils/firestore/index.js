@@ -28,3 +28,15 @@ export const fetchPetitions = buildFetchPetitions(db);
 export const postSigner = buildPostSigner(db);
 export const listenForPetitions = buildListenForPetitions(db);
 export const deletePetition = buildDeletePetition(db);
+
+import {
+  fetchTeams as buildFetchTeams,
+  addTeams as buildAddTeams,
+  listenForTeams as buildListenForTeams,
+} from "./teams";
+export const fetchTeams = buildFetchTeams(db);
+export const addTeams = buildAddTeams(db);
+export const listenForTeams = buildListenForTeams(db);
+
+import { buildListenForJerrys } from "./jerrys";
+export const listenForJerrys = buildListenForJerrys(db);

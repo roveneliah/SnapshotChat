@@ -19,10 +19,11 @@ export const AddressForm = ({ addSigner }) => {
   const addIfValidSigner = () =>
     getIsValidAddress(addressInput)
       .then(() => {
+        console.log("Valid Address: Can Add Signer");
         addSigner({ signer: name, address: addressInput });
       })
       .catch((e) => {
-        console.log(e);
+        console.log("Invalid Address: Cannot Add Signer");
         setIsInvalidAddress(true);
       });
 

@@ -1,7 +1,7 @@
 import Forum from "../components/Forum";
 import { ProposalsList } from "../components/ProposalsList/ProposalsList";
 import { proposalById } from "../utils/functional";
-import { submit } from "../utils/submit";
+import { signMessage, submit } from "../utils/submit";
 import { useEffect, useState } from "react";
 import { useGetProposals } from "../hooks/useGetProposals";
 
@@ -14,7 +14,6 @@ export function ForumPage(props) {
       proposal={proposalById(proposals, selectedProposal)}
       setSelectedProposal={setSelectedProposal}
       signer={props.signer}
-      submit={submit(props.signer)}
       provider={props.provider}
     />
   ) : (

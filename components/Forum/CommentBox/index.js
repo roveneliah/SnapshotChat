@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { compose, prop } from "ramda";
-import { submitPost } from "../../../utils/submit";
+import { compose, prop, props } from "ramda";
 import { Button } from "../../Buttons/Button";
 import Selector from "./Selector";
 import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
@@ -9,18 +8,24 @@ import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
 import { vote } from "../../../utils/Snapshot/vote";
 import { useForm } from "../../../hooks/useForm";
 import { signMessage } from "../../../utils/submit";
+import { addPost } from "../../../utils/firestore";
 
-export default function CommentBox({ proposal, provider }) {
+export default function CommentBox({ proposal, signer, provider }) {
   const [postText, updatePostText] = useForm("");
   const [selectedChoice, setSelectedChoice] = useState();
 
-  // TODO: REFACTOR SUBMIT POST, CHECKOUT THE SIGNMESSAGE FUNCTION
-  const postComment = () =>
-    submitPost(provider)(
-      proposal.id,
-      postText,
-      proposal.choices[selectedChoice]
-    );
+  const postComment = async () => {
+    if (!signer) return;
+
+    const post = await signMessage(signer)({
+      proposalId: proposal.id,
+      author: await signer.getAddress(),
+      post: postText,
+      outcome: proposal.choices[selectedChoice],
+    });
+
+    await addPost(provider)(proposal.id, post);
+  };
 
   const submitToSnapshot = () =>
     vote(provider)({
