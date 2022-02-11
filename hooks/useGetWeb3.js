@@ -1,40 +1,27 @@
 import { useState, useEffect } from "react";
-import { ethers } from "ethers";
 import { useListenWallet } from "./useListenWallet";
-import {
-  useAlchemyProvider,
-  useEtherscanProviderAsDefault,
-} from "./useEtherscanProviderAsDefault";
 import { useListenSigner } from "./useListenSigner";
-import { composeP } from "ramda";
+import { useListenProvider } from "./useListenProvider";
+import { loadProfileAtAddress } from "../utils/firestore";
+import { migrateRoster } from "../utils/migrateRoster";
 
-const useListenProvider = () => {
-  const [provider, setProvider] = useAlchemyProvider();
-  useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum.on("accountsChanged", async (accounts) => {
-        if (accounts.length > 0) {
-          setProvider(
-            new ethers.providers.Web3Provider(window.ethereum, "any")
-          );
-          return;
-        }
-        setProvider(null);
-      });
-    }
-  }, []);
-
-  return [provider, setProvider];
+// Need a DB where we can add wallet with preferences
+const useListenUserProfile = (wallet) => {
+  const [userProfile, setUserProfile] = useState();
+  useEffect(async () => {
+    // call firebase to handle this new profile
+    loadProfileAtAddress(wallet?.address, setUserProfile);
+    // migrateRoster();
+  }, [wallet]);
+  return userProfile;
 };
 
 export function useGetWeb3() {
   const [provider, setProvider] = useListenProvider();
   const [signer, setSigner] = useListenSigner(provider);
   const [wallet, hodler] = useListenWallet(provider, signer);
+  const userProfile = useListenUserProfile(wallet);
 
-  // console.log("provider", provider);
-  // console.log("signer", signer);
-  // console.log("wallet", wallet);
   return {
     provider,
     setProvider,
@@ -42,5 +29,6 @@ export function useGetWeb3() {
     setSigner,
     wallet,
     hodler,
+    userProfile,
   };
 }

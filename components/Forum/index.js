@@ -9,6 +9,7 @@ import { Button } from "../Buttons/Button";
 import {
   ascend,
   complement,
+  compose,
   descend,
   filter,
   gte,
@@ -37,7 +38,7 @@ const basicStats = (proposal, sortedPosts) => {
 
 const sorts = [
   {
-    title: "Token Holders",
+    title: "$KRAUSE Balance",
     sort: (posts) =>
       posts &&
       sortWith([descend(pipe(prop("wallet"), prop("$KRAUSE")))])(posts),
@@ -85,7 +86,7 @@ const filters = [
     title: "Stewards Team",
     sort: (posts) =>
       posts &&
-      posts.filter(pipe(prop("wallet"), prop("teams"), prop("STEWARDS"))),
+      posts.filter(pipe(prop("wallet"), prop("teams"), prop("STEWARDS"))), // TODO: pull from teams db and add logic
   },
 ];
 
@@ -102,12 +103,7 @@ export const useMultiselect = (items) => {
   return [selected, flipIndex];
 };
 
-export default function Forum({
-  proposal,
-  setSelectedProposal,
-  signer,
-  provider,
-}) {
+export function ForumOld({ proposal, setSelectedProposal, signer, provider }) {
   const [posts] = useGetProposalComments(provider, proposal);
   const [sortedPosts, setSortedPosts] = useState(filters[0].sort(posts));
   const [selectedSorts, flipSort] = useMultiselect(sorts);
@@ -152,8 +148,7 @@ export default function Forum({
                 {`${key} ${stats[key]}`}
               </span>
             ))}
-        </div>
-
+        </div>{" "}
         {/* <div className="flex flex-row space-x-3 flex-wrap">
           {filters.map(({ title: filter }, i) => (
             <Button
@@ -164,7 +159,7 @@ export default function Forum({
               key={i}
             />
           ))}
-        </div> */}
+          </div>{" "} */}
         <Heading title="Sort By" size="md" />
         <div className="flex flex-row space-x-3 flex-wrap">
           {sorts.map(({ title: filter }, i) => (
@@ -191,6 +186,44 @@ export default function Forum({
         </div>
       </div>
       <ForumPosts provider={provider} posts={sortedPosts || posts} />
+      <CommentBox proposal={proposal} signer={signer} provider={provider} />
+    </div>
+  );
+}
+
+// TODO: MAKE A BOX FOR FOLLOWS
+export default function ForumNew({
+  proposal,
+  setSelectedProposal,
+  signer,
+  provider,
+  userProfile,
+}) {
+  const [posts] = useGetProposalComments(provider, proposal);
+  const sortedPosts = compose(sorts[0].sort, filters[0].sort)(posts);
+  const followedPosts = sortedPosts?.filter((post) =>
+    userProfile?.following.includes(post.author)
+  );
+  const otherPosts = sortedPosts?.filter(
+    (post) => !userProfile?.following.includes(post.author)
+  );
+
+  return (
+    <div className="flex flex-col space-y-4 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <ProposalCard
+        proposal={proposal}
+        setSelectedProposal={setSelectedProposal}
+      />
+      <ForumPosts
+        provider={provider}
+        posts={followedPosts || posts}
+        userProfile={userProfile}
+      />
+      <ForumPosts
+        provider={provider}
+        posts={otherPosts || posts}
+        userProfile={userProfile}
+      />
       <CommentBox proposal={proposal} signer={signer} provider={provider} />
     </div>
   );

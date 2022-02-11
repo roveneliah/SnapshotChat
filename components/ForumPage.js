@@ -15,6 +15,7 @@ export function ForumPage(props) {
       setSelectedProposal={setSelectedProposal}
       signer={props.signer}
       provider={props.provider}
+      userProfile={props.userProfile}
     />
   ) : (
     proposals && (

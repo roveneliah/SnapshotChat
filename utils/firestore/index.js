@@ -40,3 +40,10 @@ export const listenForTeams = buildListenForTeams(db);
 
 import { buildListenForJerrys } from "./jerrys";
 export const listenForJerrys = buildListenForJerrys(db);
+
+import {
+  buildLoadProfileAtAddress,
+  buildCreateProfileWithData,
+} from "./walletProfiles";
+export const loadProfileAtAddress = buildLoadProfileAtAddress(db);
+export const createProfileWithData = buildCreateProfileWithData(db);

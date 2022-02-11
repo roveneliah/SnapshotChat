@@ -15,6 +15,10 @@ const navItems = [
     title: "Petitions",
     href: "/petitions",
   },
+  {
+    title: "Roster",
+    href: "https://roster.krausehouse.club/",
+  },
   //   {
   //     title: "Earn",
   //     href: "/earn",
