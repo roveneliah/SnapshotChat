@@ -39,6 +39,12 @@ export function ProfilePage(props) {
     <div className="flex flex-row justify-center space-x-3">
       <div className="flex flex-col w-2/3 space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
         <Heading title="Profile" size="2xl" />
+        <p>
+          Here you can follow/unfollow Jerry's to get the spiciest takes on
+          proposals.
+        </p>
+        <p>Soon you'll be able to automate your voting by delegating.</p>
+        <Heading title="Connect wallet to view your profile." size="md" />
         {props.userProfile && (
           <div>
             <Heading title={props.userProfile?.discordUsername} size="lg" />
@@ -49,14 +55,6 @@ export function ProfilePage(props) {
         {props.userProfile && (
           <div>
             <Heading title="Following" size="xl" />
-            <Heading
-              title="Follow the spicest Jerry's to get the best takes on proposals."
-              size="md"
-            />
-            <Heading
-              title="Soon you'll be able to automate your voting by delegating voting to your delegation."
-              size="md"
-            />
             {/* {props.userProfile?.following.map((address, i) => (
               <div key={i}>
                 <Button
@@ -84,15 +82,17 @@ export function ProfilePage(props) {
                 </div>
               ))}
             </div>
+            <div>
+              <Heading title="Search" size="xl" />
+              <input
+                value={addressInput}
+                onChange={updateAddressInput}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search by username [coming soon]"
+              />
+            </div>
           </div>
         )}
-        <Heading title="Search" size="xl" />
-        <input
-          value={addressInput}
-          onChange={updateAddressInput}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search by username"
-        />
       </div>
     </div>
   );
