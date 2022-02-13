@@ -8,6 +8,7 @@ import {
   getDocs,
   onSnapshot,
 } from "firebase/firestore";
+import { identity } from "ramda";
 
 export const buildLoadProfileAtAddress = (db) => async (address, callback) => {
   if (!address) return;
@@ -19,8 +20,22 @@ export const buildLoadProfileAtAddress = (db) => async (address, callback) => {
     const profile = walletProfile || (await buildCreateProfile(db)(address));
     const follow = (address) => buildFollowAddress(db)(profile, address);
     const unfollow = (address) => buildUnfollowAddress(db)(profile, address);
+    console.log("PROFILE", identity({ ...profile, follow, unfollow }));
     callback({ ...profile, follow, unfollow });
   });
+};
+
+export const buildGetProfile = (db) => async (address) => {
+  if (!address) return;
+  console.log("Fetching PROFILE", address);
+  const res = await getDoc(doc(db, "profiles", address));
+  if (res.exists()) {
+    const walletProfile = res.data();
+    const follow = (address) => buildFollowAddress(db)(walletProfile, address);
+    const unfollow = (address) =>
+      buildUnfollowAddress(db)(walletProfile, address);
+    return { ...walletProfile, follow, unfollow };
+  }
 };
 
 export const buildCreateProfile = (db) => async (address) => {

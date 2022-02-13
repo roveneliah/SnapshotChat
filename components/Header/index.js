@@ -11,14 +11,18 @@ const navItems = [
   //     title: "Delegates",
   //     href: "/delegates",
   //   },
+  // {
+  //   title: "Petitions",
+  //   href: "/petitions",
+  // },
   {
-    title: "Petitions",
-    href: "/petitions",
+    title: "Profile",
+    href: "/profile",
   },
-  {
-    title: "Roster",
-    href: "https://roster.krausehouse.club/",
-  },
+  // {
+  //   title: "Roster",
+  //   href: "https://roster.krausehouse.club/",
+  // },
   //   {
   //     title: "Earn",
   //     href: "/earn",

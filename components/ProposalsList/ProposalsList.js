@@ -9,7 +9,7 @@ export const ProposalsList = ({ proposals, setSelectedProposal }) => (
           The Watercooler
         </h5>
         <h5 className="mb-2 text-md font-bold tracking-tight text-gray-900 dark:text-white">
-          Krause House's Governance Forum
+          Krause House Governance Forum
         </h5>
       </a>
       <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
@@ -18,6 +18,7 @@ export const ProposalsList = ({ proposals, setSelectedProposal }) => (
       </p>
       <Button title={"Roadmap"} color="purple" icon={true} />
     </div>
+
     <div className="basis-2/5 flex flex-col space-y-6 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
       {proposals
         .filter(({ type }) => (type === "basic") | (type === "single-choice"))

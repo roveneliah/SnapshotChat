@@ -83,6 +83,7 @@ export const Table = ({
                       <Row
                         colHeaders={columnNames}
                         r={row}
+                        key={i}
                         remove={() => {
                           console.log("Removing at index", i);
                           console.log("Removing row", row);

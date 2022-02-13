@@ -9,7 +9,7 @@ export default function Layout({ connect, wallet, children }) {
         <meta name="description" content="web3's Home Team" />
         <link rel="icon" href="/kh_holo.png" />
       </Head>
-      <main>
+      <main className="w-full">
         <Header connect={connect} wallet={wallet} />
         {children}
       </main>

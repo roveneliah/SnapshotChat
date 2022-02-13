@@ -1,16 +1,17 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 
-const firebaseApp = initializeApp({
+const prodConfig = {
   apiKey: process.env.NEXT_PUBLIC_apiKey,
   authDomain: process.env.NEXT_PUBLIC_authDomain,
   projectId: process.env.NEXT_PUBLIC_projectId,
   storageBucket: process.env.NEXT_PUBLIC_storageBucket,
   messagingSenderId: process.env.NEXT_PUBLIC_messagingSenderId,
   appId: process.env.NEXT_PUBLIC_appId,
-});
-
+};
+const firebaseApp = initializeApp(prodConfig);
 const db = getFirestore(firebaseApp);
+// connectFirestoreEmulator(db, "localhost", 8080);
 
 import { buildProposalsAdaptor } from "./proposals";
 export const { updateProposal, addPost, getPosts, listenForPosts } =
@@ -44,6 +45,8 @@ export const listenForJerrys = buildListenForJerrys(db);
 import {
   buildLoadProfileAtAddress,
   buildCreateProfileWithData,
+  buildGetProfile,
 } from "./walletProfiles";
 export const loadProfileAtAddress = buildLoadProfileAtAddress(db);
 export const createProfileWithData = buildCreateProfileWithData(db);
+export const getProfile = buildGetProfile(db);

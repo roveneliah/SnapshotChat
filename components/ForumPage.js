@@ -9,20 +9,24 @@ export function ForumPage(props) {
   const [selectedProposal, setSelectedProposal] = useState();
   const proposals = useGetProposals(props.snapshotSpace);
 
-  return selectedProposal ? (
-    <Forum
-      proposal={proposalById(proposals, selectedProposal)}
-      setSelectedProposal={setSelectedProposal}
-      signer={props.signer}
-      provider={props.provider}
-      userProfile={props.userProfile}
-    />
-  ) : (
-    proposals && (
-      <ProposalsList
-        proposals={proposals}
-        setSelectedProposal={setSelectedProposal}
-      />
-    )
+  return (
+    <div>
+      {selectedProposal ? (
+        <Forum
+          proposal={proposalById(proposals, selectedProposal)}
+          setSelectedProposal={setSelectedProposal}
+          signer={props.signer}
+          provider={props.provider}
+          userProfile={props.userProfile}
+        />
+      ) : (
+        proposals && (
+          <ProposalsList
+            proposals={proposals}
+            setSelectedProposal={setSelectedProposal}
+          />
+        )
+      )}
+    </div>
   );
 }
