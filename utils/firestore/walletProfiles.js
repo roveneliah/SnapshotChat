@@ -12,14 +12,18 @@ import { identity } from "ramda";
 
 export const buildLoadProfileAtAddress = (db) => async (address, callback) => {
   if (!address) return;
-  console.log("LOADING PROFILE", address);
-  onSnapshot(doc(db, "profiles", address), async (snapshot) => {
+  const addr = address.toLowerCase();
+
+  console.log("LOADING PROFILE", addr);
+  onSnapshot(doc(db, "profiles", addr), async (snapshot) => {
     const walletProfile = snapshot.data();
 
     // if no wallet profile, make a new one...
-    const profile = walletProfile || (await buildCreateProfile(db)(address));
-    const follow = (address) => buildFollowAddress(db)(profile, address);
-    const unfollow = (address) => buildUnfollowAddress(db)(profile, address);
+    const profile = walletProfile || (await buildCreateProfile(db)(addr));
+    const follow = (addr) =>
+      buildFollowAddress(db)(profile, addr.toLowerCase());
+    const unfollow = (addr) =>
+      buildUnfollowAddress(db)(profile, addr.toLowerCase());
     console.log("PROFILE", identity({ ...profile, follow, unfollow }));
     callback({ ...profile, follow, unfollow });
   });
@@ -27,21 +31,25 @@ export const buildLoadProfileAtAddress = (db) => async (address, callback) => {
 
 export const buildGetProfile = (db) => async (address) => {
   if (!address) return;
-  console.log("Fetching PROFILE", address);
-  const res = await getDoc(doc(db, "profiles", address));
+  const addr = address.toLowerCase();
+  console.log("Fetching PROFILE", addr);
+  const res = await getDoc(doc(db, "profiles", addr));
   if (res.exists()) {
     const walletProfile = res.data();
-    const follow = (address) => buildFollowAddress(db)(walletProfile, address);
-    const unfollow = (address) =>
-      buildUnfollowAddress(db)(walletProfile, address);
+    const follow = (addr) =>
+      buildFollowAddress(db)(walletProfile, addr.toLowerCase());
+    const unfollow = (addr) =>
+      buildUnfollowAddress(db)(walletProfile, addr.toLowerCase());
+    console.log(walletProfile);
     return { ...walletProfile, follow, unfollow };
   }
 };
 
 export const buildCreateProfile = (db) => async (address) => {
   console.log("CREATING PROFILE");
-  await setDoc(doc(db, "profiles", address), {
-    address,
+  const addr = address.toLowerCase();
+  await setDoc(doc(db, "profiles", addr), {
+    addr,
     following: [""],
     filters: ["$KRAUSE Holders"],
   });
@@ -50,7 +58,7 @@ export const buildCreateProfile = (db) => async (address) => {
 export const buildFollowAddress = (db) => async (profile, followAddress) => {
   // make sure not already following
   console.log("FOLLOWING: ", followAddress);
-  if (!profile.following.includes(followAddress)) {
+  if (!profile.following?.includes(followAddress)) {
     await setDoc(doc(db, "profiles", profile.address), {
       ...profile,
       following: [...profile.following, followAddress],
@@ -61,7 +69,7 @@ export const buildFollowAddress = (db) => async (profile, followAddress) => {
 export const buildUnfollowAddress =
   (db) => async (profile, unfollowAddress) => {
     console.log("UNFOLLOW ", unfollowAddress);
-    if (profile.following.includes(unfollowAddress)) {
+    if (profile.following?.includes(unfollowAddress)) {
       await setDoc(doc(db, "profiles", profile.address), {
         ...profile,
         following: profile.following.filter(

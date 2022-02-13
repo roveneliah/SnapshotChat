@@ -1,7 +1,7 @@
 import { Heading } from "../components/Generics/Headings/Heading";
 import { Button } from "../components/Buttons/Button";
 import { useForm } from "../hooks/useForm";
-import { identity, map, prop, props } from "ramda";
+import { filter, identity, map, prop, props } from "ramda";
 import { useEffect, useState } from "react";
 import { printPass } from "../utils/functional";
 import { getProfile } from "../utils/firestore";
@@ -13,14 +13,15 @@ const useGetFollowingUsernames = (addresses) => {
 
   useEffect(() => {
     const getUsernamesFromAddresses = async (addresses) => {
-      console.log("loading usernames");
-      return Promise.all(
-        addresses.map((address) => getProfile(address.toLowerCase()))
-      );
+      console.log("loading usernames", addresses);
+      return Promise.all(addresses.map(getProfile));
     };
 
     addresses &&
-      getUsernamesFromAddresses(addresses).then(printPass).then(setFollowing);
+      getUsernamesFromAddresses(addresses)
+        .then(filter((profile) => profile))
+        .then(printPass)
+        .then(setFollowing);
   }, [addresses]);
 
   return following;
@@ -31,6 +32,8 @@ export function ProfilePage(props) {
   // const { following, follow, unfollow } = props.userProfile?.following;
   const [addressInput, updateAddressInput] = useForm("");
   const following = useGetFollowingUsernames(props.userProfile?.following);
+
+  console.log(following);
 
   return (
     <div className="flex flex-row justify-center space-x-3">
@@ -66,17 +69,17 @@ export function ProfilePage(props) {
 
             {/* getting address from the upper case one, but pushing to lower case one, SHIT */}
             <div className="flex flex-col space-y-3">
-              {following?.map(({ address, discordUsername }, i) => (
+              {following?.map((profile, i) => (
                 <div
                   key={i}
                   className="p-6 max-w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
                 >
-                  <Heading title={discordUsername} size="xl" />
-                  <p>{address}</p>
+                  <Heading title={profile?.discordUsername} size="xl" />
+                  <p>{profile?.address}</p>
                   <br />
                   <Button
                     title="Unfollow"
-                    onClick={() => props.userProfile?.unfollow(address)}
+                    onClick={() => props.userProfile?.unfollow(profile.address)}
                   />
                 </div>
               ))}

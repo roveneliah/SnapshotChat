@@ -61,10 +61,12 @@ const FollowButton = ({ addFriend }) => (
 
 export const ForumPost = ({ post, userProfile }) => {
   const { author, outcome, wallet, post: comment } = post;
-  const [authorUsername, setAuthorUsername] = useState(author);
+  const authorAddr = author.toLowerCase();
+
+  const [authorUsername, setAuthorUsername] = useState(authorAddr);
   useEffect(() => {
     loadProfileAtAddress(
-      author.toLowerCase(), // TODO: standardize type for address to avoid case errors
+      authorAddr, // TODO: standardize type for address to avoid case errors
       ({ discordUsername }) => {
         discordUsername && setAuthorUsername(discordUsername);
       }
@@ -76,12 +78,12 @@ export const ForumPost = ({ post, userProfile }) => {
       <div>
         <div className="flex flex-row space-x-2">
           {userProfile &&
-            (userProfile.following.includes(author)
+            (userProfile.following?.includes(authorAddr)
               ? StarButton({
-                  removeFriend: () => userProfile?.unfollow(author),
+                  removeFriend: () => userProfile?.unfollow(authorAddr),
                 })
               : FollowButton({
-                  addFriend: () => userProfile?.follow(author),
+                  addFriend: () => userProfile?.follow(authorAddr),
                 }))}
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             {/*  need to get the from by the author address */}
