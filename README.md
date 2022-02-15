@@ -1,7 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## "The Watercooler" — Krause House Governance Suite
+The Watercooler is an iterative effort to build fully opt-in automated voting with arbitrarily complex rulesets.
+We believe automated voting (dynamic delegation) is a legitimate path towards better voter turnout with more intelligent voting.
 
-## Getting Started
+#### Phase 1: Curation (NOW)
+Before we can automate voting, voters need to curate *who* are high signal sources / delegations.  In Phase 1, we are building a forum where Jerrys can post opinions on votes, follow other posters, and curate their feed (sort + filter) based on limited on-chain data.
 
+#### Phase 2: Delegation
+While we hope to offer "drag and drop" voting logics of arbitrary complexity, we will start with simple voting logics like:
+1. Fixed Delegation to Individual
+2. Rule-based Delegation to Individual (ex: vote no if they vote no)
+3. Rule-based Delegation to Groups (ex: vote no if anyone from a group votes no)
+
+#### Phase 3: Extensibility (Up for Debate) 
+Once we have a useful set of delegation rules for out community, we intend to allow them to compose their own voting logics using simple primitives.  This is largely a UX problem, and this may or may not be feasible for the end-user.  At worst, we can open up the development of voting logics to developers.
+
+
+## Contributing
+1. Checkout the project board in this repo, and look for a `Todo` or `Need a Hand` issue.
+2. Read on Contributor Guidelines (COMING SOON)
+3. Once you've read our roadmap above, read out to the devs on our Discord to chat about what you're interested in working on (and comp).
+
+
+## Development
 First, run the development server:
 
 ```bash
