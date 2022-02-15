@@ -1,5 +1,4 @@
-const shortenAddress = (address) =>
-  address.slice(0, 6) + "..." + address.slice(-4);
+import { shortenAddress } from "../../utils/shortenAddress";
 
 export const Wallet = ({ wallet }) => {
   return (
