@@ -7,8 +7,21 @@ const buttonStyle = {
     "inline-flex max-w-fit py-2 px-3 text-sm font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700",
 };
 
-export const Button = ({ title, onClick, href, color = "blue", icon }) => (
-  <a onClick={onClick} href={href} className={buttonStyle[color]}>
+export const Button = ({
+  title,
+  onClick,
+  href,
+  color = "blue",
+  icon,
+  newTab = false,
+}) => (
+  <a
+    onClick={onClick}
+    href={href}
+    className={buttonStyle[color]}
+    target={newTab ? "_blank" : null}
+    rel="noreferrer"
+  >
     {title}
     {icon && (
       <svg

@@ -16,7 +16,13 @@ export const ProposalsList = ({ proposals, setSelectedProposal }) => (
         Add your take on a proposal, and follow individuals to curate the best
         information to help vet proposals.
       </p>
-      <Button title={"Roadmap"} color="purple" icon={true} />
+      <Button
+        title={"Roadmap"}
+        href="https://github.com/Krause-House/SnapshotChat"
+        color="purple"
+        icon={true}
+        newTab={true}
+      />
     </div>
 
     <div className="basis-2/5 flex flex-col space-y-6 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
