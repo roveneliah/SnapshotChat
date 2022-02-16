@@ -21,6 +21,9 @@ const liveProposals = (space) => `query Proposals {
     type
     state
     author
+    scores
+    scores_total
+    votes
     space {
       id
       name

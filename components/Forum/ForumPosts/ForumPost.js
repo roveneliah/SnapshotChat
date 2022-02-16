@@ -86,7 +86,6 @@ export const ForumPost = ({ post, userProfile }) => {
     loadProfileAtAddress(
       authorAddr, // TODO: standardize type for address to avoid case errors
       ({ discordUsername, profileImage }) => {
-        console.log(profileImage);
         discordUsername && setAuthorUsername(discordUsername);
         profileImage && setAuthorAvatar(profileImage);
       }
