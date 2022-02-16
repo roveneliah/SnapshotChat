@@ -82,7 +82,8 @@ export const ForumPost = ({ post, userProfile }) => {
               ? StarButton({
                   removeFriend: () => userProfile?.unfollow(authorAddr),
                 })
-              : FollowButton({
+              : authorAddr !== userProfile.address &&
+                FollowButton({
                   addFriend: () => userProfile?.follow(authorAddr),
                 }))}
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

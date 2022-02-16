@@ -24,7 +24,6 @@ export const buildLoadProfileAtAddress = (db) => async (address, callback) => {
       buildFollowAddress(db)(profile, addr.toLowerCase());
     const unfollow = (addr) =>
       buildUnfollowAddress(db)(profile, addr.toLowerCase());
-    console.log("PROFILE", identity({ ...profile, follow, unfollow }));
     callback({ ...profile, follow, unfollow });
   });
 };
@@ -58,7 +57,9 @@ export const buildCreateProfile = (db) => async (address) => {
 export const buildFollowAddress = (db) => async (profile, followAddress) => {
   // make sure not already following
   console.log("FOLLOWING: ", followAddress);
-  if (!profile.following?.includes(followAddress)) {
+  const alreadyFollowing = profile.following?.includes(followAddress);
+  const notSelf = profile.address !== followAddress;
+  if (!alreadyFollowing && notSelf) {
     await setDoc(doc(db, "profiles", profile.address), {
       ...profile,
       following: [...profile.following, followAddress],
