@@ -10,7 +10,7 @@ export function ForumPage(props) {
   const proposals = useGetProposals(props.snapshotSpace);
 
   return (
-    <div>
+    <div className="flex flex-row justify-center space-x-3">
       {selectedProposal ? (
         <Forum
           proposal={proposalById(proposals, selectedProposal)}

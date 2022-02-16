@@ -1,7 +1,9 @@
+import Image from "next/image";
 import { compose, prop } from "ramda";
 import { useEffect, useState } from "react";
 import { loadProfileAtAddress } from "../../../utils/firestore";
 import { printPass } from "../../../utils/functional";
+import { shortenAddress } from "../../../utils/shortenAddress";
 import { signMessage } from "../../../utils/submit";
 import { Badge } from "../../Generics/Badge";
 
@@ -59,42 +61,76 @@ const FollowButton = ({ addFriend }) => (
   </svg>
 );
 
+const SelfIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-5 w-5 mt-2 fill-black dark:fill-white"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path
+      fillRule="evenodd"
+      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+      clipRule="evenodd"
+    />
+  </svg>
+);
+
 export const ForumPost = ({ post, userProfile }) => {
   const { author, outcome, wallet, post: comment } = post;
   const authorAddr = author.toLowerCase();
 
   const [authorUsername, setAuthorUsername] = useState(authorAddr);
+  const [authorAvatar, setAuthorAvatar] = useState();
   useEffect(() => {
     loadProfileAtAddress(
       authorAddr, // TODO: standardize type for address to avoid case errors
-      ({ discordUsername }) => {
+      ({ discordUsername, profileImage }) => {
+        console.log(profileImage);
         discordUsername && setAuthorUsername(discordUsername);
+        profileImage && setAuthorAvatar(profileImage);
       }
     );
-  }, []);
+  }, [authorAddr]);
 
+  const userIsAuthor = authorAddr !== userProfile?.address;
   return (
-    <div className="flex flex-col space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
-      <div>
-        <div className="flex flex-row space-x-2">
-          {userProfile &&
-            (userProfile.following?.includes(authorAddr)
-              ? StarButton({
-                  removeFriend: () => userProfile?.unfollow(authorAddr),
-                })
-              : authorAddr !== userProfile.address &&
-                FollowButton({
-                  addFriend: () => userProfile?.follow(authorAddr),
-                }))}
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {/*  need to get the from by the author address */}
-            {authorUsername}
-          </h5>
-        </div>
-        <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
+    <div className="flex flex-col space-y-3 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex flex-row space-x-2 items-center">
+        <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+          {shortenAddress(authorAddr)}
+        </span>
+      </div>
+      <div className="flex flex-row space-x-2 justify-start">
+        <Image
+          src={
+            authorAvatar ||
+            "https://firebasestorage.googleapis.com/v0/b/krause-house-roster.appspot.com/o/images%2FidCDdt7eqexllcfsd0ZfAnA14aZ?alt=media&token=d96d6329-3e44-4d22-b1b8-b2e3cc55108a"
+          }
+          width={60}
+          height={60}
+          className="rounded-full"
+        />
+        <h5 className="mb-2 text-2xl self-center font-bold tracking-tight text-gray-900 dark:text-white">
+          {/*  need to get the from by the author address */}
+          {userIsAuthor ? authorUsername : "You"}
+        </h5>
+      </div>
+      <div className="flex flex-row space-x-2 justify-start items-center">
+        {userProfile &&
+          (userProfile.following?.includes(authorAddr)
+            ? StarButton({
+                removeFriend: () => userProfile?.unfollow(authorAddr),
+              })
+            : userIsAuthor
+            ? FollowButton({
+                addFriend: () => userProfile?.follow(authorAddr),
+              })
+            : SelfIcon())}
+        <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
           {outcome}
         </span>
-        <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+        <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300">
           {wallet?.$KRAUSE} $KRAUSE
         </span>
       </div>
