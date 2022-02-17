@@ -24,7 +24,17 @@ export const buildLoadProfileAtAddress = (db) => async (address, callback) => {
       buildFollowAddress(db)(profile, addr.toLowerCase());
     const unfollow = (addr) =>
       buildUnfollowAddress(db)(profile, addr.toLowerCase());
-    callback({ ...profile, follow, unfollow });
+    const setPrimaryDelegate = (addr) =>
+      buildSetPrimaryDelegate(db)(profile, addr);
+    const clearPrimaryDelegate = () =>
+      buildSetPrimaryDelegate(db)(profile, null);
+    callback({
+      ...profile,
+      follow,
+      unfollow,
+      setPrimaryDelegate,
+      clearPrimaryDelegate,
+    });
   });
 };
 
@@ -80,6 +90,15 @@ export const buildUnfollowAddress =
     } else {
       console.log("WAS NOT FOLLOWING");
     }
+  };
+
+export const buildSetPrimaryDelegate =
+  (db) => async (profile, delegateAddress) => {
+    console.log("SETTING PRIMARY DELEGATE", delegateAddress);
+    await setDoc(doc(db, "profiles", profile.address), {
+      ...profile,
+      primaryDelegate: delegateAddress,
+    });
   };
 
 export const buildCreateProfileWithData = (db) => async (rosterEntry) => {

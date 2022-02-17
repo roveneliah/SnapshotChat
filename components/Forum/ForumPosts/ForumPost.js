@@ -81,13 +81,20 @@ export const ForumPost = ({ post, userProfile }) => {
   const authorAddr = author.toLowerCase();
 
   const [authorUsername, setAuthorUsername] = useState(authorAddr);
-  const [authorAvatar, setAuthorAvatar] = useState();
+  const [authorAvatarUrl, setAuthorAvatarUrl] = useState();
   useEffect(() => {
     loadProfileAtAddress(
       authorAddr, // TODO: standardize type for address to avoid case errors
-      ({ discordUsername, profileImage }) => {
+      ({ discordUsername, profileImage, discord }) => {
         discordUsername && setAuthorUsername(discordUsername);
-        profileImage && setAuthorAvatar(profileImage);
+
+        const defaultUserAvatar =
+          "https://firebasestorage.googleapis.com/v0/b/krause-house-roster.appspot.com/o/images%2FidCDdt7eqexllcfsd0ZfAnA14aZ?alt=media&token=d96d6329-3e44-4d22-b1b8-b2e3cc55108a";
+        const avatarUrl =
+          discord?.id && discord?.avatar
+            ? `https://cdn.discordapp.com/avatars/${discord.id}/${discord.avatar}` // use discord avatar if available
+            : profileImage || defaultUserAvatar;
+        setAuthorAvatarUrl(avatarUrl);
       }
     );
   }, [authorAddr]);
@@ -99,17 +106,21 @@ export const ForumPost = ({ post, userProfile }) => {
         <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
           {shortenAddress(authorAddr)}
         </span>
+        {userProfile?.primaryDelegate === authorAddr && (
+          <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+            Primary Delegate
+          </span>
+        )}
       </div>
       <div className="flex flex-row space-x-2 justify-start">
-        <Image
-          src={
-            authorAvatar ||
-            "https://firebasestorage.googleapis.com/v0/b/krause-house-roster.appspot.com/o/images%2FidCDdt7eqexllcfsd0ZfAnA14aZ?alt=media&token=d96d6329-3e44-4d22-b1b8-b2e3cc55108a"
-          }
-          width={60}
-          height={60}
-          className="rounded-full"
-        />
+        {authorAvatarUrl && (
+          <Image
+            src={authorAvatarUrl}
+            width={60}
+            height={60}
+            className="rounded-full"
+          />
+        )}
         <h5 className="mb-2 text-2xl self-center font-bold tracking-tight text-gray-900 dark:text-white">
           {/*  need to get the from by the author address */}
           {userIsAuthor ? authorUsername : "You"}

@@ -1,6 +1,10 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ["i.giphy.com", "firebasestorage.googleapis.com"],
+    domains: [
+      "i.giphy.com",
+      "firebasestorage.googleapis.com",
+      "cdn.discordapp.com",
+    ],
   },
 };

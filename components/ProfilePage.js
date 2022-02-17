@@ -4,7 +4,7 @@ import { useForm } from "../hooks/useForm";
 import { filter, identity, map, prop, props } from "ramda";
 import { useEffect, useState } from "react";
 import { printPass } from "../utils/functional";
-import { getProfile } from "../utils/firestore";
+import { getProfile, loadProfileAtAddress } from "../utils/firestore";
 import { shortenAddress } from "../utils/shortenAddress";
 import Image from "next/image";
 import { Menu } from "@headlessui/react";
@@ -13,7 +13,11 @@ import { Transition } from "@headlessui/react";
 import { Fragment, useRef } from "react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
-export default function FollowingDropdown(props) {
+export default function FollowingDropdown({
+  followingProfile,
+  userProfile,
+  unfollow,
+}) {
   return (
     <div className="w-56">
       <Menu as="div" className="relative inline-block text-left">
@@ -43,6 +47,9 @@ export default function FollowingDropdown(props) {
                     className={`${
                       active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                    onClick={() =>
+                      userProfile.setPrimaryDelegate(followingProfile.address)
+                    }
                   >
                     {active ? (
                       <DuplicateActiveIcon
@@ -56,6 +63,29 @@ export default function FollowingDropdown(props) {
                       />
                     )}
                     Make Primary Delegate
+                  </button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    className={`${
+                      active ? "bg-violet-500 text-white" : "text-gray-900"
+                    } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                    onClick={() => userProfile.clearPrimaryDelegate()}
+                  >
+                    {active ? (
+                      <DuplicateActiveIcon
+                        className="w-5 h-5 mr-2"
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <DuplicateInactiveIcon
+                        className="w-5 h-5 mr-2"
+                        aria-hidden="true"
+                      />
+                    )}
+                    Remove Primary Delegate
                   </button>
                 )}
               </Menu.Item>
@@ -105,28 +135,31 @@ export default function FollowingDropdown(props) {
                   </button>
                 )}
               </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-violet-500 text-white" : "text-gray-900"
-                    } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                  >
-                    {active ? (
-                      <EditActiveIcon
-                        className="w-5 h-5 mr-2"
-                        aria-hidden="true"
-                      />
-                    ) : (
-                      <EditInactiveIcon
-                        className="w-5 h-5 mr-2"
-                        aria-hidden="true"
-                      />
-                    )}
-                    Message on Discord
-                  </button>
-                )}
-              </Menu.Item>
+              {followingProfile?.discord?.id && (
+                <Menu.Item>
+                  {({ active }) => (
+                    <a
+                      className={`${
+                        active ? "bg-violet-500 text-white" : "text-gray-900"
+                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      // href={`https://discordapp.com/channels/@me/${followingProfile.discord.id}`}
+                    >
+                      {active ? (
+                        <EditActiveIcon
+                          className="w-5 h-5 mr-2"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <EditInactiveIcon
+                          className="w-5 h-5 mr-2"
+                          aria-hidden="true"
+                        />
+                      )}
+                      Message on Discord
+                    </a>
+                  )}
+                </Menu.Item>
+              )}
             </div>
             <div className="px-1 py-1">
               <Menu.Item>
@@ -135,7 +168,9 @@ export default function FollowingDropdown(props) {
                     className={`${
                       active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                    onClick={props.unfollow}
+                    onClick={() =>
+                      userProfile.unfollow(followingProfile.address)
+                    }
                   >
                     {active ? (
                       <DeleteActiveIcon
@@ -382,7 +417,7 @@ function DeleteActiveIcon(props) {
   );
 }
 
-const useGetFollowingUsernames = (addresses) => {
+const useGetFollowingProfiles = (addresses) => {
   const [following, setFollowing] = useState([]);
   // const [loading, setLoading] = useState(true);
 
@@ -458,12 +493,60 @@ function UserProfileCard(props) {
   );
 }
 
+function FollowingProfileCard(props) {
+  return (
+    <div className="flex flex-col space-y-3 p-6 max-w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+      <div>
+        {props.followingProfile.address ===
+          props.userProfile.primaryDelegate && (
+          <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+            Primary Delegate
+          </span>
+        )}
+      </div>
+      <Heading title={props.followingProfile?.discordUsername} size="xl" />
+
+      <div>
+        <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+          {shortenAddress(props.followingProfile?.address)}
+        </span>
+      </div>
+      <FollowingDropdown
+        unfollow={() =>
+          props.userProfile?.unfollow(props.followingProfile.address)
+        }
+        userProfile={props.userProfile}
+        followingProfile={props.followingProfile}
+        setPrimaryDelegate={() =>
+          props.userProfile?.setPrimaryDelegate(props.followingProfile.address)
+        }
+        clearPrimaryDelegate={() => {
+          console.log(props.userProfile);
+          props.userProfile?.clearPrimaryDelegate();
+        }}
+      />
+    </div>
+  );
+}
+
+function JerrySearch(props) {
+  return (
+    <div className="flex flex-col space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
+      <Heading title="Search" size="xl" />
+      <input
+        value={props.addressInput}
+        onChange={props.updateAddressInput}
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Search by username [coming soon]"
+      />
+    </div>
+  );
+}
+
 export function ProfilePage(props) {
   // const { following, follow, unfollow } = props.userProfile?.following;
   const [addressInput, updateAddressInput] = useForm("");
-  const following = useGetFollowingUsernames(props.userProfile?.following);
-
-  console.log(following);
+  const following = useGetFollowingProfiles(props.userProfile?.following);
 
   return props.userProfile ? (
     <div className="flex flex-row justify-center space-x-3">
@@ -474,37 +557,21 @@ export function ProfilePage(props) {
             <div>
               <Heading title="Following" size="xl" />
               <div className="flex flex-col space-y-3">
-                {following?.map((profile, i) => (
-                  <div
+                {following?.map((followingProfile, i) => (
+                  <FollowingProfileCard
                     key={i}
-                    className="p-6 max-w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-                  >
-                    <Heading title={profile?.discordUsername} size="xl" />
-                    <div>
-                      <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-                        {shortenAddress(profile?.address)}
-                      </span>
-                    </div>
-                    <FollowingDropdown
-                      unfollow={() =>
-                        props.userProfile?.unfollow(profile.address)
-                      }
-                    />
-                  </div>
+                    userProfile={props.userProfile}
+                    followingProfile={followingProfile}
+                  />
                 ))}
               </div>
             </div>
           )}
         </div>
-        <div className="flex flex-col space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
-          <Heading title="Search" size="xl" />
-          <input
-            value={addressInput}
-            onChange={updateAddressInput}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Search by username [coming soon]"
-          />
-        </div>
+        <JerrySearch
+          addressInput={addressInput}
+          updateAddressInput={updateAddressInput}
+        />
       </div>
     </div>
   ) : (
