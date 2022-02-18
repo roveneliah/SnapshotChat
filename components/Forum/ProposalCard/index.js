@@ -4,7 +4,12 @@ import { ProposalStats } from "./ProposalStats";
 import { Badge } from "../../Generics/Badge";
 import { toPercentStr } from "../../../utils/functional";
 
-export default function ProposalCard({ proposal, setSelectedProposal }) {
+export default function ProposalCard({
+  proposal,
+  setSelectedProposal,
+  selectedVote,
+  setSelectedVote,
+}) {
   return (
     <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
       <div>
@@ -37,8 +42,12 @@ export default function ProposalCard({ proposal, setSelectedProposal }) {
       <div className="grid grid-cols-2">
         {proposal.choices.map((choice, i) => (
           <a
-            onClick={() => {}}
-            className="block p-6 m-2 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+            onClick={() => setSelectedVote(selectedVote === i ? null : i)}
+            className={
+              selectedVote === i
+                ? "block p-6 m-2 rounded-lg border shadow-md bg-gray-100 dark:border-gray-700 dark:bg-gray-700"
+                : "block p-6 m-2 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+            }
             key={i}
           >
             <div className="flex flex-row space-x-1">

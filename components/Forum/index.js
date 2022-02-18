@@ -11,6 +11,8 @@ import {
   complement,
   compose,
   descend,
+  either,
+  equals,
   filter,
   gte,
   identity,
@@ -201,18 +203,29 @@ export default function ForumNew({
 }) {
   const [posts] = useGetProposalComments(provider, proposal);
   const sortedPosts = compose(sorts[0].sort, filters[0].sort)(posts);
-  const followedPosts = sortedPosts?.filter((post) =>
-    userProfile?.following?.includes(post.author)
-  );
-  const otherPosts = sortedPosts?.filter(
-    (post) => !userProfile?.following?.includes(post.author)
-  );
+  const [selectedVote, setSelectedVote] = useState(null);
+
+  const noFilter = proposal.choices[selectedVote] == null;
+  const matchesOutcome = (post) =>
+    post.outcome === proposal.choices[selectedVote] || noFilter;
+
+  const followedPosts = sortedPosts
+    ?.filter((post) => userProfile?.following?.includes(post.author))
+    .filter(matchesOutcome);
+
+  const otherPosts = sortedPosts
+    ?.filter((post) => !userProfile?.following?.includes(post.author))
+    .filter(matchesOutcome);
+
+  console.log(posts);
 
   return (
     <div className="flex flex-col w-2/3 space-y-4 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
       <ProposalCard
         proposal={proposal}
         setSelectedProposal={setSelectedProposal}
+        selectedVote={selectedVote}
+        setSelectedVote={setSelectedVote}
       />
       <ForumPosts
         provider={provider}
