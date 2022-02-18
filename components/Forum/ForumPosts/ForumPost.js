@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { compose, prop } from "ramda";
 import { useEffect, useState } from "react";
+import { avatarUrl } from "../../../utils/avatarUrl";
+import { buildAvatarUrl } from "../../../utils/buildAvatarUrl";
 import { loadProfileAtAddress } from "../../../utils/firestore";
 import { printPass } from "../../../utils/functional";
 import { shortenAddress } from "../../../utils/shortenAddress";
@@ -85,16 +87,9 @@ export const ForumPost = ({ post, userProfile }) => {
   useEffect(() => {
     loadProfileAtAddress(
       authorAddr, // TODO: standardize type for address to avoid case errors
-      ({ discordUsername, profileImage, discord }) => {
-        discordUsername && setAuthorUsername(discordUsername);
-
-        const defaultUserAvatar =
-          "https://firebasestorage.googleapis.com/v0/b/krause-house-roster.appspot.com/o/images%2FidCDdt7eqexllcfsd0ZfAnA14aZ?alt=media&token=d96d6329-3e44-4d22-b1b8-b2e3cc55108a";
-        const avatarUrl =
-          discord?.id && discord?.avatar
-            ? `https://cdn.discordapp.com/avatars/${discord.id}/${discord.avatar}` // use discord avatar if available
-            : profileImage || defaultUserAvatar;
-        setAuthorAvatarUrl(avatarUrl);
+      (profile) => {
+        profile.discordUsername && setAuthorUsername(profile.discordUsername);
+        setAuthorAvatarUrl(avatarUrl(profile));
       }
     );
   }, [authorAddr]);

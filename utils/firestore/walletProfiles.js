@@ -58,17 +58,20 @@ export const buildCreateProfile = (db) => async (address) => {
   console.log("CREATING PROFILE");
   const addr = address.toLowerCase();
   await setDoc(doc(db, "profiles", addr), {
-    addr,
+    address: addr,
     following: [""],
     filters: ["$KRAUSE Holders"],
   });
 };
 
 export const buildFollowAddress = (db) => async (profile, followAddress) => {
-  // make sure not already following
   console.log("FOLLOWING: ", followAddress);
+  console.log("PROFILE: ", profile);
+
+  // make sure not already following
   const alreadyFollowing = profile.following?.includes(followAddress);
   const notSelf = profile.address !== followAddress;
+
   if (!alreadyFollowing && notSelf) {
     await setDoc(doc(db, "profiles", profile.address), {
       ...profile,
@@ -77,12 +80,14 @@ export const buildFollowAddress = (db) => async (profile, followAddress) => {
   }
 };
 
+// make sure to clear primary delegate
 export const buildUnfollowAddress =
   (db) => async (profile, unfollowAddress) => {
     console.log("UNFOLLOW ", unfollowAddress);
     if (profile.following?.includes(unfollowAddress)) {
       await setDoc(doc(db, "profiles", profile.address), {
         ...profile,
+        primaryDelegate: null,
         following: profile.following.filter(
           (address) => address !== unfollowAddress
         ),

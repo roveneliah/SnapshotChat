@@ -13,6 +13,10 @@ import { Transition } from "@headlessui/react";
 import { Fragment, useRef } from "react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
+import algoliasearch from "algoliasearch/lite";
+import { buildAvatarUrl } from "../utils/buildAvatarUrl";
+import { avatarUrl } from "../utils/avatarUrl";
+
 export default function FollowingDropdown({ followingProfile, userProfile }) {
   return (
     <div className="w-56">
@@ -438,14 +442,12 @@ const useGetFollowingProfiles = (addresses) => {
   return following;
 };
 
-// TODO: NEED TO GET THE USERNAMES FROM ADDRESSES OF FOLLOWING, should probably just be loaded in the profile...
-
 function UserProfileCard(props) {
   return (
     <div className="flex flex-col space-y-5 pt-10 w-1/4 max-w-xs bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <div className="flex flex-col items-center">
         <Image
-          src="/scottie.jpeg"
+          src={avatarUrl(props.userProfile)}
           alt="Profile Pic"
           width={150}
           height={150}
@@ -453,17 +455,25 @@ function UserProfileCard(props) {
         />
       </div>
       <div className="flex flex-col items-center">
-        <h3 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-          {props.userProfile?.discordUsername || props.userProfile?.address}
-        </h3>
+        {props.userProfile?.discordUsername ? (
+          <h3 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+            {props.userProfile?.discordUsername}
+          </h3>
+        ) : (
+          <span className="bg-gray-100 text-gray-800 text-lg font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+            {shortenAddress(props.userProfile?.address)}
+          </span>
+        )}
       </div>
       <div>
         <div className="flex flex-col items-center space-y-3">
-          <div>
-            <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-              {shortenAddress(props.wallet.address)}
-            </span>
-          </div>
+          {props.userProfile?.discordUsername && (
+            <div>
+              <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+                {shortenAddress(props.wallet.address)}
+              </span>
+            </div>
+          )}
           <div>
             <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
               {props.wallet?.$KRAUSE || 0} $KRAUSE
@@ -505,6 +515,14 @@ function FollowingProfileCard(props) {
           </span>
         )}
       </div>
+      <div>
+        <Image
+          src={avatarUrl(props.followingProfile)}
+          width={50}
+          height={50}
+          className="rounded-full"
+        />
+      </div>
       <Heading title={props.followingProfile?.discordUsername} size="xl" />
 
       <div>
@@ -521,32 +539,87 @@ function FollowingProfileCard(props) {
         setPrimaryDelegate={() =>
           props.userProfile?.setPrimaryDelegate(props.followingProfile.address)
         }
-        clearPrimaryDelegate={() => {
-          console.log(props.userProfile);
-          props.userProfile?.clearPrimaryDelegate();
-        }}
+        clearPrimaryDelegate={() => props.userProfile?.clearPrimaryDelegate()}
       />
     </div>
   );
 }
 
+const useGetSearchResults = (query) => {
+  // config search client
+  const searchClient = algoliasearch(
+    process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
+    process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_KEY
+  );
+  const index = searchClient.initIndex("krausehouse-profiles");
+
+  const [searchResults, setSearchResults] = useState([]);
+  useEffect(() => {
+    const search = async (query) => {
+      const result = await index.search(query);
+      const hits = result.hits;
+      return hits;
+    };
+
+    search(query).then(setSearchResults);
+  }, [query]);
+
+  return searchResults;
+};
+
 function JerrySearch(props) {
+  const [addressInput, updateAddressInput] = useForm("");
+  const searchResults = useGetSearchResults(addressInput);
+
   return (
     <div className="flex flex-col space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
       <Heading title="Search" size="xl" />
       <input
-        value={props.addressInput}
-        onChange={props.updateAddressInput}
+        value={addressInput}
+        onChange={updateAddressInput}
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        placeholder="Search by username [coming soon]"
+        placeholder="Search the Jerryverse..."
       />
+      <div className="grid grid-cols-2">
+        {searchResults
+          .filter(
+            ({ address }) => !props.userProfile.following?.includes(address)
+          )
+          .filter(({ address }) => address !== props.userProfile.address)
+          .map((profile, i) => (
+            <div
+              key={i}
+              className="flex flex-col space-y-3 p-6 m-2 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-500"
+            >
+              <div>
+                <Image
+                  src={avatarUrl(profile)}
+                  width={50}
+                  height={50}
+                  className="rounded-full"
+                />
+              </div>
+              <div>
+                <Heading title={profile.discordUsername} size="md" />
+                {profile.address && (
+                  <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+                    {shortenAddress(profile.address)}
+                  </span>
+                )}
+              </div>
+              <Button
+                title="Follow"
+                color="purple"
+                onClick={() => props.userProfile.follow(profile.address)}
+              />
+            </div>
+          ))}
+      </div>
     </div>
   );
 }
 
 export function ProfilePage(props) {
-  // const { following, follow, unfollow } = props.userProfile?.following;
-  const [addressInput, updateAddressInput] = useForm("");
   const following = useGetFollowingProfiles(props.userProfile?.following);
 
   return props.userProfile ? (
@@ -569,10 +642,7 @@ export function ProfilePage(props) {
             </div>
           )}
         </div>
-        <JerrySearch
-          addressInput={addressInput}
-          updateAddressInput={updateAddressInput}
-        />
+        <JerrySearch userProfile={props.userProfile} />
       </div>
     </div>
   ) : (

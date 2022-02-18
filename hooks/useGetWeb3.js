@@ -5,13 +5,10 @@ import { useListenProvider } from "./useListenProvider";
 import { loadProfileAtAddress } from "../utils/firestore";
 import { migrateRoster } from "../utils/migrateRoster";
 
-// Need a DB where we can add wallet with preferences
 const useListenUserProfile = (wallet) => {
   const [userProfile, setUserProfile] = useState();
   useEffect(async () => {
-    // call firebase to handle this new profile
     loadProfileAtAddress(wallet?.address, setUserProfile);
-    // migrateRoster();
   }, [wallet]);
   return userProfile;
 };
