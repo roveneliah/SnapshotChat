@@ -7,14 +7,15 @@ export const useListenWallet = (provider, signer) => {
 
   useEffect(() => {
     const walletStuff = async () => {
-      console.log("UPDATING WALLET");
       if (signer) {
         const address = await signer.getAddress();
         const wallet = address && (await getKHWallet(provider)(address));
 
+        console.log("UPDATING WALLET");
         setWallet(wallet);
         setHodler(wallet?.TICKETS > 0);
       } else {
+        console.log("NO ACTIVE WALLET");
         setWallet(null);
         setHodler(null);
       }

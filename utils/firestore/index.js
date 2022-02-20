@@ -14,8 +14,13 @@ const db = getFirestore(firebaseApp);
 // connectFirestoreEmulator(db, "localhost", 8080);
 
 import { buildProposalsAdaptor } from "./proposals";
-export const { updateProposal, addPost, getPosts, listenForPosts } =
-  buildProposalsAdaptor(db);
+export const {
+  updateProposal,
+  addPost,
+  getPosts,
+  listenForPosts,
+  addVoteToForumPost,
+} = buildProposalsAdaptor(db);
 
 import {
   buildCreatePetition,

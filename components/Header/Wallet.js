@@ -1,6 +1,7 @@
+import { disconnectWallet } from "../../utils/connectWallet";
 import { shortenAddress } from "../../utils/shortenAddress";
 
-export const Wallet = ({ wallet }) => {
+export const Wallet = ({ wallet, disconnect }) => {
   return (
     <div>
       <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
@@ -16,7 +17,10 @@ export const Wallet = ({ wallet }) => {
         {wallet?.UPPER || 0} Upper Level
       </span> */}
       {/* TODO: modal that allows disconnection */}
-      <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+      <span
+        onClick={() => disconnect()}
+        className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900"
+      >
         {shortenAddress(wallet.address)}
       </span>
     </div>

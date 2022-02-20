@@ -49,7 +49,6 @@ export const buildGetProfile = (db) => async (address) => {
       buildFollowAddress(db)(walletProfile, addr.toLowerCase());
     const unfollow = (addr) =>
       buildUnfollowAddress(db)(walletProfile, addr.toLowerCase());
-    console.log(walletProfile);
     return { ...walletProfile, follow, unfollow };
   }
 };

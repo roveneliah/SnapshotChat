@@ -11,12 +11,14 @@ import {
 import { balanceOf } from "../balanceOf";
 import { $KRAUSE, CROWDFUND } from "../../config";
 import { getKHWallet } from "../getKHWallet";
+import { signMessage } from "../submit";
 
 export const buildProposalsAdaptor = (db) => ({
   updateProposal: updateProposal(db),
   addPost: addPost(db),
   getPosts: getPosts(db),
   listenForPosts: listenForPosts2(db),
+  addVoteToForumPost: addVoteToForumPost(db),
 });
 
 // don't override existing ones...
@@ -38,6 +40,35 @@ const addPost = (db) => (provider) => async (proposalId, post) => {
       { merge: true }
     );
   }
+};
+
+const addVoteToForumPost = (db) => async (signer, proposalId, post, vote) => {
+  signMessage(signer)({
+    // TODO: need some check on whether this user is a token holder or not
+    author: post.author,
+    post: post.post,
+    proposalId,
+    choice: vote.choice,
+    signer: await signer.getAddress(),
+  }).then(async (msg) => {
+    const proposal = await getDoc(doc(db, "proposals", proposalId)); // TODO: I can just pass in the posts I have from onSnapshot listener
+    if (proposal.exists()) {
+      const { posts: existingPosts } = proposal.data();
+      const originalPost = existingPosts[post.author];
+      setDoc(doc(db, "proposals", proposalId), {
+        posts: {
+          ...existingPosts,
+          [post.author]: {
+            ...originalPost,
+            votes: {
+              ...originalPost.votes,
+              [await signer.getAddress()]: msg,
+            },
+          },
+        },
+      });
+    }
+  });
 };
 
 const getPosts = (db) => (provider) => async (proposalId) => {

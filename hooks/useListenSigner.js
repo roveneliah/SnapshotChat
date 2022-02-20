@@ -1,14 +1,20 @@
 import { useState, useEffect } from "react";
-import { prop } from "ramda";
+import { head, prop } from "ramda";
 
 export const useListenSigner = (provider) => {
   const [signer, setSigner] = useState();
 
-  useEffect(() => {
-    console.log("UPDATING SIGNER");
+  useEffect(async () => {
     try {
-      if (provider?.getSigner) setSigner(provider.getSigner());
-    } catch {
+      if (provider?.getSigner) {
+        console.log("SETTING SIGNER FROM PROVIDER");
+        setSigner(provider.getSigner());
+      } else {
+        console.log("SETTING SIGNER TO NULL");
+        setSigner(null);
+      }
+    } catch (e) {
+      console.log("SETTING SIGNER TO NULL");
       setSigner(null);
     }
   }, [provider]);

@@ -1,49 +1,50 @@
 import Image from "next/image";
-import { compose, prop } from "ramda";
 import { useEffect, useState } from "react";
 import { avatarUrl } from "../../../utils/avatarUrl";
-import { buildAvatarUrl } from "../../../utils/buildAvatarUrl";
-import { loadProfileAtAddress } from "../../../utils/firestore";
-import { printPass } from "../../../utils/functional";
+import {
+  addVoteToForumPost,
+  loadProfileAtAddress,
+} from "../../../utils/firestore";
 import { shortenAddress } from "../../../utils/shortenAddress";
-import { signMessage } from "../../../utils/submit";
-import { Badge } from "../../Generics/Badge";
 
-const VoteButtons = () => (
-  <div>
-    {[
-      {
-        choice: "Upvote",
-        color: "green",
-      },
-      {
-        choice: "Downvote",
-        color: "red",
-      },
-    ].map((vote, i) => (
-      // submit needs to send to firebase db
-      <span
-        onClick={() =>
-          signMessage({
-            // id
-            author,
-            post,
-            choice: vote.choice,
-          })
-        }
-        className={`bg-${vote.color}-100 text-${vote.color}-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-${color}-200 dark:text-${color}-900`}
-        key={i}
-      >
-        {vote.choice}
-      </span>
-    ))}
-  </div>
-);
+const VoteButtons = ({ proposalId, post, signer }) => {
+  console.log(post.votes);
+  const voteCounts = Object.values(post.votes || []).reduce((counter, vote) => {
+    return {
+      ...counter,
+      [vote.choice]: counter[vote.choice] ? counter[vote.choice] + 1 : 1,
+    };
+  }, {});
+  return (
+    <div>
+      {[
+        {
+          choice: "Upvote",
+          color: "green",
+        },
+        {
+          choice: "Downvote",
+          color: "red",
+        },
+      ].map((vote, i) => (
+        // submit needs to send to firebase db
+        <span
+          onClick={() => addVoteToForumPost(signer, proposalId, post, vote)}
+          className={`bg-${vote.color}-100 text-${vote.color}-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-${vote.color}-200 dark:text-${vote.color}-900`}
+          key={i}
+        >
+          {vote.choice}{" "}
+          {voteCounts[vote.choice] && `(${voteCounts[vote.choice]})`}
+        </span>
+      ))}
+    </div>
+  );
+};
 
 const StarButton = ({ removeFriend }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-5 w-5 mt-1"
+    className="h-5 w-5 self-center"
     viewBox="0 0 20 20"
     fill="gold"
     onClick={removeFriend}
@@ -55,7 +56,7 @@ const StarButton = ({ removeFriend }) => (
 const FollowButton = ({ addFriend }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-5 w-5 mt-1 fill-black dark:fill-white "
+    className="h-5 w-5 self-center fill-black dark:fill-white "
     viewBox="0 0 20 20"
     onClick={addFriend}
   >
@@ -66,7 +67,7 @@ const FollowButton = ({ addFriend }) => (
 const SelfIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-5 w-5 mt-2 fill-black dark:fill-white"
+    className="h-5 w-5 self-center fill-black dark:fill-white"
     viewBox="0 0 20 20"
     fill="currentColor"
   >
@@ -78,7 +79,7 @@ const SelfIcon = () => (
   </svg>
 );
 
-export const ForumPost = ({ post, userProfile }) => {
+export const ForumPost = ({ post, proposalId, userProfile, signer }) => {
   const { author, outcome, wallet, post: comment } = post;
   const authorAddr = author.toLowerCase();
 
@@ -96,17 +97,7 @@ export const ForumPost = ({ post, userProfile }) => {
 
   const userIsAuthor = authorAddr !== userProfile?.address;
   return (
-    <div className="flex flex-col space-y-3 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
-      <div className="flex flex-row space-x-2 items-center">
-        <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-          {shortenAddress(authorAddr)}
-        </span>
-        {userProfile?.primaryDelegate === authorAddr && (
-          <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
-            Primary Delegate
-          </span>
-        )}
-      </div>
+    <div className="flex flex-col space-y-10 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
       <div className="flex flex-row space-x-2 justify-start">
         {authorAvatarUrl && (
           <Image
@@ -116,32 +107,60 @@ export const ForumPost = ({ post, userProfile }) => {
             className="rounded-full"
           />
         )}
-        <h5 className="mb-2 text-2xl self-center font-bold tracking-tight text-gray-900 dark:text-white">
-          {/*  need to get the from by the author address */}
-          {userIsAuthor ? authorUsername : "You"}
-        </h5>
+        <div className="flex flex-col space-y-0">
+          <div className="flex flex-row mb-2 space-x-2 justify-start">
+            {userProfile &&
+              (userProfile.following?.includes(authorAddr)
+                ? StarButton({
+                    removeFriend: () => userProfile?.unfollow(authorAddr),
+                  })
+                : userIsAuthor
+                ? FollowButton({
+                    addFriend: () => userProfile?.follow(authorAddr),
+                  })
+                : SelfIcon())}
+            <h5 className="self-center text-md font-bold tracking-tight text-gray-900 dark:text-white">
+              {/*  need to get the from by the author address */}
+              {userIsAuthor ? authorUsername : "You"}
+            </h5>
+          </div>
+          <div className="flex flex-row space-x-2 items-center">
+            <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+              {shortenAddress(authorAddr)}
+            </span>
+            {userProfile?.primaryDelegate === authorAddr && (
+              <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+                Primary Delegate
+              </span>
+            )}
+          </div>
+        </div>
       </div>
-      <div className="flex flex-row space-x-2 justify-start items-center">
-        {userProfile &&
-          (userProfile.following?.includes(authorAddr)
-            ? StarButton({
-                removeFriend: () => userProfile?.unfollow(authorAddr),
-              })
-            : userIsAuthor
-            ? FollowButton({
-                addFriend: () => userProfile?.follow(authorAddr),
-              })
-            : SelfIcon())}
-        <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
-          {outcome}
-        </span>
-        <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300">
-          {wallet?.$KRAUSE} $KRAUSE
-        </span>
+
+      <div>
+        <div className="flex flex-col space-y-12 p-3 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+            {comment}
+          </p>
+          <div className="flex flex-row space-x-2 justify-between items-center">
+            <div>
+              <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
+                {outcome}
+              </span>
+              <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300">
+                {wallet?.$KRAUSE} $KRAUSE
+              </span>
+            </div>
+            <div>
+              <VoteButtons
+                proposalId={proposalId}
+                post={post}
+                signer={signer}
+              />
+            </div>
+          </div>
+        </div>
       </div>
-      <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-        {comment}
-      </p>
     </div>
   );
 };

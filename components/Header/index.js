@@ -37,12 +37,16 @@ const navItems = [
   //   },
 ];
 
-export const Header = ({ connect, wallet }) => {
+export const Header = ({ connect, disconnect, wallet }) => {
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-800">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
         <HeaderLogo />
-        <HeaderWallet wallet={wallet} connect={connect} />
+        <HeaderWallet
+          wallet={wallet}
+          connect={connect}
+          disconnect={disconnect}
+        />
         <NavBar navItems={navItems} />
       </div>
     </nav>

@@ -2,17 +2,37 @@ import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ethers } from "ethers";
 
-export const connectWallet = (setProvider) => async () => {
-  const providerOptions = {
-    walletconnect: {
-      package: WalletConnectProvider, // required
-      options: {
-        infuraId: process.env.NEXT_PUBLIC_INFURA_ID, // required
-      },
+const providerOptions = {
+  walletconnect: {
+    package: WalletConnectProvider, // required
+    options: {
+      infuraId: process.env.NEXT_PUBLIC_INFURA_ID, // required
     },
-  };
-  const web3Modal = new Web3Modal({ providerOptions, theme: "dark" });
-  const connection = await web3Modal.connect();
+  },
+};
+const web3Modal = () =>
+  new Web3Modal({
+    providerOptions,
+    // theme: "dark",
+    theme: {
+      background: "black",
+      main: "white",
+      secondary: "gray",
+      border: "rgba(195, 195, 195, 0.14)",
+      hover: "purple",
+    },
+    cacheProvider: true,
+  });
+
+export const connectWallet = (setProvider) => async () => {
+  const web3modal = web3Modal();
+  const connection = await web3modal.connect();
   const provider = new ethers.providers.Web3Provider(connection);
   setProvider(provider);
+};
+
+export const disconnectWallet = (provider, setProvider) => async () => {
+  const web3modal = web3Modal();
+  web3modal.clearCachedProvider();
+  setProvider(null);
 };

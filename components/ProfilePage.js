@@ -22,7 +22,7 @@ export default function FollowingDropdown({ followingProfile, userProfile }) {
     <div className="w-56">
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-black rounded-md hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+          <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
             Options
             <ChevronDownIcon
               className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
@@ -444,13 +444,13 @@ const useGetFollowingProfiles = (addresses) => {
 
 function UserProfileCard(props) {
   return (
-    <div className="flex flex-col space-y-5 pt-10 w-1/4 max-w-xs bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex flex-col h-1/2 space-y-5 pt-5 pb-8 w-1/4 max-w-xs bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <div className="flex flex-col items-center">
         <Image
           src={avatarUrl(props.userProfile)}
-          alt="Profile Pic"
-          width={150}
-          height={150}
+          alt="feeling cute, might delete"
+          width={100}
+          height={100}
           className="mb-5 rounded-full shadow-lg"
         />
       </div>
@@ -464,16 +464,16 @@ function UserProfileCard(props) {
             {shortenAddress(props.userProfile?.address)}
           </span>
         )}
+        {props.userProfile?.discordUsername && (
+          <div>
+            <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+              {shortenAddress(props.wallet.address)}
+            </span>
+          </div>
+        )}
       </div>
       <div>
-        <div className="flex flex-col items-center space-y-3">
-          {props.userProfile?.discordUsername && (
-            <div>
-              <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-                {shortenAddress(props.wallet.address)}
-              </span>
-            </div>
-          )}
+        <div className="flex flex-col items-center space-y-1">
           <div>
             <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
               {props.wallet?.$KRAUSE || 0} $KRAUSE
@@ -506,7 +506,7 @@ function UserProfileCard(props) {
 
 function FollowingProfileCard(props) {
   return (
-    <div className="flex flex-col space-y-3 p-6 max-w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex flex-col h-full space-y-3 p-6 max-w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <div>
         {props.followingProfile.address ===
           props.userProfile.primaryDelegate && (
@@ -515,21 +515,27 @@ function FollowingProfileCard(props) {
           </span>
         )}
       </div>
-      <div>
-        <Image
-          src={avatarUrl(props.followingProfile)}
-          width={50}
-          height={50}
-          className="rounded-full"
-        />
+      <div className="flex flex-row space-x-2">
+        <div>
+          <Image
+            src={avatarUrl(props.followingProfile)}
+            width={50}
+            height={50}
+            className="rounded-full"
+          />
+        </div>
+        <div>
+          <p className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
+            {props.followingProfile?.discordUsername || "Jerry"}
+          </p>
+          <div>
+            <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+              {shortenAddress(props.followingProfile?.address)}
+            </span>
+          </div>
+        </div>
       </div>
-      <Heading title={props.followingProfile?.discordUsername} size="xl" />
 
-      <div>
-        <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-          {shortenAddress(props.followingProfile?.address)}
-        </span>
-      </div>
       <FollowingDropdown
         unfollow={() =>
           props.userProfile?.unfollow(props.followingProfile.address)
@@ -623,20 +629,24 @@ export function ProfilePage(props) {
   const following = useGetFollowingProfiles(props.userProfile?.following);
 
   return props.userProfile ? (
-    <div className="flex flex-row justify-center space-x-3">
+    <div className="flex flex-row justify-center space-x-10">
       <UserProfileCard userProfile={props.userProfile} wallet={props.wallet} />
       <div className="flex flex-col space-y-5 w-1/2">
         <div className="flex flex-col space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
           {props.userProfile && (
             <div>
-              <Heading title="Following" size="xl" />
-              <div className="flex flex-col space-y-3">
+              <div className="pl-3">
+                <Heading title="Following" size="xl" />
+              </div>
+              <div className="grid grid-cols-2">
                 {following?.map((followingProfile, i) => (
-                  <FollowingProfileCard
-                    key={i}
-                    userProfile={props.userProfile}
-                    followingProfile={followingProfile}
-                  />
+                  <div className="m-2" key={i}>
+                    <FollowingProfileCard
+                      key={i}
+                      userProfile={props.userProfile}
+                      followingProfile={followingProfile}
+                    />
+                  </div>
                 ))}
               </div>
             </div>

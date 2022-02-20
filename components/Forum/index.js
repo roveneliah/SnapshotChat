@@ -217,27 +217,31 @@ export default function ForumNew({
     ?.filter((post) => !userProfile?.following?.includes(post.author))
     .filter(matchesOutcome);
 
-  console.log(posts);
-
   return (
-    <div className="flex flex-col w-2/3 space-y-4 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-      <ProposalCard
-        proposal={proposal}
-        setSelectedProposal={setSelectedProposal}
-        selectedVote={selectedVote}
-        setSelectedVote={setSelectedVote}
-      />
-      <ForumPosts
-        provider={provider}
-        posts={followedPosts || posts}
-        userProfile={userProfile}
-      />
-      <ForumPosts
-        provider={provider}
-        posts={otherPosts || posts}
-        userProfile={userProfile}
-      />
-      <CommentBox proposal={proposal} signer={signer} provider={provider} />
+    <div className="flex flex-row justify-center">
+      <div className="flex flex-col w-2/3 space-y-4 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <ProposalCard
+          proposal={proposal}
+          setSelectedProposal={setSelectedProposal}
+          selectedVote={selectedVote}
+          setSelectedVote={setSelectedVote}
+        />
+        <ForumPosts
+          provider={provider}
+          posts={followedPosts || posts}
+          userProfile={userProfile}
+          signer={signer}
+          proposalId={proposal.id}
+        />
+        <ForumPosts
+          provider={provider}
+          posts={otherPosts || posts}
+          userProfile={userProfile}
+          signer={signer}
+          proposalId={proposal.id}
+        />
+        <CommentBox proposal={proposal} signer={signer} provider={provider} />
+      </div>
     </div>
   );
 }

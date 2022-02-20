@@ -3,12 +3,14 @@ import { useListenWallet } from "./useListenWallet";
 import { useListenSigner } from "./useListenSigner";
 import { useListenProvider } from "./useListenProvider";
 import { loadProfileAtAddress } from "../utils/firestore";
-import { migrateRoster } from "../utils/migrateRoster";
 
 const useListenUserProfile = (wallet) => {
   const [userProfile, setUserProfile] = useState();
   useEffect(async () => {
-    loadProfileAtAddress(wallet?.address, setUserProfile);
+    if (wallet?.address) {
+      console.log("ATTEMPING TO UPDATE USERPROFILE");
+      loadProfileAtAddress(wallet?.address, setUserProfile);
+    }
   }, [wallet]);
   return userProfile;
 };

@@ -9,24 +9,20 @@ export function ForumPage(props) {
   const [selectedProposal, setSelectedProposal] = useState();
   const proposals = useGetProposals(props.snapshotSpace);
 
-  return (
-    <div className="flex flex-row justify-center space-x-3">
-      {selectedProposal ? (
-        <Forum
-          proposal={proposalById(proposals, selectedProposal)}
-          setSelectedProposal={setSelectedProposal}
-          signer={props.signer}
-          provider={props.provider}
-          userProfile={props.userProfile}
-        />
-      ) : (
-        proposals && (
-          <ProposalsList
-            proposals={proposals}
-            setSelectedProposal={setSelectedProposal}
-          />
-        )
-      )}
-    </div>
+  return selectedProposal ? (
+    <Forum
+      proposal={proposalById(proposals, selectedProposal)}
+      setSelectedProposal={setSelectedProposal}
+      signer={props.signer}
+      provider={props.provider}
+      userProfile={props.userProfile}
+    />
+  ) : (
+    proposals && (
+      <ProposalsList
+        proposals={proposals}
+        setSelectedProposal={setSelectedProposal}
+      />
+    )
   );
 }
