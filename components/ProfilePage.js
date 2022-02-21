@@ -593,7 +593,7 @@ function UserProfileCard(props) {
           alt="feeling cute, might delete"
           width={100}
           height={100}
-          className="mb-5 rounded-full shadow-lg"
+          className="mb-5 rounded-full"
         />
         <div className="flex flex-col items-center">
           {props.userProfile?.discordUsername ? (
@@ -813,7 +813,7 @@ function JerrySearch(props) {
 export function ProfilePage(props) {
   const following = useGetFollowingProfiles(props.userProfile?.following);
 
-  return props.userProfile ? (
+  return props.wallet && props.userProfile ? (
     <div className="flex flex-row justify-center space-x-10">
       <UserProfileCard userProfile={props.userProfile} wallet={props.wallet} />
       <div className="flex flex-col space-y-5 w-1/2">
@@ -842,13 +842,14 @@ export function ProfilePage(props) {
     </div>
   ) : (
     <div className="flex flex-row justify-center space-x-3">
-      <div className="flex flex-col w-2/3 space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex flex-col w-2/3 space-y-10 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
         <Heading title="Connect your wallet to view your profile." size="xl" />
         <Image
           src="https://i.giphy.com/media/1AjFHLpytkqt0qYDcW/giphy.webp"
           alt="DO IT"
-          height={400}
+          height={600}
           width={-1} // wtf
+          className="rounded-lg"
         />
       </div>
     </div>
