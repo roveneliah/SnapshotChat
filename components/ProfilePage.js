@@ -772,7 +772,7 @@ function JerrySearch(props) {
                   />
                 </div>
                 <div>
-                  <p className=" text-md font-bold tracking-tight text-gray-900 dark:text-white">
+                  <p className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
                     {profile.discordUsername}
                   </p>
                   <div>
@@ -795,7 +795,9 @@ function JerrySearch(props) {
                     </span>
                   ))}
                 </div>
-                <p>{profile.about}</p>
+                <p className="text-xs font-bold tracking-tight text-gray-900 dark:text-white">
+                  {profile.about}
+                </p>
               </div>
 
               <Button
