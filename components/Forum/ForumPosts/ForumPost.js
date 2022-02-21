@@ -8,7 +8,6 @@ import {
 import { shortenAddress } from "../../../utils/shortenAddress";
 
 const VoteButtons = ({ proposalId, post, signer }) => {
-  console.log(post.votes);
   const voteCounts = Object.values(post.votes || []).reduce((counter, vote) => {
     return {
       ...counter,

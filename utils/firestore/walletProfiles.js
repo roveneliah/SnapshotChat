@@ -20,20 +20,35 @@ export const buildLoadProfileAtAddress = (db) => async (address, callback) => {
 
     // if no wallet profile, make a new one...
     const profile = walletProfile || (await buildCreateProfile(db)(addr));
-    const follow = (addr) =>
-      buildFollowAddress(db)(profile, addr.toLowerCase());
-    const unfollow = (addr) =>
-      buildUnfollowAddress(db)(profile, addr.toLowerCase());
-    const setPrimaryDelegate = (addr) =>
-      buildSetPrimaryDelegate(db)(profile, addr);
-    const clearPrimaryDelegate = () =>
-      buildSetPrimaryDelegate(db)(profile, null);
+    // const follow = (addr) =>
+    //   buildFollowAddress(db)(profile, addr.toLowerCase());
+    // const unfollow = (addr) =>
+    //   buildUnfollowAddress(db)(profile, addr.toLowerCase());
+    // const setPrimaryDelegate = (addr) =>
+    //   buildSetPrimaryDelegate(db)(profile, addr);
+    // const clearPrimaryDelegate = () =>
+    //   buildSetPrimaryDelegate(db)(profile, null);
+
+    const functions = {
+      follow: (addr) => buildFollowAddress(db)(profile, addr.toLowerCase()),
+      unfollow: (addr) => buildUnfollowAddress(db)(profile, addr.toLowerCase()),
+      setPrimaryDelegate: (addr) =>
+        buildSetPrimaryDelegate(db)(profile, addr.toLowerCase()),
+      clearPrimaryDelegate: () => buildSetPrimaryDelegate(db)(profile, null),
+      setSecondaryDelegate: (addr) =>
+        buildSetSecondaryDelegate(db)(profile, addr.toLowerCase()),
+      clearSecondaryDelegate: () =>
+        buildSetSecondaryDelegate(db)(profile, null),
+      followNo: (addr) => buildFollowNo(db)(profile, addr.toLowerCase()),
+      unfollowNo: (addr) => buildUnfollowNo(db)(profile, addr.toLowerCase()),
+    };
     callback({
       ...profile,
-      follow,
-      unfollow,
-      setPrimaryDelegate,
-      clearPrimaryDelegate,
+      ...functions,
+      // follow,
+      // unfollow,
+      // setPrimaryDelegate,
+      // clearPrimaryDelegate,
     });
   });
 };
@@ -86,7 +101,11 @@ export const buildUnfollowAddress =
     if (profile.following?.includes(unfollowAddress)) {
       await setDoc(doc(db, "profiles", profile.address), {
         ...profile,
-        primaryDelegate: null,
+        primaryDelegate: null, // TODO: can abstract all the role wiping, should probably have all nested in some delegationRoles property
+        secondaryDelegate: null,
+        followingNo: profile.followingNo.filter(
+          (address) => address !== unfollowAddress
+        ),
         following: profile.following.filter(
           (address) => address !== unfollowAddress
         ),
@@ -96,12 +115,53 @@ export const buildUnfollowAddress =
     }
   };
 
+export const buildFollowNo = (db) => async (profile, followAddress) => {
+  console.log("COPYING NO: ", followAddress);
+  console.log("PROFILE: ", profile);
+
+  // make sure not already following
+  const alreadyFollowing = profile.followingNo?.includes(followAddress);
+  const notSelf = profile.address !== followAddress;
+
+  if (!alreadyFollowing && notSelf) {
+    await setDoc(doc(db, "profiles", profile.address), {
+      ...profile,
+      followingNo: profile.followingNo
+        ? [...profile.followingNo, followAddress]
+        : [followAddress],
+    });
+  }
+};
+
+export const buildUnfollowNo = (db) => async (profile, unfollowAddress) => {
+  console.log("UNFOLLOW ", unfollowAddress);
+  if (profile.followingNo?.includes(unfollowAddress)) {
+    await setDoc(doc(db, "profiles", profile.address), {
+      ...profile,
+      followingNo: profile.followingNo.filter(
+        (address) => address !== unfollowAddress
+      ),
+    });
+  } else {
+    console.log("WAS NOT FOLLOWING");
+  }
+};
+
 export const buildSetPrimaryDelegate =
   (db) => async (profile, delegateAddress) => {
     console.log("SETTING PRIMARY DELEGATE", delegateAddress);
     await setDoc(doc(db, "profiles", profile.address), {
       ...profile,
       primaryDelegate: delegateAddress,
+    });
+  };
+
+export const buildSetSecondaryDelegate =
+  (db) => async (profile, delegateAddress) => {
+    console.log("SETTING SECONDARY DELEGATE", delegateAddress);
+    await setDoc(doc(db, "profiles", profile.address), {
+      ...profile,
+      secondaryDelegate: delegateAddress,
     });
   };
 

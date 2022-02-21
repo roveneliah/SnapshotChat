@@ -63,20 +63,23 @@ export default function FollowingDropdown({ followingProfile, userProfile }) {
                           aria-hidden="true"
                         />
                       )}
-                      Make Primary Delegate
+                      Set to Primary Delegate
                     </button>
                   )}
                 </Menu.Item>
               )}
-
-              {userProfile.primaryDelegate === followingProfile.address && (
+              {userProfile.secondaryDelegate !== followingProfile.address && (
                 <Menu.Item>
                   {({ active }) => (
                     <button
                       className={`${
                         active ? "bg-violet-500 text-white" : "text-gray-900"
                       } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                      onClick={() => userProfile.clearPrimaryDelegate()}
+                      onClick={() =>
+                        userProfile.setSecondaryDelegate(
+                          followingProfile.address
+                        )
+                      }
                     >
                       {active ? (
                         <DuplicateActiveIcon
@@ -89,7 +92,113 @@ export default function FollowingDropdown({ followingProfile, userProfile }) {
                           aria-hidden="true"
                         />
                       )}
+                      Set Backup Delegate
+                    </button>
+                  )}
+                </Menu.Item>
+              )}
+              {!userProfile.followingNo?.includes(followingProfile.address) && (
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bg-violet-500 text-white" : "text-gray-900"
+                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      onClick={() =>
+                        userProfile.followNo(followingProfile.address)
+                      }
+                    >
+                      {active ? (
+                        <DuplicateActiveIcon
+                          className="w-5 h-5 mr-2"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <DuplicateInactiveIcon
+                          className="w-5 h-5 mr-2"
+                          aria-hidden="true"
+                        />
+                      )}
+                      Copy No
+                    </button>
+                  )}
+                </Menu.Item>
+              )}
+            </div>
+            <div className="px-1 py-1 ">
+              {userProfile.primaryDelegate === followingProfile.address && (
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bg-violet-500 text-white" : "text-gray-900"
+                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      onClick={() => userProfile.clearPrimaryDelegate()}
+                    >
+                      {active ? (
+                        <DeleteActiveIcon
+                          className="w-5 h-5 mr-2"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <DeleteInactiveIcon
+                          className="w-5 h-5 mr-2"
+                          aria-hidden="true"
+                        />
+                      )}
                       Remove Primary Delegate
+                    </button>
+                  )}
+                </Menu.Item>
+              )}
+              {userProfile.secondaryDelegate === followingProfile.address && (
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bg-violet-500 text-white" : "text-gray-900"
+                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      onClick={() => userProfile.clearSecondaryDelegate()}
+                    >
+                      {active ? (
+                        <DeleteActiveIcon
+                          className="w-5 h-5 mr-2"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <DeleteInactiveIcon
+                          className="w-5 h-5 mr-2"
+                          aria-hidden="true"
+                        />
+                      )}
+                      Remove Backup Delegate
+                    </button>
+                  )}
+                </Menu.Item>
+              )}
+              {userProfile.followingNo?.includes(followingProfile.address) && (
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bg-violet-500 text-white" : "text-gray-900"
+                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      onClick={() =>
+                        userProfile.unfollowNo(followingProfile.address)
+                      }
+                    >
+                      {active ? (
+                        <DeleteActiveIcon
+                          className="w-5 h-5 mr-2"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <DeleteInactiveIcon
+                          className="w-5 h-5 mr-2"
+                          aria-hidden="true"
+                        />
+                      )}
+                      Unfollow No
                     </button>
                   )}
                 </Menu.Item>
@@ -118,6 +227,30 @@ export default function FollowingDropdown({ followingProfile, userProfile }) {
                   </button>
                 )}
               </Menu.Item> */}
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    className={`${
+                      active ? "bg-violet-500 text-white" : "text-gray-900"
+                    } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                  >
+                    {active ? (
+                      <DuplicateActiveIcon
+                        className="w-5 h-5 mr-2"
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <DuplicateInactiveIcon
+                        className="w-5 h-5 mr-2"
+                        aria-hidden="true"
+                      />
+                    )}
+                    {/* <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900"> */}
+                    {shortenAddress(followingProfile.address)} (copy)
+                    {/* </span> */}
+                  </button>
+                )}
+              </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
                   <button
@@ -446,24 +579,6 @@ function UserProfileCard(props) {
   return (
     <div className="flex flex-col h-1/2 space-y-5 pt-5 pb-8 w-1/4 max-w-xs bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <div className="flex flex-col items-center">
-        <Image
-          src={avatarUrl(props.userProfile)}
-          alt="feeling cute, might delete"
-          width={100}
-          height={100}
-          className="mb-5 rounded-full shadow-lg"
-        />
-      </div>
-      <div className="flex flex-col items-center">
-        {props.userProfile?.discordUsername ? (
-          <h3 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-            {props.userProfile?.discordUsername}
-          </h3>
-        ) : (
-          <span className="bg-gray-100 text-gray-800 text-lg font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-            {shortenAddress(props.userProfile?.address)}
-          </span>
-        )}
         {props.userProfile?.discordUsername && (
           <div>
             <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
@@ -472,17 +587,49 @@ function UserProfileCard(props) {
           </div>
         )}
       </div>
-      <div>
-        <div className="flex flex-col items-center space-y-1">
-          <div>
-            <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
-              {props.wallet?.$KRAUSE || 0} $KRAUSE
+      <div className="flex flex-col space-y-3 items-center rounded-lg m-6 pt-6 pb-6 border">
+        <Image
+          src={avatarUrl(props.userProfile)}
+          alt="feeling cute, might delete"
+          width={100}
+          height={100}
+          className="mb-5 rounded-full shadow-lg"
+        />
+        <div className="flex flex-col items-center">
+          {props.userProfile?.discordUsername ? (
+            <h3 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+              {props.userProfile?.discordUsername}
+            </h3>
+          ) : (
+            <span className="bg-gray-100 text-gray-800 text-lg font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+              {shortenAddress(props.userProfile?.address)}
             </span>
-          </div>
-          <div>
-            <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
-              {props.wallet?.TICKETS || 0} Genesis Tickets
-            </span>
+          )}
+          {props.userProfile?.roles?.map((role, i) => (
+            <div key={i}>
+              <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+                {role}
+              </span>
+            </div>
+          ))}
+        </div>
+        <div className="pt-10">
+          <div className="flex flex-col items-center space-y-1">
+            <div>
+              <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
+                {props.wallet?.$KRAUSE || 0} $KRAUSE
+              </span>
+            </div>
+            <div>
+              <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+                {props.wallet?.TICKETS || 0} Genesis Tickets
+              </span>
+            </div>
+            <div>
+              <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+                Rookie Season: Try Outs
+              </span>
+            </div>
           </div>
         </div>
         {/* <div className="flex justify-center mt-4 space-x-3 lg:mt-6">
@@ -506,15 +653,7 @@ function UserProfileCard(props) {
 
 function FollowingProfileCard(props) {
   return (
-    <div className="flex flex-col h-full space-y-3 p-6 max-w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-      <div>
-        {props.followingProfile.address ===
-          props.userProfile.primaryDelegate && (
-          <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
-            Primary Delegate
-          </span>
-        )}
-      </div>
+    <div className="flex flex-col justify-between h-full space-y-3 p-6 max-w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <div className="flex flex-row space-x-2">
         <div>
           <Image
@@ -528,11 +667,37 @@ function FollowingProfileCard(props) {
           <p className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
             {props.followingProfile?.discordUsername || "Jerry"}
           </p>
-          <div>
-            <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-              {shortenAddress(props.followingProfile?.address)}
+          <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+            {shortenAddress(props.followingProfile?.address)}
+          </span>
+        </div>
+      </div>
+
+      <div className="flex flex-col justify-start h-3/4">
+        <div>
+          {props.followingProfile.address ===
+            props.userProfile.primaryDelegate && (
+            <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+              Primary Delegate
             </span>
-          </div>
+          )}
+        </div>
+        <div>
+          {props.followingProfile.address ===
+            props.userProfile.secondaryDelegate && (
+            <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
+              Backup Delegate
+            </span>
+          )}
+        </div>
+        <div>
+          {props.userProfile.followingNo?.includes(
+            props.followingProfile.address
+          ) && (
+            <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+              Copying No
+            </span>
+          )}
         </div>
       </div>
 
@@ -595,24 +760,44 @@ function JerrySearch(props) {
           .map((profile, i) => (
             <div
               key={i}
-              className="flex flex-col space-y-3 p-6 m-2 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-500"
+              className="flex flex-col justify-between space-y-5 p-6 m-2 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-500"
             >
-              <div>
-                <Image
-                  src={avatarUrl(profile)}
-                  width={50}
-                  height={50}
-                  className="rounded-full"
-                />
+              <div className="flex flex-row space-x-3 border rounded-lg p-5">
+                <div>
+                  <Image
+                    src={avatarUrl(profile)}
+                    width={50}
+                    height={50}
+                    className="rounded-full"
+                  />
+                </div>
+                <div>
+                  <p className=" text-md font-bold tracking-tight text-gray-900 dark:text-white">
+                    {profile.discordUsername}
+                  </p>
+                  <div>
+                    {profile.address && (
+                      <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+                        {shortenAddress(profile.address)}
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
-              <div>
-                <Heading title={profile.discordUsername} size="md" />
-                {profile.address && (
-                  <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-                    {shortenAddress(profile.address)}
-                  </span>
-                )}
+              <div className="flex flex-col space-y-3">
+                <div>
+                  {profile.roles?.map((role, i) => (
+                    <span
+                      key={i}
+                      className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900"
+                    >
+                      {role}
+                    </span>
+                  ))}
+                </div>
+                <p>{profile.about}</p>
               </div>
+
               <Button
                 title="Follow"
                 color="purple"
@@ -638,7 +823,7 @@ export function ProfilePage(props) {
               <div className="pl-3">
                 <Heading title="Following" size="xl" />
               </div>
-              <div className="grid grid-cols-2">
+              <div className="grid grid-cols-3">
                 {following?.map((followingProfile, i) => (
                   <div className="m-2" key={i}>
                     <FollowingProfileCard
