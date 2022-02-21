@@ -587,7 +587,7 @@ function UserProfileCard(props) {
           </div>
         )}
       </div>
-      <div className="flex flex-col space-y-3 items-center rounded-lg m-6 pt-6 pb-6 border">
+      <div className="flex flex-col space-y-3 items-center rounded-lg m-6 pt-6 pb-6 border border-gray-200 dark:border-gray-700">
         <Image
           src={avatarUrl(props.userProfile)}
           alt="feeling cute, might delete"
@@ -762,7 +762,7 @@ function JerrySearch(props) {
               key={i}
               className="flex flex-col justify-between space-y-5 p-6 m-2 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-500"
             >
-              <div className="flex flex-row space-x-3 border rounded-lg p-5">
+              <div className="flex flex-row space-x-3 border border-gray-200 dark:border-gray-700 rounded-lg p-5">
                 <div>
                   <Image
                     src={avatarUrl(profile)}
