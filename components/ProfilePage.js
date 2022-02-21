@@ -760,7 +760,7 @@ function JerrySearch(props) {
           .map((profile, i) => (
             <div
               key={i}
-              className="flex flex-col justify-between space-y-5 p-6 m-2 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-500"
+              className="flex flex-col justify-between space-y-5 p-6 m-2 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
             >
               <div className="flex flex-row space-x-3 border border-gray-200 dark:border-gray-700 rounded-lg p-5">
                 <div>
