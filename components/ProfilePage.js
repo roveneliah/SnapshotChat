@@ -665,7 +665,7 @@ function FollowingProfileCard(props) {
         </div>
         <div>
           <p className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
-            {props.followingProfile?.discordUsername || "Jerry"}
+            {props.followingProfile?.discordUsername || "Anon Jerry"}
           </p>
           <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
             {shortenAddress(props.followingProfile?.address)}
@@ -773,7 +773,7 @@ function JerrySearch(props) {
                 </div>
                 <div>
                   <p className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
-                    {profile.discordUsername}
+                    {profile.discordUsername || "Anon Jerry"}
                   </p>
                   <div>
                     {profile.address && (
