@@ -1,0 +1,6 @@
+node_modules/
+
+krausehouse-dashboard-test.json
+.runtimeconfig.json
+firestore-debug.log
+ui-debug.log

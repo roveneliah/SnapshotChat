@@ -165,11 +165,15 @@ export const buildSetSecondaryDelegate =
     });
   };
 
-export const buildCreateProfileWithData = (db) => async (rosterEntry) => {
-  console.log("CREATING PROFILE");
-  await setDoc(doc(db, "profiles", rosterEntry.address), {
-    ...rosterEntry,
-    following: [""],
-    filters: ["$KRAUSE Holders"],
-  });
-};
+// TODO: make sure not to overwrite, we want roster additions to automatically write here, until then we can run once per day
+// export const buildCreateProfileWithData = (db) => async (rosterEntry) => {
+//   console.log("CREATING PROFILE");
+//   await setDoc(
+//     doc(db, "profiles", rosterEntry.address),
+//     {
+//       ...rosterEntry,
+//       filters: ["$KRAUSE Holders"],
+//     },
+//     { merge: true }
+//   );
+// };

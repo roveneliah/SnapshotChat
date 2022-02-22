@@ -49,9 +49,9 @@ export const listenForJerrys = buildListenForJerrys(db);
 
 import {
   buildLoadProfileAtAddress,
-  buildCreateProfileWithData,
   buildGetProfile,
+  // buildCreateProfileWithData,
 } from "./walletProfiles";
 export const loadProfileAtAddress = buildLoadProfileAtAddress(db);
-export const createProfileWithData = buildCreateProfileWithData(db);
 export const getProfile = buildGetProfile(db);
+// export const createProfileWithData = buildCreateProfileWithData(db);
