@@ -579,10 +579,16 @@ function UserProfileCard(props) {
   return (
     <div className="flex flex-col h-1/2 space-y-5 pt-5 pb-8 w-1/4 max-w-xs bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <div className="flex flex-col items-center">
-        {props.userProfile?.discordUsername && (
+        {props.userProfile?.name ? (
           <div>
             <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
               {shortenAddress(props.wallet.address)}
+            </span>
+          </div>
+        ) : (
+          <div>
+            <span className="bg-orange-100 text-orange-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
+              <a href="https://roster.krausehouse.club">Join the roster!</a>
             </span>
           </div>
         )}
@@ -596,9 +602,9 @@ function UserProfileCard(props) {
           className="mb-5 rounded-full shadow-lg"
         />
         <div className="flex flex-col items-center">
-          {props.userProfile?.discordUsername ? (
+          {props.userProfile?.name ? (
             <h3 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-              {props.userProfile?.discordUsername}
+              {props.userProfile?.name}
             </h3>
           ) : (
             <span className="bg-gray-100 text-gray-800 text-lg font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
@@ -665,7 +671,7 @@ function FollowingProfileCard(props) {
         </div>
         <div>
           <p className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
-            {props.followingProfile?.discordUsername || "Anon Jerry"}
+            {props.followingProfile?.name || "Anon Jerry"}
           </p>
           <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
             {shortenAddress(props.followingProfile?.address)}
@@ -751,7 +757,7 @@ function JerrySearch(props) {
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Search the Jerryverse..."
       />
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-3">
         {searchResults
           .filter(
             ({ address }) => !props.userProfile.following?.includes(address)
@@ -773,7 +779,7 @@ function JerrySearch(props) {
                 </div>
                 <div>
                   <p className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
-                    {profile.discordUsername || "Anon Jerry"}
+                    {profile.name || "Anon Jerry"}
                   </p>
                   <div>
                     {profile.address && (
