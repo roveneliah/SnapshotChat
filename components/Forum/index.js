@@ -22,6 +22,7 @@ import {
   sortWith,
 } from "ramda";
 import { useEffect, useState } from "react";
+import { printPass } from "../../utils/functional";
 
 const basicStats = (proposal, sortedPosts) => {
   if (sortedPosts && proposal.type === "basic") {
@@ -223,19 +224,38 @@ export default function ForumNew({
   const [posts] = useGetProposalComments(provider, proposal);
   const sortedPosts = compose(sorts[0].sort, filters[0].sort)(posts);
   const [selectedVote, setSelectedVote] = useState(null);
-  const userVote = useGetSnapshotVote(proposal.id, wallet?.address);
 
   const noFilter = proposal.choices[selectedVote] == null;
   const matchesOutcome = (post) =>
     post.outcome === proposal.choices[selectedVote] || noFilter;
 
-  const followedPosts = sortedPosts
-    ?.filter((post) => userProfile?.following?.includes(post.author))
+  const myPosts = sortedPosts
+    ?.filter(
+      (post) => post.author.toLowerCase() === wallet?.address.toLowerCase()
+    )
     .filter(matchesOutcome);
 
+  const followedPosts = sortedPosts
+    ?.filter((post) =>
+      userProfile?.following?.includes(post.author.toLowerCase())
+    )
+    .filter(matchesOutcome)
+    .filter(
+      (post) => post.author.toLowerCase() !== wallet?.address.toLowerCase()
+    );
+
   const otherPosts = sortedPosts
-    ?.filter((post) => !userProfile?.following?.includes(post.author))
-    .filter(matchesOutcome);
+    ?.filter(
+      (post) => !userProfile?.following?.includes(post.author.toLowerCase())
+    )
+    .filter(matchesOutcome)
+    .filter(
+      (post) => post.author.toLowerCase() !== wallet?.address.toLowerCase()
+    );
+
+  console.log("my posts", myPosts);
+  console.log("followingPosts: ", followedPosts);
+  console.log("otherPosts: ", otherPosts);
 
   return (
     <div className="flex flex-row justify-center">
@@ -249,7 +269,13 @@ export default function ForumNew({
           votesLoaded={userVotes !== null}
           wallet={wallet}
         />
-
+        <ForumPosts
+          provider={provider}
+          posts={myPosts || posts}
+          userProfile={userProfile}
+          signer={signer}
+          proposalId={proposal.id}
+        />
         <ForumPosts
           provider={provider}
           posts={followedPosts || posts}

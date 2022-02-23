@@ -13,21 +13,11 @@ export const buildLoadProfileAtAddress = (db) => async (address, callback) => {
   if (!address) return;
   const addr = address.toLowerCase();
 
-  console.log("LOADING PROFILE", addr);
   onSnapshot(doc(db, "profiles", addr), async (snapshot) => {
     const walletProfile = snapshot.data();
 
     // if no wallet profile, make a new one...
     const profile = walletProfile || (await buildCreateProfile(db)(addr));
-    // const follow = (addr) =>
-    //   buildFollowAddress(db)(profile, addr.toLowerCase());
-    // const unfollow = (addr) =>
-    //   buildUnfollowAddress(db)(profile, addr.toLowerCase());
-    // const setPrimaryDelegate = (addr) =>
-    //   buildSetPrimaryDelegate(db)(profile, addr);
-    // const clearPrimaryDelegate = () =>
-    //   buildSetPrimaryDelegate(db)(profile, null);
-
     const functions = {
       follow: (addr) => buildFollowAddress(db)(profile, addr.toLowerCase()),
       unfollow: (addr) => buildUnfollowAddress(db)(profile, addr.toLowerCase()),
@@ -44,10 +34,6 @@ export const buildLoadProfileAtAddress = (db) => async (address, callback) => {
     callback({
       ...profile,
       ...functions,
-      // follow,
-      // unfollow,
-      // setPrimaryDelegate,
-      // clearPrimaryDelegate,
     });
   });
 };
@@ -98,25 +84,30 @@ export const buildUnfollowAddress =
   (db) => async (profile, unfollowAddress) => {
     console.log("UNFOLLOW ", unfollowAddress);
     if (profile.following?.includes(unfollowAddress)) {
-      await setDoc(doc(db, "profiles", profile.address), {
-        ...profile,
-        primaryDelegate:
-          profile.primaryDelegate === unfollowAddress
-            ? null
-            : profile.primaryDelegate,
-        secondaryDelegate:
-          profile.secondaryDelegate === unfollowAddress
-            ? null
-            : profile.secondaryDelegate,
-        followingNo: profile.followingNo
-          ? profile.followingNo?.filter(
-              (address) => address !== unfollowAddress
-            )
-          : [],
-        following: profile.following
-          ? profile.following?.filter((address) => address !== unfollowAddress)
-          : [],
-      });
+      await setDoc(
+        doc(db, "profiles", profile.address),
+        {
+          primaryDelegate:
+            profile.primaryDelegate === unfollowAddress
+              ? null
+              : profile.primaryDelegate ?? null,
+          secondaryDelegate:
+            profile.secondaryDelegate === unfollowAddress
+              ? null
+              : profile.secondaryDelegate ?? null,
+          followingNo: profile.followingNo
+            ? profile.followingNo?.filter(
+                (address) => address !== unfollowAddress
+              )
+            : [],
+          following: profile.following
+            ? profile.following?.filter(
+                (address) => address !== unfollowAddress
+              )
+            : [],
+        },
+        { merge: true }
+      );
     } else {
       console.log("WAS NOT FOLLOWING");
     }
