@@ -10,7 +10,7 @@ import { useForm } from "../../../hooks/useForm";
 import { signMessage } from "../../../utils/submit";
 import { addPost } from "../../../utils/firestore";
 
-export default function CommentBox({ proposal, signer, provider }) {
+export default function CommentBox({ proposal, signer, provider, wallet }) {
   const [postText, updatePostText] = useForm("");
   const [selectedChoice, setSelectedChoice] = useState();
 
@@ -39,7 +39,7 @@ export default function CommentBox({ proposal, signer, provider }) {
     postComment();
   };
 
-  return (
+  return wallet?.hodler ? (
     <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
       <HeadingFaint title="Post your thoughts." />
       <Selector
@@ -64,5 +64,7 @@ export default function CommentBox({ proposal, signer, provider }) {
         /> */}
       </div>
     </div>
+  ) : (
+    <></>
   );
 }

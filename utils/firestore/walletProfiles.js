@@ -8,7 +8,6 @@ import {
   getDocs,
   onSnapshot,
 } from "firebase/firestore";
-import { identity } from "ramda";
 
 export const buildLoadProfileAtAddress = (db) => async (address, callback) => {
   if (!address) return;
@@ -101,14 +100,22 @@ export const buildUnfollowAddress =
     if (profile.following?.includes(unfollowAddress)) {
       await setDoc(doc(db, "profiles", profile.address), {
         ...profile,
-        primaryDelegate: null, // TODO: can abstract all the role wiping, should probably have all nested in some delegationRoles property
-        secondaryDelegate: null,
-        followingNo: profile.followingNo.filter(
-          (address) => address !== unfollowAddress
-        ),
-        following: profile.following.filter(
-          (address) => address !== unfollowAddress
-        ),
+        primaryDelegate:
+          profile.primaryDelegate === unfollowAddress
+            ? null
+            : profile.primaryDelegate,
+        secondaryDelegate:
+          profile.secondaryDelegate === unfollowAddress
+            ? null
+            : profile.secondaryDelegate,
+        followingNo: profile.followingNo
+          ? profile.followingNo?.filter(
+              (address) => address !== unfollowAddress
+            )
+          : [],
+        following: profile.following
+          ? profile.following?.filter((address) => address !== unfollowAddress)
+          : [],
       });
     } else {
       console.log("WAS NOT FOLLOWING");
@@ -164,16 +171,3 @@ export const buildSetSecondaryDelegate =
       secondaryDelegate: delegateAddress,
     });
   };
-
-// TODO: make sure not to overwrite, we want roster additions to automatically write here, until then we can run once per day
-// export const buildCreateProfileWithData = (db) => async (rosterEntry) => {
-//   console.log("CREATING PROFILE");
-//   await setDoc(
-//     doc(db, "profiles", rosterEntry.address),
-//     {
-//       ...rosterEntry,
-//       filters: ["$KRAUSE Holders"],
-//     },
-//     { merge: true }
-//   );
-// };

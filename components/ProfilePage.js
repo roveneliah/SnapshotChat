@@ -582,7 +582,7 @@ function UserProfileCard(props) {
         {props.userProfile?.name ? (
           <div>
             <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-              {shortenAddress(props.wallet.address)}
+              {shortenAddress(props.wallet?.address)}
             </span>
           </div>
         ) : (
@@ -768,7 +768,7 @@ function JerrySearch(props) {
               key={i}
               className="flex flex-col justify-between space-y-5 p-6 m-2 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
             >
-              <div className="flex flex-row space-x-3 border border-gray-200 dark:border-gray-700 rounded-lg p-5">
+              <div className="flex flex-row space-x-3 rounded-lg">
                 <div>
                   <Image
                     src={avatarUrl(profile)}
@@ -778,19 +778,24 @@ function JerrySearch(props) {
                   />
                 </div>
                 <div>
-                  <p className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
-                    {profile.name || "Anon Jerry"}
-                  </p>
+                  <div className="flex flex-row space-x-2">
+                    <p className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
+                      {profile.name || "Anon Jerry"}
+                    </p>
+                  </div>
                   <div>
                     {profile.address && (
-                      <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+                      // <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+                      //   {shortenAddress(profile.address)}
+                      // </span>
+                      <span className="border-gray-800 text-gray-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded border dark:border-gray-200 dark:text-gray-200">
                         {shortenAddress(profile.address)}
                       </span>
                     )}
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col space-y-3">
+              {/* <div className="flex flex-col space-y-3">
                 <div>
                   {profile.roles?.map((role, i) => (
                     <span
@@ -804,13 +809,20 @@ function JerrySearch(props) {
                 <p className="text-xs font-bold tracking-tight text-gray-900 dark:text-white">
                   {profile.about}
                 </p>
+              </div> */}
+              <div className="flex flex-row justify-start">
+                {/* <Button
+                  title="Follow"
+                  color="purple"
+                  onClick={() => props.userProfile.follow(profile.address)}
+                /> */}
+                <span
+                  onClick={() => props.userProfile.follow(profile.address)}
+                  className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900"
+                >
+                  Follow
+                </span>
               </div>
-
-              <Button
-                title="Follow"
-                color="purple"
-                onClick={() => props.userProfile.follow(profile.address)}
-              />
             </div>
           ))}
       </div>
@@ -855,7 +867,7 @@ export function ProfilePage(props) {
         <Image
           src="https://i.giphy.com/media/1AjFHLpytkqt0qYDcW/giphy.webp"
           alt="DO IT"
-          height={400}
+          height={800}
           width={-1} // wtf
         />
       </div>

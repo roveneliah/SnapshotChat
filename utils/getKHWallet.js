@@ -18,10 +18,13 @@ export const getKHWallet = (provider) => async (address) => {
   //     return Promise.resolve(owner === address ? nTickets + 1 : nTickets);
   //   }, Promise.resolve(0));
 
+  const krauseBalance = (await getKrauseBalance(address)) / 1e18;
+  const ticketBalance = Number(await getTicketBalance(address));
   return {
     address,
-    $KRAUSE: (await getKrauseBalance(address)) / 1e18,
-    TICKETS: await getTicketBalance(address),
+    $KRAUSE: krauseBalance,
+    TICKETS: ticketBalance,
+    hodler: krauseBalance || ticketBalance,
     // CLUB: await getClubBalance(address),
     // UPPER: await getUpperBalance(address),
   };

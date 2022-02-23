@@ -13,7 +13,7 @@ export const useListenWallet = (provider, signer) => {
 
         console.log("UPDATING WALLET");
         setWallet(wallet);
-        setHodler(wallet?.TICKETS > 0);
+        setHodler(wallet?.TICKETS > 0 || wallet?.$KRAUSE > 0);
       } else {
         console.log("NO ACTIVE WALLET");
         setWallet(null);

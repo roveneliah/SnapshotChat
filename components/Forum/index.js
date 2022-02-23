@@ -196,6 +196,7 @@ export function ForumOld({ proposal, setSelectedProposal, signer, provider }) {
 // TODO: MAKE A BOX FOR FOLLOWS
 export default function ForumNew({
   proposal,
+  wallet,
   setSelectedProposal,
   signer,
   provider,
@@ -240,7 +241,12 @@ export default function ForumNew({
           signer={signer}
           proposalId={proposal.id}
         />
-        <CommentBox proposal={proposal} signer={signer} provider={provider} />
+        <CommentBox
+          wallet={wallet}
+          proposal={proposal}
+          signer={signer}
+          provider={provider}
+        />
       </div>
     </div>
   );
