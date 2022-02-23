@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { compose, prop, props } from "ramda";
 import { Button } from "../../Buttons/Button";
 import Selector from "./Selector";
@@ -9,6 +9,19 @@ import { vote } from "../../../utils/Snapshot/vote";
 import { useForm } from "../../../hooks/useForm";
 import { signMessage } from "../../../utils/submit";
 import { addPost } from "../../../utils/firestore";
+import { fetchProposalVote } from "../../../utils/Snapshot/fetch";
+import { printPass } from "../../../utils/functional";
+
+export const useGetSnapshotVote = (proposalId, address) => {
+  const [vote, setVote] = useState(null);
+  useEffect(() => {
+    fetchProposalVote(proposalId, address).then((vote) => {
+      console.log(vote);
+      setVote(vote);
+    });
+  }, []);
+  return vote;
+};
 
 export default function CommentBox({ proposal, signer, provider, wallet }) {
   const [postText, updatePostText] = useForm("");
@@ -29,7 +42,7 @@ export default function CommentBox({ proposal, signer, provider, wallet }) {
 
   const submitToSnapshot = () =>
     vote(provider)({
-      choice: selectedChoice,
+      choice: selectedChoice + 1,
       proposalId: proposal.id,
       voteType: proposal.type,
     });
@@ -56,12 +69,12 @@ export default function CommentBox({ proposal, signer, provider, wallet }) {
       />
       <div className="flex flex-row space-x-3">
         <Button title="Post" color="purple" icon={true} onClick={postComment} />
-        {/* <Button
-          title="Post + Vote"
+        <Button
+          title="Vote"
           color="purple"
           icon={true}
-          onClick={submitAndVote}
-        /> */}
+          onClick={submitToSnapshot}
+        />
       </div>
     </div>
   ) : (

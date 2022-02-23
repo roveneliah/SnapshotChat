@@ -1,7 +1,11 @@
 import { ProposalListItem } from "./ProposalListItem";
 import { Button } from "../Buttons/Button";
 
-export const ProposalsList = ({ proposals, setSelectedProposal }) => (
+export const ProposalsList = ({
+  proposals,
+  setSelectedProposal,
+  userVotes,
+}) => (
   <div className="flex flex-row justify-center space-x-3">
     <div className="p-6 h-1/4 mt-6 basis-1/4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <a href="#">
@@ -29,7 +33,12 @@ export const ProposalsList = ({ proposals, setSelectedProposal }) => (
       {proposals
         .filter(({ type }) => (type === "basic") | (type === "single-choice"))
         .map((proposal, i) =>
-          ProposalListItem({ setSelectedProposal, proposal, i })
+          ProposalListItem({
+            setSelectedProposal,
+            proposal,
+            i,
+            userVote: userVotes[proposal.id],
+          })
         )}
     </div>
   </div>

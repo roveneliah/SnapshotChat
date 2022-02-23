@@ -1,5 +1,5 @@
 import ForumPosts from "./ForumPosts";
-import CommentBox from "./CommentBox";
+import CommentBox, { useGetSnapshotVote } from "./CommentBox";
 import ProposalCard from "./ProposalCard";
 
 import { submit } from "../../utils/submit";
@@ -193,6 +193,21 @@ export function ForumOld({ proposal, setSelectedProposal, signer, provider }) {
   );
 }
 
+export const VotedCard = ({ choice }) =>
+  choice ? (
+    <div>
+      <span className="mb-2 bg-orange-100 text-orange-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
+        You Voted: {choice}
+      </span>
+    </div>
+  ) : (
+    <div>
+      <span className="mb-2 bg-gray-100 text-gray-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+        Abstained
+      </span>
+    </div>
+  );
+
 // TODO: MAKE A BOX FOR FOLLOWS
 export default function ForumNew({
   proposal,
@@ -201,10 +216,13 @@ export default function ForumNew({
   signer,
   provider,
   userProfile,
+  userVotes,
 }) {
   const [posts] = useGetProposalComments(provider, proposal);
   const sortedPosts = compose(sorts[0].sort, filters[0].sort)(posts);
   const [selectedVote, setSelectedVote] = useState(null);
+  console.log("WALLET", wallet.address);
+  const userVote = useGetSnapshotVote(proposal.id, wallet.address);
 
   const noFilter = proposal.choices[selectedVote] == null;
   const matchesOutcome = (post) =>
@@ -226,7 +244,9 @@ export default function ForumNew({
           setSelectedProposal={setSelectedProposal}
           selectedVote={selectedVote}
           setSelectedVote={setSelectedVote}
+          userVote={userVotes[proposal.id]}
         />
+
         <ForumPosts
           provider={provider}
           posts={followedPosts || posts}
