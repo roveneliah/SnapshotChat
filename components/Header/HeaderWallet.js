@@ -1,13 +1,24 @@
 import { Wallet } from "./Wallet";
 import { Button } from "../Buttons/Button";
 
-export default function HeaderWallet({ wallet, connect, disconnect }) {
+export default function HeaderWallet({
+  wallet,
+  connect,
+  disconnect,
+  wrongNetwork,
+}) {
   return (
     <div className="flex md:order-2">
       {!wallet ? (
         <Button title="Connect" onClick={connect} color="hollow" />
       ) : (
-        wallet && <Wallet wallet={wallet} disconnect={disconnect} />
+        wallet && (
+          <Wallet
+            wallet={wallet}
+            disconnect={disconnect}
+            wrongNetwork={wrongNetwork}
+          />
+        )
       )}
     </div>
   );

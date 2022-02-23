@@ -5,9 +5,10 @@ export const ProposalsList = ({
   proposals,
   setSelectedProposal,
   userVotes,
+  wallet,
 }) => (
   <div className="flex flex-row justify-center space-x-3">
-    <div className="p-6 h-1/4 mt-6 basis-1/4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="p-6 h-1/4 basis-1/4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <a href="#">
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           The Watercooler
@@ -29,7 +30,7 @@ export const ProposalsList = ({
       />
     </div>
 
-    <div className="basis-1/2 flex flex-col space-y-6 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <div className="basis-1/2 flex flex-col space-y-6 px-4 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
       {proposals
         .filter(({ type }) => (type === "basic") | (type === "single-choice"))
         .map((proposal, i) =>
@@ -38,6 +39,8 @@ export const ProposalsList = ({
             proposal,
             i,
             userVote: userVotes[proposal.id],
+            votesLoaded: userVotes != null,
+            wallet,
           })
         )}
     </div>

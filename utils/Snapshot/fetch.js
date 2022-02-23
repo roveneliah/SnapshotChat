@@ -57,7 +57,6 @@ const votesByAddress = (space, address) => {
     }
   }
 }`;
-  console.log(query);
   return query;
 };
 

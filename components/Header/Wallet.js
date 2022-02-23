@@ -5,8 +5,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import Image from "next/image";
 
-export default function MyModal() {
-  let [isOpen, setIsOpen] = useState(false);
+export default function ViewOnlyModal() {
+  let [isOpen, setIsOpen] = useState(true);
 
   function closeModal() {
     setIsOpen(false);
@@ -129,7 +129,7 @@ export default function MyModal() {
   );
 }
 
-export const Wallet = ({ wallet, disconnect }) => {
+export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
   return (
     <div>
       {wallet.hodler ? (
@@ -142,7 +142,14 @@ export const Wallet = ({ wallet, disconnect }) => {
           </span>
         </>
       ) : (
-        <MyModal />
+        <>
+          {wrongNetwork && (
+            <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+              Wrong Network
+            </span>
+          )}
+          <ViewOnlyModal />
+        </>
         // <span className="bg-orange-100 text-orange-800 mr-2 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
         //   View Only Mode
         // </span>

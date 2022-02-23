@@ -11,6 +11,8 @@ export default function ProposalCard({
   selectedVote,
   setSelectedVote,
   userVote,
+  votesLoaded,
+  wallet,
 }) {
   return (
     <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
@@ -33,7 +35,11 @@ export default function ProposalCard({
               </span>
             </div>
           )}
-          <VotedCard choice={userVote} />
+          <VotedCard
+            choice={userVote}
+            votesLoaded={votesLoaded}
+            wallet={wallet}
+          />
         </div>
         <Heading title={proposal.title} size="2xl" />
       </div>

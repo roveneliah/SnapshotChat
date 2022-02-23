@@ -15,10 +15,12 @@ import { printPass } from "../../../utils/functional";
 export const useGetSnapshotVote = (proposalId, address) => {
   const [vote, setVote] = useState(null);
   useEffect(() => {
-    fetchProposalVote(proposalId, address).then((vote) => {
-      console.log(vote);
-      setVote(vote);
-    });
+    if (proposalId && address) {
+      fetchProposalVote(proposalId, address).then((vote) => {
+        console.log(vote);
+        setVote(vote);
+      });
+    }
   }, []);
   return vote;
 };

@@ -4,12 +4,15 @@ import { Button } from "../Buttons/Button";
 import { Heading } from "../Generics/Headings/Heading";
 import { Badge } from "../Generics/Badge";
 import { VotedCard } from "../Forum";
+import { HeadingFaint } from "../Generics/Headings/HeadingFaint";
 
 export const ProposalListItem = ({
   setSelectedProposal,
   proposal,
   key,
   userVote,
+  votesLoaded,
+  wallet,
 }) => {
   return (
     <div
@@ -17,7 +20,7 @@ export const ProposalListItem = ({
       className="flex flex-col space-y-10 p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
     >
       <div>
-        <div className="mb-2 flex flex-row space-x-2">
+        <div className="mb-2 flex flex-row space-x-2 pb-2">
           {proposal.state === "active" ? (
             <div>
               <span
@@ -35,9 +38,14 @@ export const ProposalListItem = ({
               </span>
             </div>
           )}
-          <VotedCard choice={userVote} />
+          <VotedCard
+            choice={userVote}
+            votesLoaded={votesLoaded}
+            wallet={wallet}
+          />
         </div>
-        <Heading title={proposal.title} size={"xl"} />
+        {/* <Heading title={proposal.title} size={"lg"} /> */}
+        <HeadingFaint title={proposal.title} size="xl" />
       </div>
       <div className="flex space-x-4">
         <Button

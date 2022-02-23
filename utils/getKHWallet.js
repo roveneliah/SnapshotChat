@@ -1,3 +1,4 @@
+import { isMainnet } from "../components/Web3Container";
 import {
   $KRAUSE,
   club_tokenIds,

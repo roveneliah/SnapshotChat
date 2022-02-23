@@ -8,11 +8,9 @@ import { fetchAllVotes } from "../utils/Snapshot/fetch";
 
 export const useGetAllUserVotes = (space, wallet) => {
   const [votes, setVotes] = useState([]);
-  console.log(space, wallet?.address);
   useEffect(() => {
     fetchAllVotes(space, wallet?.address)
       .then((votes) => votes || [])
-      .then(printPass)
       .then((votes) =>
         votes.reduce(
           (acc, vote) => ({
@@ -22,7 +20,6 @@ export const useGetAllUserVotes = (space, wallet) => {
           {}
         )
       )
-      .then(printPass)
       .then((votes) => {
         setVotes(votes);
       });
@@ -52,6 +49,7 @@ export function ForumPage(props) {
         proposals={proposals}
         userVotes={userVotes}
         setSelectedProposal={setSelectedProposal}
+        wallet={props.wallet}
       />
     )
   );

@@ -1,7 +1,13 @@
 import Head from "next/head";
 import { Header } from "./Header";
 
-export default function Layout({ connect, disconnect, wallet, children }) {
+export default function Layout({
+  connect,
+  disconnect,
+  wallet,
+  children,
+  wrongNetwork,
+}) {
   return (
     <div className="dark:bg-gray-800 min-h-max min-h-screen">
       <Head>
@@ -10,7 +16,12 @@ export default function Layout({ connect, disconnect, wallet, children }) {
         <link rel="icon" href="/kh_holo.png" />
       </Head>
       <main className="w-full">
-        <Header connect={connect} disconnect={disconnect} wallet={wallet} />
+        <Header
+          connect={connect}
+          disconnect={disconnect}
+          wallet={wallet}
+          wrongNetwork={wrongNetwork}
+        />
         {children}
       </main>
     </div>
