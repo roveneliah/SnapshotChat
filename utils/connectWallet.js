@@ -25,10 +25,15 @@ const web3Modal = () =>
   });
 
 export const connectWallet = (setProvider) => async () => {
-  const web3modal = web3Modal();
-  const connection = await web3modal.connect();
-  const provider = new ethers.providers.Web3Provider(connection);
-  setProvider(provider);
+  try {
+    const web3modal = web3Modal();
+    const connection = await web3modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    setProvider(provider);
+  } catch (e) {
+    console.log(e);
+    setProvider(null); // TODO: is this right?
+  }
 };
 
 export const disconnectWallet = (provider, setProvider) => async () => {

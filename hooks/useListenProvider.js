@@ -6,6 +6,7 @@ import { connectWallet } from "../utils/connectWallet";
 export const useListenProvider = () => {
   const [provider, setProvider] = useAlchemyProvider();
 
+  // Try to connect with wallet connect on opening the app, probably DONT want this
   useEffect(() => {
     console.log("useListenProvider: checking for web3modal connection");
     connectWallet(setProvider)();
