@@ -11,8 +11,8 @@ export interface Wallet {
   hodler?: boolean;
   loaded: boolean;
 }
-// export type Nothing = null | undefined;
-export type Maybe<A> = A | undefined;
+export type Nothing = null | undefined;
+export type Maybe<A> = A | Nothing;
 
 export const useListenWallet = (provider: any, signer: any): Wallet => {
   const MISSING_WALLET = { loaded: false };

@@ -98,6 +98,7 @@ interface Props {
   provider: any;
   userProfile: any;
   signer: any;
+  votingPower: number;
 }
 
 export const SnapshotPost = ({
@@ -105,6 +106,7 @@ export const SnapshotPost = ({
   userProfile,
   provider,
   proposal,
+  votingPower,
 }: Props) => {
   const { voter: author, vp, metadata, choice } = postedVote;
   const comment = metadata.message;
@@ -187,7 +189,7 @@ export const SnapshotPost = ({
               {outcome}
             </span>
             <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300">
-              {vp} $KRAUSE
+              {votingPower} $KRAUSE
             </span>
           </div>
           <div>

@@ -4,6 +4,7 @@ import { printPass } from "../functional";
 const axios = require("axios");
 const { head, prop } = require("ramda");
 const uri = "https://hub.snapshot.org/graphql";
+
 const liveProposals = (space) => `query Proposals {
   proposals (
     first: 20,
@@ -115,7 +116,6 @@ const ProposalVotes = (proposalId) => `query ProposalVotes {
 `;
 
 export const fetchProposalVotes = async (proposalId) => {
-  console.log(ProposalVotes(proposalId));
   return await axios
     .post(uri, { query: ProposalVotes(proposalId) })
     .then((res) => res.data.data.votes)

@@ -86,6 +86,7 @@ export const ForumPost = ({
   userProfile,
   provider,
   proposal,
+  votingPower,
 }) => {
   const { author, outcome, wallet, post: comment } = post;
   const authorAddr = author.toLowerCase();
@@ -165,7 +166,7 @@ export const ForumPost = ({
               {outcome}
             </span>
             <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300">
-              {wallet?.$KRAUSE} $KRAUSE
+              {votingPower} $KRAUSE
             </span>
           </div>
           <div>

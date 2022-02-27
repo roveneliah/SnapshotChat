@@ -188,16 +188,17 @@ export const VotedCard = ({ choice, votesLoaded, wallet }) =>
   choice ? (
     <div>
       <span className="mb-2 bg-orange-100 text-orange-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
-        You Voted: {choice}
+        Voted: {choice}
       </span>
     </div>
   ) : votesLoaded && wallet.loaded ? (
-    <div>
-      <span className="mb-2 bg-gray-100 text-gray-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-        Abstained
-      </span>
-    </div>
+    <></>
   ) : (
+    // <div>
+    //   <span className="mb-2 bg-gray-100 text-gray-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+    //     Abstained
+    //   </span>
+    // </div>
     <></>
   );
 
@@ -270,30 +271,46 @@ export default function ForumNew({
           votesLoaded={userVotes !== null}
           wallet={wallet}
         />
-        <ForumPosts
-          provider={provider}
-          posts={myPosts || posts}
-          userProfile={userProfile}
-          signer={signer}
-          proposalId={proposal.id}
-          proposal={proposal}
-        />
-        <ForumPosts
-          provider={provider}
-          posts={followedPosts || posts}
-          userProfile={userProfile}
-          signer={signer}
-          proposalId={proposal.id}
-          proposal={proposal}
-        />
-        <ForumPosts
-          provider={provider}
-          posts={otherPosts || posts}
-          userProfile={userProfile}
-          signer={signer}
-          proposalId={proposal.id}
-          proposal={proposal}
-        />
+        {votes && (
+          <SnapshotPosts
+            votes={votes}
+            provider={provider}
+            userProfile={userProfile}
+            signer={signer}
+            proposalId={proposal.id}
+            proposal={proposal}
+          />
+        )}
+        {myPosts && (
+          <ForumPosts
+            provider={provider}
+            posts={myPosts}
+            userProfile={userProfile}
+            signer={signer}
+            proposalId={proposal.id}
+            proposal={proposal}
+          />
+        )}
+        {followedPosts && (
+          <ForumPosts
+            provider={provider}
+            posts={followedPosts}
+            userProfile={userProfile}
+            signer={signer}
+            proposalId={proposal.id}
+            proposal={proposal}
+          />
+        )}
+        {otherPosts && (
+          <ForumPosts
+            provider={provider}
+            posts={otherPosts}
+            userProfile={userProfile}
+            signer={signer}
+            proposalId={proposal.id}
+            proposal={proposal}
+          />
+        )}
         <CommentBox
           wallet={wallet}
           proposal={proposal}
