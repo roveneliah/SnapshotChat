@@ -23,6 +23,7 @@ import {
 } from "ramda";
 import { useEffect, useState } from "react";
 import { printPass } from "../../../utils/functional";
+import { useMultiselect } from "../../../hooks/useMultiselect";
 
 const basicStats = (proposal, sortedPosts) => {
   if (sortedPosts && proposal.type === "basic") {
@@ -93,20 +94,7 @@ const filters = [
   },
 ];
 
-export const useMultiselect = (items) => {
-  const [selected, setSelected] = useState(items.map((item, i) => !i));
-  const flipIndex = (index) => {
-    setSelected((prevSelected) =>
-      prevSelected.map((_, i) =>
-        index === i ? !prevSelected[i] : prevSelected[i]
-      )
-    );
-  };
-
-  return [selected, flipIndex];
-};
-
-// export function ForumOld({ proposal, setSelectedProposal, signer, provider }) {
+// export function ForumComplex({ proposal, setSelectedProposal, signer, provider }) {
 //   const [posts] = useGetProposalComments(provider, proposal);
 //   const [sortedPosts, setSortedPosts] = useState(filters[0].sort(posts));
 //   const [selectedSorts, flipSort] = useMultiselect(sorts);
@@ -222,7 +210,7 @@ export default function ForumNew({
   userVotes,
 }) {
   const [posts] = useGetProposalComments(provider, proposal);
-  const sortedPosts = compose(sorts[0].sort, filters[0].sort)(posts);
+  const sortedPosts = compose(sorts[0].sort, printPass, filters[0].sort)(posts);
   const [selectedVote, setSelectedVote] = useState(null);
 
   const noFilter = proposal.choices[selectedVote] == null;
