@@ -116,8 +116,9 @@ export default function ProposalCard({
                 <span
                   className={`bg-orange-100 text-orange-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900`}
                 >
-                  {toPercentStr(scores[i + 1] / scores.scores_total) ||
-                    toPercentStr(proposal.scores[i] / proposal.scores_total)}
+                  {scores[i + 1] != null
+                    ? toPercentStr(scores[i + 1] / scores.scores_total)
+                    : toPercentStr(proposal.scores[i] / proposal.scores_total)}
                 </span>
               </div>
               <Heading title={choice} size="md" />
