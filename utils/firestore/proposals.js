@@ -8,10 +8,10 @@ import {
   getDocs,
   onSnapshot,
 } from "firebase/firestore";
-import { balanceOf } from "../balanceOf";
+import { balanceOf } from "../web3/balanceOf";
 import { $KRAUSE, CROWDFUND } from "../../config";
-import { getKHWallet } from "../getKHWallet";
-import { signMessage } from "../submit";
+import { getKHWallet } from "../web3/getKHWallet";
+import { signMessage } from "../web3/submit";
 
 export const buildProposalsAdaptor = (db) => ({
   updateProposal: updateProposal(db),

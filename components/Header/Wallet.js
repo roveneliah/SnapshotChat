@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { shortenAddress } from "../../utils/shortenAddress";
+import { shortenAddress } from "../../utils/web3/shortenAddress";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import Image from "next/image";
 
-export default function ViewOnlyModal() {
+export function ViewOnlyModal() {
   let [isOpen, setIsOpen] = useState(true);
 
   function closeModal() {
@@ -150,23 +150,15 @@ export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
           )}
           <ViewOnlyModal />
         </>
-        // <span className="bg-orange-100 text-orange-800 mr-2 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
-        //   View Only Mode
-        // </span>
       )}
-      {/* <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
-        {wallet?.CLUB || 0} Club Level
+      {wallet.loaded && (
+        <span
+          onClick={() => disconnect()}
+          className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900"
+        >
+          {shortenAddress(wallet.address)}
         </span>
-        <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
-        {wallet?.UPPER || 0} Upper Level
-      </span> */}
-      {/* TODO: modal that allows disconnection */}
-      <span
-        onClick={() => disconnect()}
-        className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900"
-      >
-        {shortenAddress(wallet.address)}
-      </span>
+      )}
     </div>
   );
 };

@@ -29,6 +29,7 @@
     "web3modal": "^1.9.5"
   },
   "devDependencies": {
+    "@types/ramda": "^0.28.0",
     "@types/react": "^17.0.39",
     "autoprefixer": "^10.4.2",
     "eslint": "8.6.0",

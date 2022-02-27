@@ -1,4 +1,5 @@
-import { buildAvatarUrl } from "./buildAvatarUrl";
+export const buildAvatarUrl = ({ id, avatar }) =>
+  `https://cdn.discordapp.com/avatars/${id}/${avatar}`;
 
 export const avatarUrl = (userProfile) => {
   const defaultUserAvatar =

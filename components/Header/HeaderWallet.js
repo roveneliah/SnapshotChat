@@ -9,7 +9,7 @@ export default function HeaderWallet({
 }) {
   return (
     <div className="flex md:order-2">
-      {!wallet ? (
+      {!wallet.loaded ? (
         <Button title="Connect" onClick={connect} color="hollow" />
       ) : (
         wallet && (

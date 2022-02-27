@@ -3,14 +3,14 @@ import { listenForTeams, addTeams, listenForJerrys } from "../utils/firestore";
 import { Button } from "./Buttons/Button";
 import { useForm } from "../hooks/useForm";
 import { Heading } from "./Generics/Headings/Heading";
-import { AddSignersBox } from "./CreatePetition/AddSignersBox";
-import { TeamSelector } from "./CreatePetition/TeamSelector";
-import { AddressForm } from "./CreatePetition/AddressForm";
-import { Table } from "./Table";
+import { AddSignersBox } from "./CreatePetitionsPage/AddSignersBox";
+import { TeamSelector } from "./CreatePetitionsPage/TeamSelector";
+import { AddressForm } from "./CreatePetitionsPage/AddressForm";
+import { Table } from "./Generics/Table";
 import { useList } from "../hooks/useList";
 import { head, prop } from "ramda";
 
-const useListTeamMembers = () => {
+export const useListTeamMembers = () => {
   const [list, addToList, removeAtIndex] = useList([]);
 
   const addToTeam = (jerry) => {
