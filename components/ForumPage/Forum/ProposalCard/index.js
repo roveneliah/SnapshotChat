@@ -52,7 +52,11 @@ export default function ProposalCard({
           ~{Math.floor(proposal.scores_total)} $KRAUSE Total
         </span>
       </div>
-      <div className="grid grid-cols-2">
+      <div
+        className={
+          proposal.choices.length % 2 ? "grid grid-cols-3" : "grid grid-cols-2"
+        }
+      >
         {proposal.choices.map((choice, i) => (
           <a
             onClick={() => setSelectedVote(selectedVote === i ? null : i)}

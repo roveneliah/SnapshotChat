@@ -37,7 +37,7 @@ export const ProposalsList = ({
           ProposalListItem({
             setSelectedProposal,
             proposal,
-            i,
+            key: i,
             userVote: userVotes[proposal.id],
             votesLoaded: userVotes != null,
             wallet,
