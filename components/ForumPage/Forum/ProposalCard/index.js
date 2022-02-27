@@ -9,40 +9,7 @@ import { useGetVotingPower } from "../../../../hooks/snapshot/useGetVotingPower"
 import { getKhVotingPower } from "../../../../utils/Snapshot/getVotingPower";
 import { ProposalListItem } from "../../ProposalsList/ProposalListItem";
 import { passThroughSymbol } from "next/dist/server/web/spec-compliant/fetch-event";
-
-export const useGetProposalScores = (proposal, votes) => {
-  const [scores, setScores] = useState({
-    scores: proposal.scores,
-    scores_total: proposal.scores_total,
-  });
-
-  useEffect(() => {
-    if (proposal.state === "active" && votes) {
-      const voters = votes.map((vote) => vote.voter.toLowerCase());
-      getKhVotingPower(voters, proposal.snapshot)
-        .then((scoresMapping) => {
-          return votes.reduce(
-            (acc, vote) => {
-              acc[vote.choice] =
-                (acc[vote.choice] || 0) +
-                (scoresMapping[vote.voter.toLowerCase()] || 0);
-              acc["scores_total"] +=
-                scoresMapping[vote.voter.toLowerCase()] || 0;
-              return acc;
-            },
-            proposal.choices.reduce(
-              (counter, _, i) => Object.assign(counter, { [i]: 0 }),
-              { scores_total: 0 }
-            )
-          );
-        })
-        .then(setScores);
-    }
-  }, [proposal, votes]);
-
-  return scores;
-  // { scores: { choice: amount }, scores_total: 100}
-};
+import { useGetProposalScores } from "../../../../hooks/snapshot/useGetProposalScores";
 
 export default function ProposalCard({
   proposal,
