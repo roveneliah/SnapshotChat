@@ -32,7 +32,6 @@ export const connectWallet = (setProvider) => async () => {
     setProvider(provider);
   } catch (e) {
     console.log(e);
-    setProvider(null); // TODO: is this right?
   }
 };
 
