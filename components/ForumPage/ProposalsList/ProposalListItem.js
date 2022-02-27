@@ -58,6 +58,7 @@ export const ProposalListItem = ({
           icon={true}
           color="hollow"
           href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
+          newTab={true}
         />
       </div>
     </div>
