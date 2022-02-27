@@ -16,7 +16,7 @@ export const useGetAllUserVotes = (space: string, wallet: Wallet) => {
           {}
         )
       )
-      .then((votes) => {
+      .then((votes: any) => {
         setVotes(votes);
       });
   }, [wallet]);

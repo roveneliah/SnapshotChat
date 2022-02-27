@@ -24,6 +24,8 @@ import {
 import { useEffect, useState } from "react";
 import { printPass } from "../../../utils/functional";
 import { useMultiselect } from "../../../hooks/useMultiselect";
+import { fetchProposalVotes } from "../../../utils/Snapshot/fetch";
+import SnapshotPosts from "./ForumPosts/SnapshotPosts";
 
 const basicStats = (proposal, sortedPosts) => {
   if (sortedPosts && proposal.type === "basic") {
@@ -199,6 +201,14 @@ export const VotedCard = ({ choice, votesLoaded, wallet }) =>
     <></>
   );
 
+export const useGetSnapshotVotes = (proposalId) => {
+  const [votes, setVotes] = useState();
+  useEffect(() => {
+    fetchProposalVotes(proposalId).then(setVotes);
+  }, []);
+  return votes;
+};
+
 // TODO: MAKE A BOX FOR FOLLOWS
 export default function ForumNew({
   proposal,
@@ -212,6 +222,9 @@ export default function ForumNew({
   const [posts] = useGetProposalComments(provider, proposal);
   const sortedPosts = compose(sorts[0].sort, printPass, filters[0].sort)(posts);
   const [selectedVote, setSelectedVote] = useState(null);
+
+  const votes = useGetSnapshotVotes(proposal.id);
+  console.log("votes: ", votes);
 
   const noFilter = proposal.choices[selectedVote] == null;
   const matchesOutcome = (post) =>
@@ -263,6 +276,7 @@ export default function ForumNew({
           userProfile={userProfile}
           signer={signer}
           proposalId={proposal.id}
+          proposal={proposal}
         />
         <ForumPosts
           provider={provider}
@@ -270,6 +284,7 @@ export default function ForumNew({
           userProfile={userProfile}
           signer={signer}
           proposalId={proposal.id}
+          proposal={proposal}
         />
         <ForumPosts
           provider={provider}
@@ -277,6 +292,7 @@ export default function ForumNew({
           userProfile={userProfile}
           signer={signer}
           proposalId={proposal.id}
+          proposal={proposal}
         />
         <CommentBox
           wallet={wallet}

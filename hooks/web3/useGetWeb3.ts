@@ -5,6 +5,7 @@ import { useListenProvider } from "./useListenProvider";
 import { loadProfileAtAddress } from "../../utils/firestore";
 import { useIsWrongNetwork } from "./useIsWrongNetwork";
 import { useListenUserProfile } from "../firestore/useListenUserProfile";
+import { vote } from "../../utils/Snapshot/vote";
 
 export type address = string;
 export interface User {

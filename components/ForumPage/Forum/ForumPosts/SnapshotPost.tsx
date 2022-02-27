@@ -8,14 +8,26 @@ import {
 } from "../../../../utils/firestore";
 import { vote } from "../../../../utils/Snapshot/vote";
 import { shortenAddress } from "../../../../utils/web3/shortenAddress";
+import SnapshotPosts, { SnapshotVote } from "./SnapshotPosts";
 
-const VoteButtons = ({ proposalId, post, signer }) => {
-  const voteCounts = Object.values(post.votes || []).reduce((counter, vote) => {
-    return {
-      ...counter,
-      [vote.choice]: counter[vote.choice] ? counter[vote.choice] + 1 : 1,
-    };
-  }, {});
+const VoteButtons = ({
+  proposalId,
+  post,
+  signer,
+}: {
+  proposalId: string;
+  post: any;
+  signer: any;
+}) => {
+  const voteCounts: any = Object.values(post.votes || []).reduce(
+    (counter: any, vote: any) => {
+      return {
+        ...counter,
+        [vote.choice]: counter[vote.choice] ? counter[vote.choice] + 1 : 1,
+      };
+    },
+    {}
+  );
   return (
     <div>
       {[
@@ -42,7 +54,7 @@ const VoteButtons = ({ proposalId, post, signer }) => {
   );
 };
 
-const StarButton = ({ removeFriend }) => (
+const StarButton = ({ removeFriend }: { removeFriend: any }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className="h-5 w-5 self-center"
@@ -54,7 +66,7 @@ const StarButton = ({ removeFriend }) => (
   </svg>
 );
 
-const FollowButton = ({ addFriend }) => (
+const FollowButton = ({ addFriend }: { addFriend: any }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className="h-5 w-5 self-center fill-black dark:fill-white "
@@ -80,23 +92,33 @@ const SelfIcon = () => (
   </svg>
 );
 
-export const ForumPost = ({
-  post,
-  proposalId,
+interface Props {
+  postedVote: SnapshotVote;
+  proposal: any;
+  provider: any;
+  userProfile: any;
+  signer: any;
+}
+
+export const SnapshotPost = ({
+  postedVote,
   userProfile,
   provider,
   proposal,
-}) => {
-  const { author, outcome, wallet, post: comment } = post;
+}: Props) => {
+  const { voter: author, vp, metadata, choice } = postedVote;
+  const comment = metadata.message;
   const authorAddr = author.toLowerCase();
+  const outcome: string = proposal.choices[postedVote.choice - 1];
+
   const authorProfile = useLoadProfile(authorAddr);
   const authorAvatarUrl = authorProfile && avatarUrl(authorProfile);
   const authorUsername = authorProfile?.discordUsername;
-  const choice = proposal.choices.indexOf(outcome) + 1;
 
+  // TODO: this should totally be hydrated somewhere else...where provider gets set
   const voteWithAuthor = () =>
     vote(provider)({
-      choice, // TODO: need to get from string -> int
+      choice,
       proposalId: proposal.id,
       voteType: proposal.type,
       space: proposal.space.id,
@@ -111,7 +133,7 @@ export const ForumPost = ({
         <div className="flex flex-row space-x-2 justify-start">
           {authorAvatarUrl && (
             <Image
-              src={authorAvatarUrl}
+              src={authorAvatarUrl || "kh_holo.png"}
               width={60}
               height={60}
               className="rounded-full"
@@ -165,7 +187,7 @@ export const ForumPost = ({
               {outcome}
             </span>
             <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300">
-              {wallet?.$KRAUSE} $KRAUSE
+              {vp} $KRAUSE
             </span>
           </div>
           <div>
@@ -173,18 +195,20 @@ export const ForumPost = ({
               onClick={voteWithAuthor}
               className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300"
             >
-              Vote With {authorUsername}
+              Vote With {authorUsername || authorAddr.substring(0, 6)}...
             </span>
           </div>
           {/* <div>
             <VoteButtons proposalId={proposalId} post={post} signer={signer} />
           </div> */}
         </div>
-        <div className="flex flex-col h-40 space-y-12 p-3 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-          <p className="m-3 font-normal text-gray-700 dark:text-gray-400">
-            {comment}
-          </p>
-        </div>
+        {comment && (
+          <div className="flex flex-col h-40 space-y-12 p-3 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+            <p className="m-3 font-normal text-gray-700 dark:text-gray-400">
+              {comment}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

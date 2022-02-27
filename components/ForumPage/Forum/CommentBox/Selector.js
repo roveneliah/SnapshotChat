@@ -6,7 +6,7 @@ export default function Selector({
   setSelectedChoice,
 }) {
   return (
-    <div className="inline-flex rounded-md shadow-sm">
+    <div className="inline-flex rounded-md">
       {proposal.choices.map((choice, i) => {
         const selected =
           i === selectedChoice

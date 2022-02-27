@@ -47,6 +47,8 @@ export default function CommentBox({ proposal, signer, provider, wallet }) {
       choice: selectedChoice + 1,
       proposalId: proposal.id,
       voteType: proposal.type,
+      space: proposal.space.id,
+      message: postText,
     });
 
   const submitAndVote = () => {
@@ -64,8 +66,8 @@ export default function CommentBox({ proposal, signer, provider, wallet }) {
       />
       <textarea
         id="message"
-        rows="4"
-        className="block p-2 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        rows="5"
+        className="block p-2 w-full caret-purple-400 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
         value={postText}
         onChange={updatePostText}
       />

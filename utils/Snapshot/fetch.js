@@ -1,3 +1,5 @@
+import { printPass } from "../functional";
+
 // get data from snapshot
 const axios = require("axios");
 const { head, prop } = require("ramda");
@@ -87,6 +89,39 @@ const proposalVote = (proposalId, address) => {
   }`;
 };
 
+const ProposalVotes = (proposalId) => `query ProposalVotes {
+  votes (
+    first: 1000
+    skip: 0
+    where: {
+      proposal: "${proposalId}"
+    }
+    orderBy: "created",
+    orderDirection: desc
+  ) {
+    id
+    metadata
+    vp_state
+    vp_by_strategy
+    vp
+    voter
+    created
+    choice
+    space {
+      id
+    }
+  }
+}
+`;
+
+export const fetchProposalVotes = async (proposalId) => {
+  console.log(ProposalVotes(proposalId));
+  return await axios
+    .post(uri, { query: ProposalVotes(proposalId) })
+    .then((res) => res.data.data.votes)
+    .catch((e) => console.log(e));
+};
+
 const query = async (query) => {
   const x = await axios
     .post(uri, { query })
@@ -113,11 +148,11 @@ const query3 = async (query) => {
   return x;
 };
 
-module.exports.fetchProposals = async (space) =>
+export const fetchProposals = async (space) =>
   await query(liveProposals(space));
 
-module.exports.fetchAllVotes = async (space, address) =>
+export const fetchAllVotes = async (space, address) =>
   await query3(votesByAddress(space, address));
 
-module.exports.fetchProposalVote = async (proposalId, address) =>
+export const fetchProposalVote = async (proposalId, address) =>
   await query2(proposalVote(proposalId, address));
