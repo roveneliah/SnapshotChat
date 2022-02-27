@@ -9,5 +9,5 @@ export const useGetProposalComments = (provider, { id: proposalId }) => {
     listenForPosts(provider)(proposalId, setPosts);
   }, []);
 
-  return [posts, setPosts];
+  return posts;
 };

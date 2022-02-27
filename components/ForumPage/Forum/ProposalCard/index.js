@@ -2,8 +2,47 @@ import { Button } from "../../../Buttons/Button";
 import { Heading } from "../../../Generics/Headings/Heading";
 import { ProposalStats } from "./ProposalStats";
 import { Badge } from "../../../Generics/Badge";
-import { toPercentStr } from "../../../../utils/functional";
+import { printPass, toPercentStr } from "../../../../utils/functional";
 import { VotedCard } from "..";
+import { useEffect, useState } from "react";
+import { useGetVotingPower } from "../../../../hooks/snapshot/useGetVotingPower";
+import { getKhVotingPower } from "../../../../utils/Snapshot/getVotingPower";
+import { ProposalListItem } from "../../ProposalsList/ProposalListItem";
+import { passThroughSymbol } from "next/dist/server/web/spec-compliant/fetch-event";
+
+export const useGetProposalScores = (proposal, votes) => {
+  const [scores, setScores] = useState({
+    scores: proposal.scores,
+    scores_total: proposal.scores_total,
+  });
+
+  useEffect(() => {
+    if (proposal.state === "active" && votes) {
+      const voters = votes.map((vote) => vote.voter.toLowerCase());
+      getKhVotingPower(voters, proposal.snapshot)
+        .then((scoresMapping) => {
+          return votes.reduce(
+            (acc, vote) => {
+              acc[vote.choice] =
+                (acc[vote.choice] || 0) +
+                (scoresMapping[vote.voter.toLowerCase()] || 0);
+              acc["scores_total"] +=
+                scoresMapping[vote.voter.toLowerCase()] || 0;
+              return acc;
+            },
+            proposal.choices.reduce(
+              (counter, _, i) => Object.assign(counter, { [i]: 0 }),
+              { scores_total: 0 }
+            )
+          );
+        })
+        .then(setScores);
+    }
+  }, [proposal, votes]);
+
+  return scores;
+  // { scores: { choice: amount }, scores_total: 100}
+};
 
 export default function ProposalCard({
   proposal,
@@ -13,7 +52,11 @@ export default function ProposalCard({
   userVote,
   votesLoaded,
   wallet,
+  votes,
 }) {
+  // TODO: if active proposal, get scores from snapshot.js using proposal.votes
+  const scores = useGetProposalScores(proposal, votes);
+
   return (
     <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
       <div>
@@ -46,10 +89,11 @@ export default function ProposalCard({
       {/* <ProposalStats /> */}
       <div>
         <span className="bg-purple-100 text-purple-800 text-lg font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
-          {proposal.votes} Votes
+          {votes?.length || proposal.votes} Votes
         </span>
         <span className="bg-purple-100 text-purple-800 text-lg font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
-          ~{Math.floor(proposal.scores_total)} $KRAUSE Total
+          {Math.floor(scores.scores_total || proposal.scores_total)} $KRAUSE
+          Total
         </span>
       </div>
       <div
@@ -72,13 +116,17 @@ export default function ProposalCard({
                 <span
                   className={`bg-orange-100 text-orange-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900`}
                 >
-                  {toPercentStr(proposal.scores[i] / proposal.scores_total)}
+                  {toPercentStr(scores[i + 1] / scores.scores_total) ||
+                    toPercentStr(proposal.scores[i] / proposal.scores_total)}
                 </span>
               </div>
               <Heading title={choice} size="md" />
             </div>
             <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-              {Math.floor(proposal.scores[i])} $KRAUSE
+              {scores[i + 1] != null
+                ? Math.floor(scores[i + 1])
+                : Math.floor(proposal.scores[i])}{" "}
+              $KRAUSE
             </span>
           </a>
         ))}

@@ -21,7 +21,7 @@ import {
   prop,
   sortWith,
 } from "ramda";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { printPass } from "../../../utils/functional";
 import { useMultiselect } from "../../../hooks/useMultiselect";
 import { fetchProposalVotes } from "../../../utils/Snapshot/fetch";
@@ -210,6 +210,18 @@ export const useGetSnapshotVotes = (proposalId) => {
   return votes;
 };
 
+export const useGetVoters = (votes) => {
+  const [voters, setVoters] = useState();
+  useEffect(() => {
+    if (votes) {
+      // TODO: but what if just one?
+      setVoters([...votes?.map((vote) => vote.voter.toLowerCase())] || []);
+    }
+  }, [votes]);
+
+  return voters;
+};
+
 // TODO: MAKE A BOX FOR FOLLOWS
 export default function ForumNew({
   proposal,
@@ -220,12 +232,10 @@ export default function ForumNew({
   userProfile,
   userVotes,
 }) {
-  const [posts] = useGetProposalComments(provider, proposal);
+  const posts = useGetProposalComments(provider, proposal);
   const sortedPosts = compose(sorts[0].sort, printPass, filters[0].sort)(posts);
   const [selectedVote, setSelectedVote] = useState(null);
-
   const votes = useGetSnapshotVotes(proposal.id);
-  console.log("votes: ", votes);
 
   const noFilter = proposal.choices[selectedVote] == null;
   const matchesOutcome = (post) =>
@@ -263,6 +273,7 @@ export default function ForumNew({
     <div className="flex flex-row justify-center">
       <div className="flex flex-col w-2/3 space-y-4 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <ProposalCard
+          votes={votes}
           proposal={proposal}
           setSelectedProposal={setSelectedProposal}
           selectedVote={selectedVote}

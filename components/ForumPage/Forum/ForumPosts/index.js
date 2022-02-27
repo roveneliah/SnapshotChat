@@ -14,7 +14,6 @@ export default function ForumPosts({
 }) {
   const addresses = useRef(posts.map((post) => post.author));
   const votingPower = useGetVotingPower(addresses.current, proposal.snapshot);
-  console.log("votingPower", votingPower);
 
   return posts ? (
     <div className="flex flex-col space-y-4 dark:bg-gray-800 dark:border-gray-700">
