@@ -232,42 +232,51 @@ export default function ForumNew({
   userProfile,
   userVotes,
 }) {
+  const [selectedVote, setSelectedVote] = useState(null);
+
   const posts = useGetProposalComments(provider, proposal);
   const sortedPosts = compose(sorts[0].sort, printPass, filters[0].sort)(posts);
-  const [selectedVote, setSelectedVote] = useState(null);
+
   const votes = useGetSnapshotVotes(proposal.id);
 
   const noFilter = proposal.choices[selectedVote] == null;
   const matchesOutcome = (post) =>
     post.outcome === proposal.choices[selectedVote] || noFilter;
+  const userIsAuthor = (post) =>
+    post.author.toLowerCase() === wallet?.address?.toLowerCase();
+  const userIsFollowing = (post) =>
+    userProfile?.following?.includes(post.author.toLowerCase());
 
-  const myPosts = sortedPosts
-    ?.filter(
-      (post) => post.author.toLowerCase() === wallet?.address?.toLowerCase()
-    )
-    .filter(matchesOutcome);
-
+  const myPosts = sortedPosts?.filter(userIsAuthor).filter(matchesOutcome);
   const followedPosts = sortedPosts
-    ?.filter((post) =>
-      userProfile?.following?.includes(post.author.toLowerCase())
-    )
+    ?.filter(userIsFollowing)
     .filter(matchesOutcome)
-    .filter(
-      (post) => post.author.toLowerCase() !== wallet?.address?.toLowerCase()
-    );
+    .filter((post) => !userIsAuthor(post));
 
   const otherPosts = sortedPosts
-    ?.filter(
-      (post) => !userProfile?.following?.includes(post.author.toLowerCase())
-    )
+    ?.filter((post) => !userIsFollowing(post))
     .filter(matchesOutcome)
-    .filter(
-      (post) => post.author.toLowerCase() !== wallet?.address?.toLowerCase()
-    );
+    .filter((post) => !userIsAuthor(post));
 
+  console.log("votes", votes);
   console.log("my posts", myPosts);
   console.log("followingPosts: ", followedPosts);
   console.log("otherPosts: ", otherPosts);
+
+  const hasMessage = (vote) => vote.metadata.message;
+  const matchesOutcome1 = (vote) =>
+    vote.choice === selectedVote + 1 || noFilter;
+  const userIsAuthor1 = (vote) =>
+    vote.voter.toLowerCase() === wallet?.address?.toLowerCase();
+  const userIsFollowing1 = (vote) =>
+    userProfile?.following?.includes(vote.voter.toLowerCase());
+
+  const filteredVotes = votes?.filter(matchesOutcome1);
+  const myVote = filteredVotes?.filter(userIsAuthor1);
+  const followingVotes = filteredVotes?.filter(userIsFollowing1);
+  const otherVotes = filteredVotes?.filter(
+    (vote) => !userIsAuthor1(vote) && !userIsFollowing1(vote)
+  );
 
   return (
     <div className="flex flex-row justify-center">
@@ -282,20 +291,32 @@ export default function ForumNew({
           votesLoaded={userVotes !== null}
           wallet={wallet}
         />
-        {votes && (
+        {/* Priority to my vote, TODO: need to implement this logic for ALL users */}
+        {myVote ? (
           <SnapshotPosts
-            votes={votes}
+            votes={myVote}
             provider={provider}
             userProfile={userProfile}
             signer={signer}
             proposalId={proposal.id}
             proposal={proposal}
           />
+        ) : (
+          myPosts && (
+            <ForumPosts
+              provider={provider}
+              posts={myPosts}
+              userProfile={userProfile}
+              signer={signer}
+              proposalId={proposal.id}
+              proposal={proposal}
+            />
+          )
         )}
-        {myPosts && (
-          <ForumPosts
+        {followingVotes && (
+          <SnapshotPosts
+            votes={followingVotes}
             provider={provider}
-            posts={myPosts}
             userProfile={userProfile}
             signer={signer}
             proposalId={proposal.id}
@@ -306,6 +327,16 @@ export default function ForumNew({
           <ForumPosts
             provider={provider}
             posts={followedPosts}
+            userProfile={userProfile}
+            signer={signer}
+            proposalId={proposal.id}
+            proposal={proposal}
+          />
+        )}
+        {otherVotes && (
+          <SnapshotPosts
+            votes={otherVotes}
+            provider={provider}
             userProfile={userProfile}
             signer={signer}
             proposalId={proposal.id}
