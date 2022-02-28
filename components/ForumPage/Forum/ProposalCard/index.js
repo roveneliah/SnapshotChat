@@ -3,13 +3,13 @@ import { Heading } from "../../../Generics/Headings/Heading";
 import { ProposalStats } from "./ProposalStats";
 import { Badge } from "../../../Generics/Badge";
 import { printPass, toPercentStr } from "../../../../utils/functional";
-import { VotedCard } from "..";
 import { useEffect, useState } from "react";
 import { useGetVotingPower } from "../../../../hooks/snapshot/useGetVotingPower";
 import { getKhVotingPower } from "../../../../utils/Snapshot/getVotingPower";
 import { ProposalListItem } from "../../ProposalsList/ProposalListItem";
 import { passThroughSymbol } from "next/dist/server/web/spec-compliant/fetch-event";
 import { useGetProposalScores } from "../../../../hooks/snapshot/useGetProposalScores";
+import { VotedCard } from "../VotedCard";
 
 export default function ProposalCard({
   proposal,

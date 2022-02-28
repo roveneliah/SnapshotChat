@@ -1,5 +1,6 @@
 import { addRequestMeta } from "next/dist/server/request-meta";
 import { useEffect, useState } from "react";
+import { SnapshotVote } from "../../components/ForumPage/Forum/ForumPosts/SnapshotPosts";
 import {
   fetchVotingPower,
   getKhVotingPower,
@@ -20,6 +21,26 @@ export const useGetVotingPower = (
       });
     }
   }, [addresses]);
+
+  return votingPower;
+};
+
+export const useGetVotingPowerFromVotes = (
+  votes?: SnapshotVote[],
+  blockNumber?: number
+) => {
+  const [votingPower, setVotingPower] = useState<any>();
+  useEffect(() => {
+    // TODO: generalize this to other spaces
+    if (votes && blockNumber) {
+      getKhVotingPower(
+        votes.map((vote) => vote.voter),
+        blockNumber
+      ).then((scores) => {
+        setVotingPower(scores);
+      });
+    }
+  }, [votes]);
 
   return votingPower;
 };

@@ -3,8 +3,8 @@ import Markdown from "markdown-to-jsx";
 import { Button } from "../../Buttons/Button";
 import { Heading } from "../../Generics/Headings/Heading";
 import { Badge } from "../../Generics/Badge";
-import { VotedCard } from "../../ForumPage/Forum";
 import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
+import { VotedCard } from "../Forum/VotedCard";
 
 export const ProposalListItem = ({
   setSelectedProposal,

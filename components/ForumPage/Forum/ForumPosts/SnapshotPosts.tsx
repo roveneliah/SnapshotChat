@@ -5,6 +5,7 @@ import { useGetVotingPower } from "../../../../hooks/snapshot/useGetVotingPower"
 import type { address } from "../../../../hooks/web3/useGetWeb3";
 import { SnapshotPost } from "./SnapshotPost";
 import { Maybe } from "../../../../hooks/web3/useListenWallet";
+import { voteArray2Types } from "@snapshot-labs/snapshot.js/dist/sign/types";
 
 export interface SnapshotVote {
   voter: address;
@@ -26,6 +27,7 @@ interface Props {
   proposal: any;
   signer: any;
   userProfile: any;
+  votingPower: any;
 }
 
 export default function SnapshotPosts({
@@ -34,10 +36,8 @@ export default function SnapshotPosts({
   signer,
   provider,
   proposal,
+  votingPower,
 }: Props) {
-  const addresses = useRef(votes.map((vote: any) => vote.voter));
-  const votingPower = useGetVotingPower(addresses.current, proposal.snapshot);
-
   return votes ? (
     <div className="flex flex-col space-y-4 dark:bg-gray-800 dark:border-gray-700">
       {votes.map((vote, i) => (

@@ -1,9 +1,9 @@
 import Forum from "./Forum";
-import { ProposalsList } from "./ProposalsList/ProposalsList";
 import { printPass, proposalById } from "../../utils/functional";
 import { useEffect, useState } from "react";
 import { useGetProposals } from "../../hooks/firestore/useGetProposals";
 import { useGetAllUserVotes } from "../../hooks/snapshot/useGetAllUserVotes";
+import ProposalsList from "./ProposalsList/ProposalsList";
 
 export default function ForumPage(props) {
   const [selectedProposal, setSelectedProposal] = useState();
