@@ -192,14 +192,16 @@ export const SnapshotPost = ({
               {votingPower} $KRAUSE
             </span>
           </div>
-          <div>
-            <span
-              onClick={voteWithAuthor}
-              className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300"
-            >
-              Vote With {authorUsername || authorAddr.substring(0, 6)}...
-            </span>
-          </div>
+          {proposal.status === "active" && (
+            <div>
+              <span
+                onClick={voteWithAuthor}
+                className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300"
+              >
+                Vote With {authorUsername || authorAddr.substring(0, 6)}...
+              </span>
+            </div>
+          )}
           {/* <div>
             <VoteButtons proposalId={proposalId} post={post} signer={signer} />
           </div> */}

@@ -2,7 +2,7 @@ import ForumPosts from "./ForumPosts";
 import CommentBox, { useGetSnapshotVote } from "./CommentBox";
 import ProposalCard from "./ProposalCard";
 import { useGetProposalComments } from "../../../hooks/firestore/useGetProposalComments";
-import { compose, descend, pipe, prop, sortWith } from "ramda";
+import { compose, descend, filter, pipe, prop, sortWith } from "ramda";
 import { useEffect, useRef, useState } from "react";
 import { printPass } from "../../../utils/functional";
 import SnapshotPosts from "./ForumPosts/SnapshotPosts";
@@ -80,12 +80,14 @@ export default function ForumNew({
   const userIsFollowing1 = (vote) =>
     userProfile?.following?.includes(vote.voter.toLowerCase());
 
-  const filteredVotes = sortedVotes?.filter(matchesOutcome1);
-  const myVote = filteredVotes?.filter(userIsAuthor1);
-  const followingVotes = filteredVotes?.filter(userIsFollowing1);
-  const otherVotes = filteredVotes?.filter(
-    (vote) => !userIsAuthor1(vote) && !userIsFollowing1(vote)
-  );
+  const filteredVotes = sortedVotes?.filter(matchesOutcome1).filter(hasMessage);
+  const myVote = filteredVotes?.filter(userIsAuthor1).filter(hasMessage);
+  const followingVotes = filteredVotes
+    ?.filter(userIsFollowing1)
+    .filter(hasMessage);
+  const otherVotes = filteredVotes
+    ?.filter((vote) => !userIsAuthor1(vote) && !userIsFollowing1(vote))
+    .filter(hasMessage);
 
   return (
     <div className="flex flex-row justify-center">
@@ -101,7 +103,7 @@ export default function ForumNew({
           wallet={wallet}
         />
         {/* Priority to my vote, TODO: need to implement this logic for ALL users */}
-        {myVote ? (
+        {myVote?.length > 0 ? (
           <SnapshotPosts
             votes={myVote}
             provider={provider}

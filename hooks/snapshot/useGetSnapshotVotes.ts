@@ -6,7 +6,7 @@ import { fetchProposalVotes } from "../../utils/Snapshot/fetch";
 import { getKhVotingPower } from "../../utils/Snapshot/getVotingPower";
 import { useGetVotingPower } from "./useGetVotingPower";
 
-const useGetProposalVotes = (proposal: any) => {
+export const useGetProposalVotes = (proposal: any) => {
   const [votes, setVotes] = useState<any>();
   useEffect(() => {
     fetchProposalVotes(proposal.id).then(setVotes);
@@ -19,7 +19,6 @@ export const useGetWeightedSnapshotVotes = (proposal: any) => {
 
   // get voting power once we have votes
   useEffect(() => {
-    console.log("new votes", votes);
     if (votes) {
       getKhVotingPower(
         votes.map((vote: SnapshotVote) => vote.voter.toLowerCase()),

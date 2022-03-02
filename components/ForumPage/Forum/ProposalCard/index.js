@@ -78,24 +78,30 @@ export default function ProposalCard({
             }
             key={i}
           >
-            <div className="flex flex-row space-x-1">
-              <div>
-                <span
-                  className={`bg-orange-100 text-orange-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900`}
-                >
-                  {scores[i + 1] != null
-                    ? toPercentStr(scores[i + 1] / scores.scores_total)
-                    : toPercentStr(proposal.scores[i] / proposal.scores_total)}
-                </span>
+            <div className="flex flex-col space-y-2">
+              <div className="flex flex-row space-x-1">
+                <div>
+                  <span
+                    className={`bg-orange-100 text-orange-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900`}
+                  >
+                    {scores[i + 1] != null
+                      ? toPercentStr(scores[i + 1] / scores.scores_total)
+                      : toPercentStr(
+                          proposal.scores[i] / proposal.scores_total
+                        )}
+                  </span>
+                </div>
               </div>
               <Heading title={choice} size="md" />
+              <div>
+                <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+                  {scores[i + 1] != null
+                    ? Math.floor(scores[i + 1])
+                    : Math.floor(proposal.scores[i])}{" "}
+                  $KRAUSE
+                </span>
+              </div>
             </div>
-            <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-              {scores[i + 1] != null
-                ? Math.floor(scores[i + 1])
-                : Math.floor(proposal.scores[i])}{" "}
-              $KRAUSE
-            </span>
           </a>
         ))}
       </div>

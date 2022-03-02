@@ -26,7 +26,7 @@ export const useGetSnapshotVote = (proposalId, address) => {
 };
 
 export default function CommentBox({ proposal, signer, provider, wallet }) {
-  const [postText, updatePostText] = useForm("");
+  const [postText, updatePostText, setFormText] = useForm("");
   const [selectedChoice, setSelectedChoice] = useState();
 
   const postComment = async () => {
@@ -39,6 +39,7 @@ export default function CommentBox({ proposal, signer, provider, wallet }) {
       outcome: proposal.choices[selectedChoice],
     });
 
+    setFormText("");
     await addPost(provider)(proposal.id, post);
   };
 

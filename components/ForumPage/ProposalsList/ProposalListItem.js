@@ -5,6 +5,58 @@ import { Heading } from "../../Generics/Headings/Heading";
 import { Badge } from "../../Generics/Badge";
 import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
 import { VotedCard } from "../Forum/VotedCard";
+import { useGetFollowingProfiles } from "../../../hooks/firestore/useGetFollowingProfiles";
+import { useEffect, useState } from "react";
+import { useGetProposalVotes } from "../../../hooks/snapshot/useGetSnapshotVotes";
+import { printPass } from "../../../utils/functional";
+import { useGetProposalScores } from "../../../hooks/snapshot/useGetProposalScores";
+import { head, map } from "ramda";
+import { shortenAddress } from "../../../utils/web3/shortenAddress";
+
+const useGetDelegationVotes = (proposal, userProfile, following) => {
+  const [delegationVotes, setDelegationVotes] = useState();
+  const votes = useGetProposalVotes(proposal);
+  // console.log(votes[0]);
+  // console.log(proposal);
+
+  const addressesVotingForChoice = (choice) =>
+    votes[0]
+      .filter((vote) => vote.choice === choice)
+      .map((vote) => vote.voter.toLowerCase())
+      .filter((a) => userProfile.following.includes(a))
+      .map((address) =>
+        following.filter(({ address: a }) => {
+          // console.log(a);
+          return a === address;
+        })
+      )
+      .map(head)
+      .map(printPass)
+      .map(({ address, name }) => name || shortenAddress(address));
+
+  // const getUsern
+
+  useEffect(() => {
+    if (
+      votes[0] &&
+      userProfile &&
+      following.length > 0 &&
+      delegationVotes == undefined
+    ) {
+      const x = proposal.choices.map((_, i) => {
+        const filtered = addressesVotingForChoice(i + 1);
+        // console.log(filtered);
+
+        return filtered;
+      });
+      // now need to filter for following
+      // console.log(x);
+      setDelegationVotes(x);
+    }
+  }, [votes, userProfile, following]);
+
+  return delegationVotes;
+};
 
 export const ProposalListItem = ({
   setSelectedProposal,
@@ -13,7 +65,20 @@ export const ProposalListItem = ({
   userVote,
   votesLoaded,
   wallet,
+  userProfile,
+  following,
 }) => {
+  const delegationVotes = useGetDelegationVotes(
+    proposal,
+    userProfile,
+    following
+  );
+  // const delegationVotes = [
+  //   ["commodore", "magnus", "mario lopes", "dogstoevsky"],
+  //   ["flexchapman", "spicemaster"],
+  //   ["lewwwk", "gladrobot"],
+  // ];
+
   return (
     <div
       key={key}
@@ -47,6 +112,24 @@ export const ProposalListItem = ({
         {/* <Heading title={proposal.title} size={"lg"} /> */}
         <HeadingFaint title={proposal.title} size="xl" />
       </div>
+      {delegationVotes && (
+        <div className="group flex flex-row flex-no-wrap justify-between space-x-1">
+          {proposal.choices.map((choice, index) => (
+            <div className="flex-col space-y-2 px-4 pt-4 pb-6 border rounded-lg shadow-md">
+              <HeadingFaint title={choice} size="xs" />
+              {delegationVotes[index]?.map((voter, i) => (
+                <div key={i}>
+                  <span
+                    className={`bg-gray-100 text-gray-800 text-xs font-semibold mr-1 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900`}
+                  >
+                    {voter}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
       <div className="flex space-x-4">
         <Button
           title="Forum"

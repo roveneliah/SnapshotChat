@@ -6,6 +6,7 @@ import { loadProfileAtAddress } from "../../utils/firestore";
 import { useIsWrongNetwork } from "./useIsWrongNetwork";
 import { useListenUserProfile } from "../firestore/useListenUserProfile";
 import { vote } from "../../utils/Snapshot/vote";
+import { useGetFollowingProfiles } from "../firestore/useGetFollowingProfiles";
 
 export type address = string;
 export interface User {
@@ -50,6 +51,7 @@ export function useGetWeb3() {
   const wallet = useListenWallet(provider, signer);
   const userProfile = useListenUserProfile(wallet);
   const wrongNetwork = useIsWrongNetwork(provider); // TODO: should just set name OF network...and we can handle "right networks" elsewhere
+  const following = useGetFollowingProfiles(userProfile?.following); // TODO: should be in userProfile.followingProfiles (put this in hook)
 
   return {
     provider,
@@ -60,5 +62,6 @@ export function useGetWeb3() {
     hodler: wallet?.hodler,
     userProfile,
     wrongNetwork,
+    following,
   };
 }

@@ -46,12 +46,12 @@ export default function JerrySearch(props) {
                   </div>
                   <div>
                     {profile.address && (
-                      // <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-                      //   {shortenAddress(profile.address)}
-                      // </span>
-                      <span className="border-gray-800 text-gray-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded border dark:border-gray-200 dark:text-gray-200">
+                      <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
                         {shortenAddress(profile.address)}
                       </span>
+                      // <span className="border-gray-800 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded border dark:border-gray-200 dark:text-gray-900">
+                      //   {shortenAddress(profile.address)}
+                      // </span>
                     )}
                   </div>
                 </div>

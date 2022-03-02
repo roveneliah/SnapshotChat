@@ -28,6 +28,8 @@ export default function ForumPage(props) {
         userVotes={userVotes}
         setSelectedProposal={setSelectedProposal}
         wallet={props.wallet}
+        userProfile={props.userProfile}
+        following={props.following}
       />
     )
   );
