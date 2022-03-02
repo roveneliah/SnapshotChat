@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { printPass } from "../../utils/functional";
 import { getKhVotingPower } from "../../utils/Snapshot/getVotingPower";
 
 export const useGetProposalScores = (proposal: any, votes: any) => {
@@ -23,7 +24,7 @@ export const useGetProposalScores = (proposal: any, votes: any) => {
             },
             proposal.choices.reduce(
               (counter: any, _: any, i: number) =>
-                Object.assign(counter, { [i]: 0 }),
+                Object.assign(counter, { [i + 1]: 0 }),
               { scores_total: 0 }
             )
           );
