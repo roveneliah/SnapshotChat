@@ -169,7 +169,7 @@ export const ForumPost = ({
               {votingPower} $KRAUSE
             </span>
           </div>
-          {proposal.status === "active" && (
+          {proposal.state === "active" && (
             <div>
               <span
                 onClick={voteWithAuthor}

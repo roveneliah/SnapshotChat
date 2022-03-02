@@ -2,6 +2,7 @@ import { ProposalListItem } from "./ProposalListItem";
 import { Button } from "../../Buttons/Button";
 
 export default function ProposalsList({
+  provider,
   proposals,
   setSelectedProposal,
   userVotes,
@@ -38,6 +39,7 @@ export default function ProposalsList({
           .filter(({ type }) => (type === "basic") | (type === "single-choice"))
           .map((proposal, i) =>
             ProposalListItem({
+              provider,
               setSelectedProposal,
               proposal,
               key: i,

@@ -192,7 +192,7 @@ export const SnapshotPost = ({
               {votingPower} $KRAUSE
             </span>
           </div>
-          {proposal.status === "active" && (
+          {proposal.state === "active" && (
             <div>
               <span
                 onClick={voteWithAuthor}

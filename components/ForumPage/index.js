@@ -24,6 +24,7 @@ export default function ForumPage(props) {
   ) : (
     proposals && (
       <ProposalsList
+        provider={props.provider}
         proposals={proposals}
         userVotes={userVotes}
         setSelectedProposal={setSelectedProposal}

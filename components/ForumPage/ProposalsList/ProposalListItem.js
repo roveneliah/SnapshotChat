@@ -12,12 +12,11 @@ import { printPass } from "../../../utils/functional";
 import { useGetProposalScores } from "../../../hooks/snapshot/useGetProposalScores";
 import { head, map } from "ramda";
 import { shortenAddress } from "../../../utils/web3/shortenAddress";
+import { vote } from "../../../utils/Snapshot/vote";
 
 const useGetDelegationVotes = (proposal, userProfile, following) => {
   const [delegationVotes, setDelegationVotes] = useState();
   const votes = useGetProposalVotes(proposal);
-  // console.log(votes[0]);
-  // console.log(proposal);
 
   const addressesVotingForChoice = (choice) =>
     votes[0]
@@ -26,15 +25,11 @@ const useGetDelegationVotes = (proposal, userProfile, following) => {
       .filter((a) => userProfile.following.includes(a))
       .map((address) =>
         following.filter(({ address: a }) => {
-          // console.log(a);
           return a === address;
         })
       )
       .map(head)
-      .map(printPass)
       .map(({ address, name }) => name || shortenAddress(address));
-
-  // const getUsern
 
   useEffect(() => {
     if (
@@ -43,14 +38,7 @@ const useGetDelegationVotes = (proposal, userProfile, following) => {
       following.length > 0 &&
       delegationVotes == undefined
     ) {
-      const x = proposal.choices.map((_, i) => {
-        const filtered = addressesVotingForChoice(i + 1);
-        // console.log(filtered);
-
-        return filtered;
-      });
-      // now need to filter for following
-      // console.log(x);
+      const x = proposal.choices.map((_, i) => addressesVotingForChoice(i + 1));
       setDelegationVotes(x);
     }
   }, [votes, userProfile, following]);
@@ -59,6 +47,7 @@ const useGetDelegationVotes = (proposal, userProfile, following) => {
 };
 
 export const ProposalListItem = ({
+  provider,
   setSelectedProposal,
   proposal,
   key,
@@ -73,11 +62,21 @@ export const ProposalListItem = ({
     userProfile,
     following
   );
-  // const delegationVotes = [
-  //   ["commodore", "magnus", "mario lopes", "dogstoevsky"],
-  //   ["flexchapman", "spicemaster"],
-  //   ["lewwwk", "gladrobot"],
-  // ];
+
+  const voteChoice = (choice) =>
+    vote(provider)({
+      choice,
+      proposalId: proposal.id,
+      voteType: proposal.type,
+      space: proposal.space.id,
+    });
+
+  const votesFromDelegation = delegationVotes?.reduce(
+    (predicate, x) => predicate || x.length > 0,
+    false
+  );
+  console.log(delegationVotes);
+  console.log(votesFromDelegation);
 
   return (
     <div
@@ -112,11 +111,20 @@ export const ProposalListItem = ({
         {/* <Heading title={proposal.title} size={"lg"} /> */}
         <HeadingFaint title={proposal.title} size="xl" />
       </div>
-      {delegationVotes && (
+      {votesFromDelegation && (
         <div className="group flex flex-row flex-no-wrap justify-between space-x-1">
           {proposal.choices.map((choice, index) => (
-            <div className="flex-col space-y-2 px-4 pt-4 pb-6 border rounded-lg shadow-md">
-              <HeadingFaint title={choice} size="xs" />
+            <div
+              key={index}
+              className="flex-col flex-1 space-y-2 px-4 pt-4 pb-6 border rounded-lg shadow-md"
+            >
+              <div className="flex flex-row justify-between">
+                <div className="flex flex-nowrap">
+                  <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-700 dark:text-orange-300">
+                    {choice}
+                  </span>
+                </div>
+              </div>
               {delegationVotes[index]?.map((voter, i) => (
                 <div key={i}>
                   <span
@@ -126,6 +134,16 @@ export const ProposalListItem = ({
                   </span>
                 </div>
               ))}
+              {proposal.state === "active" && (
+                <div>
+                  <span
+                    onClick={() => voteChoice(index + 1)}
+                    className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300"
+                  >
+                    Vote
+                  </span>
+                </div>
+              )}
             </div>
           ))}
         </div>
