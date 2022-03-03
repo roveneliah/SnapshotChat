@@ -111,7 +111,7 @@ export const ProposalListItem = ({
         {/* <Heading title={proposal.title} size={"lg"} /> */}
         <HeadingFaint title={proposal.title} size="xl" />
       </div>
-      {votesFromDelegation && (
+      {/* {votesFromDelegation && (
         <div className="group flex flex-row flex-no-wrap justify-between space-x-1">
           {proposal.choices.map((choice, index) => (
             <div
@@ -120,7 +120,7 @@ export const ProposalListItem = ({
             >
               <div className="flex flex-row justify-between">
                 <div className="flex flex-nowrap">
-                  <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-700 dark:text-orange-300">
+                  <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
                     {choice}
                   </span>
                 </div>
@@ -147,7 +147,7 @@ export const ProposalListItem = ({
             </div>
           ))}
         </div>
-      )}
+      )} */}
       <div className="flex space-x-4">
         <Button
           title="Forum"
