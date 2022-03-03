@@ -1,12 +1,12 @@
 import { Heading } from "../Generics/Headings/Heading";
 import Image from "next/image";
-import { useGetFollowingProfiles } from "../../hooks/firestore/useGetFollowingProfiles";
+import { useGetProfiles } from "../../hooks/firestore/useGetProfiles";
 import UserProfileCard from "./UserProfileCard";
 import FollowingProfileCard from "./FollowingProfileCard";
 import JerrySearch from "./JerrySearch";
 
 export default function ProfilePage(props) {
-  const following = useGetFollowingProfiles(props.userProfile?.following);
+  const following = useGetProfiles(props.userProfile?.following);
   return props.userProfile ? (
     <div className="flex flex-row justify-center space-x-10">
       <UserProfileCard userProfile={props.userProfile} wallet={props.wallet} />

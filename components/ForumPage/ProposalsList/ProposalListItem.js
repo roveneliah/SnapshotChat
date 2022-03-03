@@ -5,43 +5,37 @@ import { Heading } from "../../Generics/Headings/Heading";
 import { Badge } from "../../Generics/Badge";
 import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
 import { VotedCard } from "../Forum/VotedCard";
-import { useGetFollowingProfiles } from "../../../hooks/firestore/useGetFollowingProfiles";
 import { useEffect, useState } from "react";
 import { useGetProposalVotes } from "../../../hooks/snapshot/useGetSnapshotVotes";
 import { printPass } from "../../../utils/functional";
 import { useGetProposalScores } from "../../../hooks/snapshot/useGetProposalScores";
-import { head, map } from "ramda";
+import { equals, head, map, pick } from "ramda";
 import { shortenAddress } from "../../../utils/web3/shortenAddress";
 import { vote } from "../../../utils/Snapshot/vote";
 
-const useGetDelegationVotes = (proposal, userProfile, following) => {
+const useGetDelegationVotes = (proposal, userProfile) => {
   const [delegationVotes, setDelegationVotes] = useState();
   const votes = useGetProposalVotes(proposal);
 
   const addressesVotingForChoice = (choice) =>
     votes[0]
-      .filter((vote) => vote.choice === choice)
-      .map((vote) => vote.voter.toLowerCase())
-      .filter((a) => userProfile.following.includes(a))
-      .map((address) =>
-        following.filter(({ address: a }) => {
-          return a === address;
-        })
-      )
-      .map(head)
-      .map(({ address, name }) => name || shortenAddress(address));
+      .filter((vote) => vote.choice === choice) // get all votes for this choice
+      .map((vote) => vote.voter.toLowerCase()) // get the addresses of the voters for this choice
+      .filter((a) => userProfile.following.includes(a)) // addresses of followed voters for this choice
+      .map((address) => userProfile.followingProfiles[address]) // get the profiles of the followed voters for this choice
+      .map((profile) => profile.name || shortenAddress(profile.address)); // get the names of the followed voters for this choice)))
 
   useEffect(() => {
     if (
       votes[0] &&
       userProfile &&
-      following.length > 0 &&
+      userProfile.followingProfiles &&
       delegationVotes == undefined
     ) {
       const x = proposal.choices.map((_, i) => addressesVotingForChoice(i + 1));
       setDelegationVotes(x);
     }
-  }, [votes, userProfile, following]);
+  }, [votes, userProfile]);
 
   return delegationVotes;
 };
@@ -55,13 +49,8 @@ export const ProposalListItem = ({
   votesLoaded,
   wallet,
   userProfile,
-  following,
 }) => {
-  const delegationVotes = useGetDelegationVotes(
-    proposal,
-    userProfile,
-    following
-  );
+  const delegationVotes = useGetDelegationVotes(proposal, userProfile);
 
   const voteChoice = (choice) =>
     vote(provider)({
@@ -75,8 +64,6 @@ export const ProposalListItem = ({
     (predicate, x) => predicate || x.length > 0,
     false
   );
-  console.log(delegationVotes);
-  console.log(votesFromDelegation);
 
   return (
     <div
@@ -111,12 +98,12 @@ export const ProposalListItem = ({
         {/* <Heading title={proposal.title} size={"lg"} /> */}
         <HeadingFaint title={proposal.title} size="xl" />
       </div>
-      {/* {votesFromDelegation && (
+      {votesFromDelegation && (
         <div className="group flex flex-row flex-no-wrap justify-between space-x-1">
           {proposal.choices.map((choice, index) => (
             <div
               key={index}
-              className="flex-col flex-1 space-y-2 px-4 pt-4 pb-6 border rounded-lg shadow-md"
+              className="flex-col flex-1 space-y-2 px-4 pt-4 pb-6 border dark:border-gray-700 rounded-lg shadow-md"
             >
               <div className="flex flex-row justify-between">
                 <div className="flex flex-nowrap">
@@ -147,7 +134,7 @@ export const ProposalListItem = ({
             </div>
           ))}
         </div>
-      )} */}
+      )}
       <div className="flex space-x-4">
         <Button
           title="Forum"

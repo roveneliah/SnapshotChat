@@ -30,7 +30,6 @@ export default function ForumPage(props) {
         setSelectedProposal={setSelectedProposal}
         wallet={props.wallet}
         userProfile={props.userProfile}
-        following={props.following}
       />
     )
   );

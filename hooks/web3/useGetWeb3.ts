@@ -6,7 +6,23 @@ import { loadProfileAtAddress } from "../../utils/firestore";
 import { useIsWrongNetwork } from "./useIsWrongNetwork";
 import { useListenUserProfile } from "../firestore/useListenUserProfile";
 import { vote } from "../../utils/Snapshot/vote";
-import { useGetFollowingProfiles } from "../firestore/useGetFollowingProfiles";
+import { useGetProfiles } from "../firestore/useGetProfiles";
+import { pick } from "ramda";
+import { Maybe } from "./useListenWallet";
+
+export interface ForumProfile {
+  filters: string[]; // TODO: should be an enum
+  primaryDelegate: address;
+  secondaryDelegate: address;
+  following: address[];
+  followingNo: address[];
+  follow: (address: address) => void; // TODO: is void return correct? // we should make sure the user is signed in in order to follow
+  unfollow: (address: address) => void;
+  followNo: (address: address) => void;
+  unfollowNo: (address: address) => void;
+  clearPrimaryDelegate: () => void;
+  clearSecondaryDelegate: () => void;
+}
 
 export type address = string;
 export interface User {
@@ -25,20 +41,6 @@ export interface User {
   discord: DiscordProfile;
 }
 
-export interface ForumProfile {
-  filters: string[]; // TODO: should be an enum
-  primaryDelegate: address;
-  secondaryDelegate: address;
-  following: address[];
-  followingNo: address[];
-  follow: (address: address) => void; // TODO: is void return correct? // we should make sure the user is signed in in order to follow
-  unfollow: (address: address) => void;
-  followNo: (address: address) => void;
-  unfollowNo: (address: address) => void;
-  clearPrimaryDelegate: () => void;
-  clearSecondaryDelegate: () => void;
-}
-
 export interface DiscordProfile {
   id: string;
   avatar: string;
@@ -51,17 +53,27 @@ export function useGetWeb3() {
   const wallet = useListenWallet(provider, signer);
   const userProfile = useListenUserProfile(wallet);
   const wrongNetwork = useIsWrongNetwork(provider); // TODO: should just set name OF network...and we can handle "right networks" elsewhere
-  const following = useGetFollowingProfiles(userProfile?.following); // TODO: should be in userProfile.followingProfiles (put this in hook)
+
+  // connection.user.address
+  // connection.user.wallet
+  // connection.user.discord
+  // connection.user.following.getAddresses()
+  // connection.user.following.getProfiles()
+  // connection.provider
+  // connection.signer
+
+  // connection handles it's updates locally and stays in sync
+  const connection = { provider, setProvider, signer, setSigner, wrongNetwork };
 
   return {
     provider,
     setProvider,
     signer,
     setSigner,
+    wrongNetwork,
+
     wallet,
     hodler: wallet?.hodler,
     userProfile,
-    wrongNetwork,
-    following,
   };
 }

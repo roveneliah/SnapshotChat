@@ -15,7 +15,6 @@ export default function Web3Container({ render }) {
     hodler,
     userProfile,
     wrongNetwork,
-    following,
   } = connection;
 
   return (
@@ -33,7 +32,6 @@ export default function Web3Container({ render }) {
         userProfile,
         wrongNetwork,
         connection,
-        following,
       })}
     </Layout>
   );

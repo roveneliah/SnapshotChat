@@ -41,7 +41,7 @@ export const buildLoadProfileAtAddress = (db) => async (address, callback) => {
 export const buildGetProfile = (db) => async (address) => {
   if (!address) return;
   const addr = address.toLowerCase();
-  console.log("Fetching PROFILE", addr);
+  // console.log("Fetching PROFILE", addr);
   const res = await getDoc(doc(db, "profiles", addr));
   if (res.exists()) {
     const walletProfile = res.data();

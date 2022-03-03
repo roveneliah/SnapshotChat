@@ -8,7 +8,6 @@ export default function ProposalsList({
   userVotes,
   wallet,
   userProfile,
-  following,
 }) {
   return (
     <div className="flex flex-row justify-center space-x-3">
@@ -47,7 +46,6 @@ export default function ProposalsList({
               votesLoaded: userVotes != null,
               wallet,
               userProfile,
-              following,
             })
           )}
       </div>
