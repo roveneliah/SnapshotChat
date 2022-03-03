@@ -2,13 +2,9 @@ import { useState, useEffect } from "react";
 import { useListenWallet, Wallet } from "./useListenWallet";
 import { useListenSigner } from "./useListenSigner";
 import { useListenProvider } from "./useListenProvider";
-import { loadProfileAtAddress } from "../../utils/firestore";
 import { useIsWrongNetwork } from "./useIsWrongNetwork";
 import { useListenUserProfile } from "../firestore/useListenUserProfile";
 import { vote } from "../../utils/Snapshot/vote";
-import { useGetProfiles } from "../firestore/useGetProfiles";
-import { pick } from "ramda";
-import { Maybe } from "./useListenWallet";
 
 export interface ForumProfile {
   filters: string[]; // TODO: should be an enum
@@ -54,12 +50,17 @@ export function useGetWeb3() {
   const userProfile = useListenUserProfile(wallet);
   const wrongNetwork = useIsWrongNetwork(provider); // TODO: should just set name OF network...and we can handle "right networks" elsewhere
 
+  // what else?
+  // - vote function, given some proposal and some choice, attach to signer?
+  const snapshotVote = vote(provider);
+
   return {
     provider,
     setProvider,
+    wrongNetwork,
     signer,
     setSigner,
-    wrongNetwork,
+    snapshotVote,
 
     wallet,
     hodler: wallet?.hodler,

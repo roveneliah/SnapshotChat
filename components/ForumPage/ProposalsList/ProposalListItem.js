@@ -12,33 +12,7 @@ import { useGetProposalScores } from "../../../hooks/snapshot/useGetProposalScor
 import { equals, head, map, pick } from "ramda";
 import { shortenAddress } from "../../../utils/web3/shortenAddress";
 import { vote } from "../../../utils/Snapshot/vote";
-
-const useGetDelegationVotes = (proposal, userProfile) => {
-  const [delegationVotes, setDelegationVotes] = useState();
-  const votes = useGetProposalVotes(proposal);
-
-  const addressesVotingForChoice = (choice) =>
-    votes[0]
-      .filter((vote) => vote.choice === choice) // get all votes for this choice
-      .map((vote) => vote.voter.toLowerCase()) // get the addresses of the voters for this choice
-      .filter((a) => userProfile.following.includes(a)) // addresses of followed voters for this choice
-      .map((address) => userProfile.followingProfiles[address]) // get the profiles of the followed voters for this choice
-      .map((profile) => profile.name || shortenAddress(profile.address)); // get the names of the followed voters for this choice)))
-
-  useEffect(() => {
-    if (
-      votes[0] &&
-      userProfile &&
-      userProfile.followingProfiles &&
-      delegationVotes == undefined
-    ) {
-      const x = proposal.choices.map((_, i) => addressesVotingForChoice(i + 1));
-      setDelegationVotes(x);
-    }
-  }, [votes, userProfile]);
-
-  return delegationVotes;
-};
+import { useGetDelegationVotes } from "../../../hooks/useGetDelegationVotes";
 
 export const ProposalListItem = ({
   provider,

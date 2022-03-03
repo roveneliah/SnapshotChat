@@ -1,7 +1,7 @@
 import { voteArray2Types } from "@snapshot-labs/snapshot.js/dist/sign/types";
 import { map } from "ramda";
 import { useEffect, useRef, useState } from "react";
-import { SnapshotVote } from "../../components/ForumPage/Forum/ForumPosts/SnapshotPosts";
+import { SnapshotVote } from "../../types/SnapshotVote";
 import { fetchProposalVotes } from "../../utils/Snapshot/fetch";
 import { getKhVotingPower } from "../../utils/Snapshot/getVotingPower";
 import { useGetVotingPower } from "./useGetVotingPower";

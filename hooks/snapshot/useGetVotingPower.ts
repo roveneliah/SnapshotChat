@@ -1,12 +1,11 @@
 import { addRequestMeta } from "next/dist/server/request-meta";
 import { useEffect, useState } from "react";
-import { SnapshotVote } from "../../components/ForumPage/Forum/ForumPosts/SnapshotPosts";
+import { SnapshotVote } from "../../types/SnapshotVote";
 import {
   fetchVotingPower,
   getKhVotingPower,
 } from "../../utils/Snapshot/getVotingPower";
 import { address } from "../web3/useGetWeb3";
-import { Maybe } from "../web3/useListenWallet";
 
 export const useGetVotingPower = (
   addresses?: address[],

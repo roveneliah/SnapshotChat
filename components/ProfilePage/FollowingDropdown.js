@@ -1,11 +1,10 @@
 import { Menu } from "@headlessui/react";
 
 import { Transition } from "@headlessui/react";
-import { Fragment, useRef } from "react";
+import { Fragment } from "react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { shortenAddress } from "../../utils/web3/shortenAddress";
 
-// TODO: move this out to:
 export default function FollowingDropdown({ followingProfile, userProfile }) {
   return (
     <div className="w-56">

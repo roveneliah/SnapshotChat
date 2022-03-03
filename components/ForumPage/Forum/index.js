@@ -8,22 +8,7 @@ import { printPass } from "../../../utils/functional";
 import SnapshotPosts from "./ForumPosts/SnapshotPosts";
 import { useGetWeightedSnapshotVotes } from "../../../hooks/snapshot/useGetSnapshotVotes";
 import { sorts, filters } from "./ForumComplex";
-import {
-  useGetVotingPower,
-  useGetVotingPowerFromVotes,
-} from "../../../hooks/snapshot/useGetVotingPower";
-
-// TODO: this doesn't feel like a hook...?
-export const useGetVoters = (votes) => {
-  const [voters, setVoters] = useState();
-  useEffect(() => {
-    if (votes) {
-      setVoters([...votes?.map((vote) => vote.voter.toLowerCase())] || []);
-    }
-  }, [votes]);
-
-  return voters;
-};
+import { useGetVotingPowerFromVotes } from "../../../hooks/snapshot/useGetVotingPower";
 
 const useGetSortedVotes = (votes) => {
   const [sortedVotes, setSortedVotes] = useState();
@@ -33,14 +18,14 @@ const useGetSortedVotes = (votes) => {
   return sortedVotes;
 };
 
-// TODO: MAKE A BOX FOR FOLLOWS THAT ISN'T A POST
+// TODO: MAKE A BOX FOR FOLLOWS THAT ISN'T A POST (not everyone posts)
 export default function ForumNew({
   connection,
   proposal,
   setSelectedProposal,
   userVotes,
 }) {
-  const { provider, signer, userProfile, wallet } = connection;
+  const { provider, userProfile, wallet } = connection;
   const [selectedVote, setSelectedVote] = useState(null);
 
   const posts = useGetProposalComments(provider, proposal);
@@ -51,6 +36,7 @@ export default function ForumNew({
 
   const votingPower = useGetVotingPowerFromVotes(votes, proposal.snapshot);
 
+  // TODO: REFACTOR
   const noFilter = proposal.choices[selectedVote] == null;
   const matchesOutcome = (post) =>
     post.outcome === proposal.choices[selectedVote] || noFilter;
@@ -98,15 +84,13 @@ export default function ForumNew({
           setSelectedVote={setSelectedVote}
           userVote={userVotes[proposal.id]}
           votesLoaded={userVotes !== null}
-          wallet={wallet}
+          wallet={connection.wallet}
         />
         {/* Priority to my vote, TODO: need to implement this logic for ALL users */}
         {myVote?.length > 0 ? (
           <SnapshotPosts
+            connection={connection}
             votes={myVote}
-            provider={provider}
-            userProfile={userProfile}
-            signer={signer}
             proposalId={proposal.id}
             proposal={proposal}
             votingPower={votingPower}
@@ -114,10 +98,8 @@ export default function ForumNew({
         ) : (
           myPosts && (
             <ForumPosts
-              provider={provider}
+              connection={connection}
               posts={myPosts}
-              userProfile={userProfile}
-              signer={signer}
               proposalId={proposal.id}
               proposal={proposal}
             />
@@ -125,10 +107,8 @@ export default function ForumNew({
         )}
         {followingVotes && (
           <SnapshotPosts
+            connection={connection}
             votes={followingVotes}
-            provider={provider}
-            userProfile={userProfile}
-            signer={signer}
             proposalId={proposal.id}
             proposal={proposal}
             votingPower={votingPower}
@@ -136,20 +116,16 @@ export default function ForumNew({
         )}
         {followedPosts && (
           <ForumPosts
-            provider={provider}
+            connection={connection}
             posts={followedPosts}
-            userProfile={userProfile}
-            signer={signer}
             proposalId={proposal.id}
             proposal={proposal}
           />
         )}
         {otherVotes && (
           <SnapshotPosts
+            connection={connection}
             votes={otherVotes}
-            provider={provider}
-            userProfile={userProfile}
-            signer={signer}
             proposalId={proposal.id}
             proposal={proposal}
             votingPower={votingPower}
@@ -157,20 +133,13 @@ export default function ForumNew({
         )}
         {otherPosts && (
           <ForumPosts
-            provider={provider}
+            connection={connection}
             posts={otherPosts}
-            userProfile={userProfile}
-            signer={signer}
             proposalId={proposal.id}
             proposal={proposal}
           />
         )}
-        <CommentBox
-          wallet={wallet}
-          proposal={proposal}
-          signer={signer}
-          provider={provider}
-        />
+        <CommentBox connection={connection} proposal={proposal} />
       </div>
     </div>
   );

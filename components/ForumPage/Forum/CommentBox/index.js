@@ -1,31 +1,13 @@
 import { useEffect, useState } from "react";
-import { compose, prop, props } from "ramda";
 import { Button } from "../../../Buttons/Button";
 import Selector from "./Selector";
 import { HeadingFaint } from "../../../Generics/Headings/HeadingFaint";
-
-// snapshot
-import { vote } from "../../../../utils/Snapshot/vote";
 import { useForm } from "../../../../hooks/useForm";
 import { signMessage } from "../../../../utils/web3/submit";
 import { addPost } from "../../../../utils/firestore";
-import { fetchProposalVote } from "../../../../utils/Snapshot/fetch";
-import { printPass } from "../../../../utils/functional";
 
-export const useGetSnapshotVote = (proposalId, address) => {
-  const [vote, setVote] = useState(null);
-  useEffect(() => {
-    if (proposalId && address) {
-      fetchProposalVote(proposalId, address).then((vote) => {
-        console.log(vote);
-        setVote(vote);
-      });
-    }
-  }, []);
-  return vote;
-};
-
-export default function CommentBox({ proposal, signer, provider, wallet }) {
+export default function CommentBox({ proposal, connection }) {
+  const { provider, signer, wallet, snapshotVote } = connection;
   const [postText, updatePostText, setFormText] = useForm("");
   const [selectedChoice, setSelectedChoice] = useState();
 
@@ -44,18 +26,13 @@ export default function CommentBox({ proposal, signer, provider, wallet }) {
   };
 
   const submitToSnapshot = () =>
-    vote(provider)({
+    snapshotVote({
       choice: selectedChoice + 1,
       proposalId: proposal.id,
       voteType: proposal.type,
       space: proposal.space.id,
       message: postText,
     });
-
-  const submitAndVote = () => {
-    submitToSnapshot();
-    postComment();
-  };
 
   return wallet?.hodler ? (
     <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">

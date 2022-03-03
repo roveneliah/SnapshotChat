@@ -1,27 +1,20 @@
 import { Button } from "../../../Buttons/Button";
 import { Heading } from "../../../Generics/Headings/Heading";
 import { ProposalStats } from "./ProposalStats";
-import { Badge } from "../../../Generics/Badge";
 import { printPass, toPercentStr } from "../../../../utils/functional";
-import { useEffect, useState } from "react";
-import { useGetVotingPower } from "../../../../hooks/snapshot/useGetVotingPower";
-import { getKhVotingPower } from "../../../../utils/Snapshot/getVotingPower";
-import { ProposalListItem } from "../../ProposalsList/ProposalListItem";
-import { passThroughSymbol } from "next/dist/server/web/spec-compliant/fetch-event";
 import { useGetProposalScores } from "../../../../hooks/snapshot/useGetProposalScores";
 import { VotedCard } from "../VotedCard";
 
 export default function ProposalCard({
+  wallet,
   proposal,
   setSelectedProposal,
   selectedVote,
   setSelectedVote,
   userVote,
   votesLoaded,
-  wallet,
   votes,
 }) {
-  // TODO: if active proposal, get scores from snapshot.js using proposal.votes
   const scores = useGetProposalScores(proposal, votes);
 
   return (
