@@ -8,28 +8,22 @@ import ProposalsList from "./ProposalsList/ProposalsList";
 export default function ForumPage(props) {
   const [selectedProposal, setSelectedProposal] = useState();
   const proposals = useGetProposals(props.snapshotSpace);
-
   const userVotes = useGetAllUserVotes(props.snapshotSpace, props.wallet);
 
   return selectedProposal ? (
     <Forum
+      connection={props}
       proposal={proposalById(proposals, selectedProposal)}
       setSelectedProposal={setSelectedProposal}
-      signer={props.signer}
-      provider={props.provider}
-      userProfile={props.userProfile}
-      wallet={props.wallet}
       userVotes={userVotes}
     />
   ) : (
     proposals && (
       <ProposalsList
-        provider={props.provider}
+        connection={props}
         proposals={proposals}
         userVotes={userVotes}
         setSelectedProposal={setSelectedProposal}
-        wallet={props.wallet}
-        userProfile={props.userProfile}
       />
     )
   );

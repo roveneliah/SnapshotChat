@@ -2,13 +2,12 @@ import { ProposalListItem } from "./ProposalListItem";
 import { Button } from "../../Buttons/Button";
 
 export default function ProposalsList({
-  provider,
+  connection,
   proposals,
   setSelectedProposal,
   userVotes,
-  wallet,
-  userProfile,
 }) {
+  const { provider, userProfile, wallet } = connection;
   return (
     <div className="flex flex-row justify-center space-x-3">
       <div className="p-6 h-1/4 basis-1/4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">

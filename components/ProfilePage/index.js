@@ -5,11 +5,14 @@ import UserProfileCard from "./UserProfileCard";
 import FollowingProfileCard from "./FollowingProfileCard";
 import JerrySearch from "./JerrySearch";
 
-export default function ProfilePage(props) {
-  const following = useGetProfiles(props.userProfile?.following);
-  return props.userProfile ? (
+export default function ProfilePage({ connection }) {
+  const following = useGetProfiles(connection.userProfile?.following);
+  return connection.userProfile ? (
     <div className="flex flex-row justify-center space-x-10">
-      <UserProfileCard userProfile={props.userProfile} wallet={props.wallet} />
+      <UserProfileCard
+        userProfile={connection.userProfile}
+        wallet={connection.wallet}
+      />
       <div className="flex flex-col space-y-5 w-1/2">
         <div className="flex flex-col space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
           <div>
@@ -21,7 +24,7 @@ export default function ProfilePage(props) {
                 <div className="m-2" key={i}>
                   <FollowingProfileCard
                     key={i}
-                    userProfile={props.userProfile}
+                    userProfile={connection.userProfile}
                     followingProfile={followingProfile}
                   />
                 </div>
@@ -29,7 +32,7 @@ export default function ProfilePage(props) {
             </div>
           </div>
         </div>
-        <JerrySearch userProfile={props.userProfile} />
+        <JerrySearch userProfile={connection.userProfile} />
       </div>
     </div>
   ) : (

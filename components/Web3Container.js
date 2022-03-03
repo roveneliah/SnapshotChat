@@ -7,15 +7,7 @@ import { printPass } from "../utils/functional";
 
 export default function Web3Container({ render }) {
   const connection = useGetWeb3();
-  const {
-    provider,
-    setProvider,
-    signer,
-    wallet,
-    hodler,
-    userProfile,
-    wrongNetwork,
-  } = connection;
+  const { provider, setProvider, wallet, wrongNetwork } = connection;
 
   return (
     <Layout
@@ -24,15 +16,7 @@ export default function Web3Container({ render }) {
       wallet={wallet}
       wrongNetwork={wrongNetwork}
     >
-      {render({
-        provider,
-        signer,
-        wallet,
-        hodler,
-        userProfile,
-        wrongNetwork,
-        connection,
-      })}
+      {render(connection)}
     </Layout>
   );
 }

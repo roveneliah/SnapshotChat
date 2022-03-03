@@ -54,17 +54,6 @@ export function useGetWeb3() {
   const userProfile = useListenUserProfile(wallet);
   const wrongNetwork = useIsWrongNetwork(provider); // TODO: should just set name OF network...and we can handle "right networks" elsewhere
 
-  // connection.user.address
-  // connection.user.wallet
-  // connection.user.discord
-  // connection.user.following.getAddresses()
-  // connection.user.following.getProfiles()
-  // connection.provider
-  // connection.signer
-
-  // connection handles it's updates locally and stays in sync
-  const connection = { provider, setProvider, signer, setSigner, wrongNetwork };
-
   return {
     provider,
     setProvider,

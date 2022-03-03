@@ -35,14 +35,12 @@ const useGetSortedVotes = (votes) => {
 
 // TODO: MAKE A BOX FOR FOLLOWS THAT ISN'T A POST
 export default function ForumNew({
+  connection,
   proposal,
-  wallet,
   setSelectedProposal,
-  signer,
-  provider,
-  userProfile,
   userVotes,
 }) {
+  const { provider, signer, userProfile, wallet } = connection;
   const [selectedVote, setSelectedVote] = useState(null);
 
   const posts = useGetProposalComments(provider, proposal);
