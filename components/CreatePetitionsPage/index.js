@@ -17,6 +17,7 @@ import {
 } from "ramda";
 import { createPetition } from "../../utils/firestore";
 import { signMessage } from "../../utils/web3/submit";
+import { useForm } from "../../hooks/useForm";
 
 export default function CreatePetitionPage(props) {
   // proposal form

@@ -8,6 +8,7 @@
 // );
 
 const styles = {
+  sm: "block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400",
   md: "block mb-2 text-md font-medium text-gray-900 dark:text-gray-400",
   lg: "block mb-2 text-lg font-medium text-gray-900 dark:text-gray-400",
   xl: "block mb-2 text-xl font-medium text-gray-900 dark:text-gray-400",
