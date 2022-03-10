@@ -49,9 +49,6 @@ export function useGetWeb3() {
   const wallet = useListenWallet(provider, signer);
   const userProfile = useListenUserProfile(wallet);
   const wrongNetwork = useIsWrongNetwork(provider); // TODO: should just set name OF network...and we can handle "right networks" elsewhere
-
-  // what else?
-  // - vote function, given some proposal and some choice, attach to signer?
   const snapshotVote = vote(provider);
 
   return {
@@ -61,7 +58,6 @@ export function useGetWeb3() {
     signer,
     setSigner,
     snapshotVote,
-
     wallet,
     hodler: wallet?.hodler,
     userProfile,
