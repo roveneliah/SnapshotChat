@@ -19,7 +19,11 @@ export const buildProposalsAdaptor = (db) => ({
   getPosts: getPosts(db),
   listenForPosts: listenForPosts2(db),
   addVoteToForumPost: addVoteToForumPost(db),
+  createProposal: createProposal(db),
 });
+
+const createProposal = (db) => async (proposal) =>
+  await addDoc(collection(db, "drafts"), proposal);
 
 // don't override existing ones...
 const updateProposal = (db) => async (proposal) =>

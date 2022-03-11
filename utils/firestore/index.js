@@ -20,6 +20,7 @@ export const {
   getPosts,
   listenForPosts,
   addVoteToForumPost,
+  createProposal,
 } = buildProposalsAdaptor(db);
 
 import {

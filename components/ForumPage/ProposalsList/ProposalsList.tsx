@@ -47,23 +47,7 @@ function SubmitProposalCard() {
         </div>
         <Button
           title={"Contributor Stream (Recommended)"}
-          href="https://github.com/Krause-House/SnapshotChat"
-          color="purple"
-          icon={true}
-          newTab={true}
-          onClick={null}
-        />
-        <Button
-          title={"Project Funding"}
-          href="https://github.com/Krause-House/SnapshotChat"
-          color="purple"
-          icon={true}
-          newTab={true}
-          onClick={null}
-        />
-        <Button
-          title={"Other"}
-          href="https://github.com/Krause-House/SnapshotChat"
+          href="/stream"
           color="purple"
           icon={true}
           newTab={true}

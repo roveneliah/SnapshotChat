@@ -5,9 +5,7 @@ import { Heading } from "../Generics/Headings/Heading";
 import { HeadingFaint } from "../Generics/Headings/HeadingFaint";
 import { SignatureList } from "../PetitionsPage/Petitions/SignatureList";
 
-const canPetition = (wallet) => wallet?.TICKETS > 0;
 export const ProposalForm = ({
-  submitPetition,
   signers,
   title,
   setTitle,
@@ -19,9 +17,8 @@ export const ProposalForm = ({
   updateKrause,
   description,
   setDescription,
-  wallet,
 }) => (
-  <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+  <div className="flex flex-col w-1/2 h-min space-y-6 p-6 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div className="flex flex-col space-y-1">
       <HeadingFaint title="Contributor..." size="xl" />
       <input
@@ -66,25 +63,6 @@ export const ProposalForm = ({
       <div>
         <Heading title="Signers" size="xl" />
         <SignatureList signers={signers} />
-      </div>
-    )}
-    {canPetition(wallet) ? (
-      <Link href="/petitions" passHref>
-        <Button
-          title="Submit"
-          icon={true}
-          color="purple"
-          onClick={submitPetition}
-        />
-      </Link>
-    ) : (
-      <div
-        className="p-4 mb-4 text-sm text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300"
-        role="alert"
-      >
-        <span className="font-medium">
-          At the moment, only KRAUSE or Ticket holders can create a petition.
-        </span>
       </div>
     )}
   </div>
