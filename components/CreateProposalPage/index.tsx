@@ -127,14 +127,15 @@ export default function CreateProposalPage(props: any) {
             <Heading title="Preview" size="2xl" />
             {complete && props.hodler && (
               <div>
-                <Link href="/">
-                  <Button
-                    title="Submit"
-                    color="purple"
-                    onClick={submitStreamRequest}
-                    icon={true}
-                  />
-                </Link>
+                <Button
+                  title="Submit"
+                  color="purple"
+                  onClick={async () => {
+                    await submitStreamRequest();
+                    window.open("/", "_self");
+                  }}
+                  icon={true}
+                />
               </div>
             )}
           </div>
