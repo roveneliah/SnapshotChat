@@ -28,13 +28,12 @@ export default function ForumNew({
   const { provider, userProfile, wallet } = connection;
   const [selectedVote, setSelectedVote] = useState(null);
 
-  const posts = useGetProposalComments(provider, proposal);
-  const sortedPosts = compose(sorts[0].sort, filters[0].sort)(posts);
-
   const votes = useGetWeightedSnapshotVotes(proposal);
   const sortedVotes = useGetSortedVotes(votes);
-
   const votingPower = useGetVotingPowerFromVotes(votes, proposal.snapshot);
+
+  const posts = useGetProposalComments(provider, proposal); // TODO: drafts are using different db...
+  const sortedPosts = compose(sorts[0].sort, filters[0].sort)(posts);
 
   // TODO: REFACTOR
   const noFilter = proposal.choices[selectedVote] == null;
@@ -86,7 +85,6 @@ export default function ForumNew({
           votesLoaded={userVotes !== null}
           wallet={connection.wallet}
         />
-        {/* Priority to my vote, TODO: need to implement this logic for ALL users */}
         {myVote?.length > 0 ? (
           <SnapshotPosts
             connection={connection}

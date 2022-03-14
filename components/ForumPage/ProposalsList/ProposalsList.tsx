@@ -3,6 +3,9 @@ import { Button } from "../../Buttons/Button";
 import { Badge } from "../../Generics/Badge";
 import { useState } from "react";
 import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
+import { address } from "../../../hooks/web3/useGetWeb3";
+import { VotedCard } from "../Forum/VotedCard";
+import { StreamTemplate } from "../../../hooks/firestore/useGetDrafts";
 
 function InfoCard() {
   return (
@@ -78,12 +81,13 @@ enum ProposalStateFilter {
 interface Props {
   connection: any;
   proposals: any;
+  drafts: any;
   setSelectedProposal: any;
   userVotes: any;
 }
 
 const { None, Review, Active, Closed } = ProposalStateFilter;
-function ProposalListHeader(props: any) {
+export function ProposalListHeader(props: any) {
   return (
     <div className="p-6 basis-1/4 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <div>
@@ -142,6 +146,7 @@ function ProposalListHeader(props: any) {
 export default function ProposalsList({
   connection,
   proposals,
+  drafts,
   setSelectedProposal,
   userVotes,
 }: Props) {
@@ -158,6 +163,35 @@ export default function ProposalsList({
           proposalStateFilter={proposalStateFilter}
           setProposalStateFilter={setProposalStateFilter}
         />
+        {(proposalStateFilter === ProposalStateFilter.Review ||
+          proposalStateFilter === ProposalStateFilter.None) &&
+          drafts.map((draft: StreamTemplate, key: number) => (
+            <div
+              key={key}
+              className="flex flex-col space-y-10 p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+            >
+              <div>
+                <div className="mb-2 flex flex-row space-x-2 pb-2">
+                  <div>
+                    <span
+                      className={`bg-yellow-100 text-yellow-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900`}
+                    >
+                      Review
+                    </span>
+                  </div>
+                </div>
+                {/* <Heading title={proposal.title} size={"lg"} /> */}
+                <HeadingFaint title={draft.title} size="xl" />
+              </div>
+              <div className="flex space-x-4">
+                <Button
+                  title="Forum"
+                  color="hollow"
+                  onClick={() => setSelectedProposal(draft.id)}
+                />
+              </div>
+            </div>
+          ))}
         {proposals
           .filter(
             ({ type }: any) => type === "basic" || type === "single-choice"

@@ -13,15 +13,30 @@ const firebaseApp = initializeApp(prodConfig);
 const db = getFirestore(firebaseApp);
 // connectFirestoreEmulator(db, "localhost", 8080);
 
-import { buildProposalsAdaptor } from "./proposals";
+import {
+  buildProposalsAdaptor,
+  buildListenForPosts2,
+  buildAddPost,
+} from "./proposals";
 export const {
   updateProposal,
-  addPost,
+  addPost, // TODO: based on the proposal type, route to different database
   getPosts,
   listenForPosts,
   addVoteToForumPost,
   createProposal,
-} = buildProposalsAdaptor(db);
+} = buildProposalsAdaptor(db, "proposals"); // TODO: we probably need something to compose firestore AND snapshot so it's just one CRUD object
+
+import { buildGetDrafts, buildCreateDraft } from "./drafts";
+export const createDraft = buildCreateDraft(db);
+export const getDrafts = buildGetDrafts(db);
+export const {
+  updateProposal: updateDraftProposal,
+  addPost: addDraftPost,
+  getPosts: getDraftPosts,
+  listenForPosts: listenForDraftPosts,
+  addVoteToForumPost: addVoteToDraftForumPost,
+} = buildProposalsAdaptor(db, "drafts"); // TODO: we probably need something to compose firestore AND snapshot so it's just one CRUD object
 
 import {
   buildCreatePetition,

@@ -58,7 +58,6 @@ export default function CreatePetitionPage(props) {
       id: `${Math.floor(Math.random() * 1000)}`,
     });
 
-    console.log(petition);
     createPetition(petition);
   };
 

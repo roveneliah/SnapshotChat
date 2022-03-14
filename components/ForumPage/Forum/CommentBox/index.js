@@ -4,7 +4,7 @@ import Selector from "./Selector";
 import { HeadingFaint } from "../../../Generics/Headings/HeadingFaint";
 import { useForm } from "../../../../hooks/useForm";
 import { signMessage } from "../../../../utils/web3/submit";
-import { addPost } from "../../../../utils/firestore";
+import { addDraftPost, addPost } from "../../../../utils/firestore";
 
 export default function CommentBox({ proposal, connection }) {
   const { provider, signer, wallet, snapshotVote } = connection;
@@ -22,7 +22,9 @@ export default function CommentBox({ proposal, connection }) {
     });
 
     setFormText("");
-    await addPost(provider)(proposal.id, post);
+    proposal.state === "review"
+      ? await addDraftPost(provider)(proposal.id, post)
+      : await addPost(provider)(proposal.id, post);
   };
 
   const submitToSnapshot = () =>
@@ -51,12 +53,14 @@ export default function CommentBox({ proposal, connection }) {
       />
       <div className="flex flex-row space-x-3">
         <Button title="Post" color="purple" icon={true} onClick={postComment} />
-        <Button
-          title="Vote"
-          color="purple"
-          icon={true}
-          onClick={submitToSnapshot}
-        />
+        {proposal.state !== "review" && (
+          <Button
+            title="Vote"
+            color="purple"
+            icon={true}
+            onClick={submitToSnapshot}
+          />
+        )}
       </div>
     </div>
   ) : (

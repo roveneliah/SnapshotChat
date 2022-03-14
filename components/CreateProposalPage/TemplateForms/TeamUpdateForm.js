@@ -1,24 +1,18 @@
-import Link from "next/link";
 import { compose, prop } from "ramda";
-import { Button } from "../Buttons/Button";
-import { Heading } from "../Generics/Headings/Heading";
-import { HeadingFaint } from "../Generics/Headings/HeadingFaint";
-import { SignatureList } from "../PetitionsPage/Petitions/SignatureList";
+import { Heading } from "../../Generics/Headings/Heading";
+import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
+import { SignatureList } from "../../PetitionsPage/Petitions/SignatureList";
 
-export const ProposalForm = ({
+export const TeamUpdateForm = ({
   signers,
   title,
   setTitle,
-  recipientAddress,
-  updateRecipientAddress,
-  usdc,
-  updateUsdc,
   krause,
   updateKrause,
   description,
   setDescription,
 }) => (
-  <div className="flex flex-col w-1/2 h-min space-y-6 p-6 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+  <div className="flex flex-col h-min space-y-6 p-6 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div className="flex flex-col space-y-1">
       <HeadingFaint title="Contributor..." size="xl" />
       <input

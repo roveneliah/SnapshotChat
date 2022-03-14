@@ -29,12 +29,20 @@ export default function ProposalCard({
                 Active
               </span>
             </div>
-          ) : (
+          ) : proposal.state === "closed" ? (
             <div>
               <span
                 className={`bg-red-100 text-red-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900`}
               >
                 Closed
+              </span>
+            </div>
+          ) : (
+            <div>
+              <span
+                className={`bg-yellow-100 text-yellow-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900`}
+              >
+                Review
               </span>
             </div>
           )}
@@ -47,57 +55,64 @@ export default function ProposalCard({
         <Heading title={proposal.title} size="2xl" />
       </div>
       {/* <ProposalStats /> */}
-      <div>
-        <span className="bg-purple-100 text-purple-800 text-lg font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
-          {votes?.length || proposal.votes} Votes
-        </span>
-        <span className="bg-purple-100 text-purple-800 text-lg font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
-          {Math.floor(scores.scores_total || proposal.scores_total)} $KRAUSE
-          Total
-        </span>
-      </div>
-      <div
-        className={
-          proposal.choices.length % 2 ? "grid grid-cols-3" : "grid grid-cols-2"
-        }
-      >
-        {proposal.choices.map((choice, i) => (
-          <a
-            onClick={() => setSelectedVote(selectedVote === i ? null : i)}
+      {proposal.state !== "review" && (
+        <>
+          <div>
+            <span className="bg-purple-100 text-purple-800 text-lg font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
+              {votes?.length || proposal.votes} Votes
+            </span>
+            <span className="bg-purple-100 text-purple-800 text-lg font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
+              {Math.floor(scores.scores_total || proposal.scores_total)} $KRAUSE
+              Total
+            </span>
+          </div>
+          <div
             className={
-              selectedVote === i
-                ? "block p-6 m-2 rounded-lg border shadow-md bg-gray-100 dark:border-gray-700 dark:bg-gray-700"
-                : "block p-6 m-2 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+              proposal.choices.length % 2
+                ? "grid grid-cols-3"
+                : "grid grid-cols-2"
             }
-            key={i}
           >
-            <div className="flex flex-col space-y-2">
-              <div className="flex flex-row space-x-1">
-                <div>
-                  <span
-                    className={`bg-orange-100 text-orange-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900`}
-                  >
-                    {scores[i + 1] != null
-                      ? toPercentStr(scores[i + 1] / scores.scores_total)
-                      : toPercentStr(
-                          proposal.scores[i] / proposal.scores_total
-                        )}
-                  </span>
+            {proposal.choices.map((choice, i) => (
+              <a
+                onClick={() => setSelectedVote(selectedVote === i ? null : i)}
+                className={
+                  selectedVote === i
+                    ? "block p-6 m-2 rounded-lg border shadow-md bg-gray-100 dark:border-gray-700 dark:bg-gray-700"
+                    : "block p-6 m-2 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+                }
+                key={i}
+              >
+                <div className="flex flex-col space-y-2">
+                  <div className="flex flex-row space-x-1">
+                    <div>
+                      <span
+                        className={`bg-orange-100 text-orange-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900`}
+                      >
+                        {scores[i + 1] != null
+                          ? toPercentStr(scores[i + 1] / scores.scores_total)
+                          : toPercentStr(
+                              proposal.scores[i] / proposal.scores_total
+                            )}
+                      </span>
+                    </div>
+                  </div>
+                  <Heading title={choice} size="md" />
+                  <div>
+                    <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+                      {scores[i + 1] != null
+                        ? Math.floor(scores[i + 1])
+                        : Math.floor(proposal.scores[i])}{" "}
+                      $KRAUSE
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <Heading title={choice} size="md" />
-              <div>
-                <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-                  {scores[i + 1] != null
-                    ? Math.floor(scores[i + 1])
-                    : Math.floor(proposal.scores[i])}{" "}
-                  $KRAUSE
-                </span>
-              </div>
-            </div>
-          </a>
-        ))}
-      </div>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+
       <div className="flex flex-row space-x-2">
         <Button
           title="Back"
