@@ -3,6 +3,16 @@ import { useEffect, useState } from "react";
 import { getDrafts } from "../../utils/firestore";
 import { address } from "../web3/useGetWeb3";
 
+export interface CustomTemplate {
+  title: string;
+  author: address;
+  choices: string[];
+  url: string;
+  state: string;
+  id: string;
+  signature: string;
+}
+
 export interface StreamTemplate {
   author: address;
   recipient: string;
@@ -22,7 +32,7 @@ export interface StreamTemplate {
 export const useGetDrafts = () => {
   const [drafts, setDrafts] = useState<any>([]);
   useEffect(() => {
-    getDrafts(pipe(addMarkdown, setDrafts));
+    getDrafts(setDrafts);
   }, []);
   return drafts;
 };

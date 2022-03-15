@@ -1,12 +1,3 @@
-// export const HeadingFaint = ({ title }) => (
-//   <label
-//     htmlFor="message"
-//     className="block mb-2 text-xl font-medium text-gray-900 dark:text-gray-400"
-//   >
-//     {title}
-//   </label>
-// );
-
 const styles = {
   sm: "block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400",
   md: "block mb-2 text-md font-medium text-gray-900 dark:text-gray-400",
