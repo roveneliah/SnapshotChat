@@ -9,6 +9,8 @@ import {
 import { ProposalListHeader, ProposalStateFilter } from "./ProposalListHeader";
 import { SubmitProposalCard } from "./SubmitProposalCard";
 import { address } from "../../../hooks/web3/useGetWeb3";
+import { Heading } from "../../Generics/Headings/Heading";
+import { ViewProfileCard } from "./ViewProfileCard";
 
 type Template = StreamTemplate | CustomTemplate;
 
@@ -32,10 +34,12 @@ export default function ProposalsList({
   const [proposalStateFilter, setProposalStateFilter] =
     useState<ProposalStateFilter>(ProposalStateFilter.None);
 
-  console.log(drafts);
   return (
     <div className="flex flex-row justify-center space-x-3">
-      <SubmitProposalCard />
+      <div className="flex flex-col space-y-3">
+        <SubmitProposalCard />
+        <ViewProfileCard />
+      </div>
       <div className="basis-1/2 flex flex-col space-y-6 px-4 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <ProposalListHeader
           proposalStateFilter={proposalStateFilter}
