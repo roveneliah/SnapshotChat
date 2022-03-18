@@ -1,49 +1,7 @@
 import HeaderWallet from "./HeaderWallet";
 import { HeaderLogo } from "./HeaderLogo";
 import { NavBar } from "./NavBar";
-
-const navItems = [
-  {
-    title: "Governance",
-    href: "/",
-  },
-  //   {
-  //     title: "Delegates",
-  //     href: "/delegates",
-  //   },
-  // {
-  //   title: "Petitions",
-  //   href: "/petitions",
-  // },
-  {
-    title: "Profile",
-    href: "/profile",
-  },
-  // {
-  //   title: "Roster",
-  //   href: "https://roster.krausehouse.club/",
-  // },
-  // {
-  //   title: "Analytics",
-  //   href: "https://analytics.krausehouse.club/",
-  // },
-  // {
-  //   title: "Bounties",
-  //   href: "https://app.dework.xyz/o/krause-house-0M48tOstbs6BKTdlGNrWNU",
-  // },
-  {
-    title: "Contribute",
-    href: "/pods",
-  },
-  {
-    title: "Merch",
-    href: "/merch",
-  },
-  {
-    title: "Collection",
-    href: "/collection",
-  },
-];
+import { navItems } from "../../config/navItems";
 
 export const Header = ({ connect, disconnect, wallet, wrongNetwork }) => {
   return (
@@ -56,7 +14,7 @@ export const Header = ({ connect, disconnect, wallet, wrongNetwork }) => {
           disconnect={disconnect}
           wrongNetwork={wrongNetwork}
         />
-        <NavBar navItems={navItems} />
+        {/* <NavBar navItems={navItems} /> */}
       </div>
     </nav>
   );
