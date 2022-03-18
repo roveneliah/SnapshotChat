@@ -1,5 +1,7 @@
 import { crowdfundAbi } from "./crowdfundAbi";
 
+export const $KRAUSE = "0x9f6f91078a5072a8b54695dafa2374ab3ccd603b";
+
 module.exports = {
   $KRAUSE: "0x9f6f91078a5072a8b54695dafa2374ab3ccd603b",
   balanceOfAbi: ["function balanceOf(address owner) view returns (uint256)"],

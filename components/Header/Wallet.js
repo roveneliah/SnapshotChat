@@ -128,7 +128,7 @@ export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
   return (
     <div className="flex flex-row space-x-2">
       {wallet.hodler ? (
-        <Button title={`${wallet?.$KRAUSE || 0} $KRAUSE`} color="purpleFull" />
+        <Button title={`${wallet?.$KRAUSE || 0} $KRAUSE`} color="hollowFull" />
       ) : (
         // <div>
         //   <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
