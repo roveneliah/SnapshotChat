@@ -1,19 +1,15 @@
 import kh_holo from "../../public/kh_holo.png";
+import kh_logo from "../../public/kh_logo2.png";
 import Image from "next/image";
 
 export const HeaderLogo = () => (
   <a href="/">
-    <div className="flex space-x-2 hover:opacity-75">
-      <Image
-        src={kh_holo}
-        className="flex"
-        width={40}
-        height={40}
-        alt="KH_LOGO"
-      />
-      <span className="self-center text-lg font-semibold whitespace-nowrap dark:text-white">
-        The Krause House
-      </span>
-    </div>
+    <Image
+      src={kh_logo}
+      width={150}
+      height={50}
+      alt="KH_LOGO"
+      className="hover:opacity-75"
+    />
   </a>
 );

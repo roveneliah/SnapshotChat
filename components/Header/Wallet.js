@@ -4,6 +4,7 @@ import { shortenAddress } from "../../utils/web3/shortenAddress";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import Image from "next/image";
+import { Button } from "../Buttons/Button";
 
 export function ViewOnlyModal() {
   let [isOpen, setIsOpen] = useState(true);
@@ -18,13 +19,7 @@ export function ViewOnlyModal() {
 
   return (
     <>
-      <span
-        onClick={openModal}
-        className="bg-orange-100 text-orange-800 hover:dark:bg-orange-300 mr-2 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900"
-      >
-        View Only Mode
-      </span>
-
+      <Button title="View Only Mode" color="orangeFull" onClick={openModal} />
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -131,17 +126,18 @@ export function ViewOnlyModal() {
 
 export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
   return (
-    <div>
+    <div className="flex flex-row space-x-2">
       {wallet.hodler ? (
-        <>
-          <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
-            {wallet?.$KRAUSE || 0} $KRAUSE
-          </span>
-          {/* <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
-            {wallet?.TICKETS || 0} Genesis Tickets
-          </span> */}
-        </>
+        <Button title={`${wallet?.$KRAUSE || 0} $KRAUSE`} color="purpleFull" />
       ) : (
+        // <div>
+        //   <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
+        //     {wallet?.$KRAUSE || 0} $KRAUSE
+        //   </span>
+        //   {/* <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+        //     {wallet?.TICKETS || 0} Genesis Tickets
+        //   </span> */}
+        // </div>
         <>
           {wrongNetwork && (
             <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
@@ -152,12 +148,19 @@ export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
         </>
       )}
       {wallet.loaded && (
-        <span
-          onClick={() => disconnect()}
-          className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900"
-        >
-          {shortenAddress(wallet.address)}
-        </span>
+        <>
+          <Button
+            title={shortenAddress(wallet.address)}
+            color="hollowFull"
+            href="/profile"
+            newTab={true}
+          />
+          <Button
+            title="Disconnect"
+            onClick={() => disconnect()}
+            color="hollow"
+          />
+        </>
       )}
     </div>
   );

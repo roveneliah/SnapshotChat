@@ -9,8 +9,7 @@ export default function Layout({
   wrongNetwork,
 }: any) {
   return (
-    // <div className="dark:bg-gray-800 min-h-max min-h-screen">
-    <div className="dark:bg-gray-800 min-h-screen">
+    <div className="bg-gradient-radial dark:bg-gray-800 min-h-screen">
       <Head>
         <title>Krause House</title>
         <meta name="description" content="web3's Home Team" />
