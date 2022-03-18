@@ -1,9 +1,10 @@
 import kh_holo from "../../public/kh_holo.png";
 import kh_logo from "../../public/kh_logo2.png";
 import Image from "next/image";
+import Link from "next/link";
 
 export const HeaderLogo = () => (
-  <a href="/">
+  <Link href="/">
     <Image
       src={kh_logo}
       width={150}
@@ -11,5 +12,5 @@ export const HeaderLogo = () => (
       alt="KH_LOGO"
       className="hover:opacity-75"
     />
-  </a>
+  </Link>
 );
