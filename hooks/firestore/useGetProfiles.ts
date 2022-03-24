@@ -37,5 +37,5 @@ export const useGetProfiles = (addresses: address[]) => {
         .then(setProfiles);
   }, [addresses]);
 
-  return profiles;
+  return profiles || [];
 };
