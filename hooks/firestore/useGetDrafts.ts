@@ -32,7 +32,7 @@ export interface StreamTemplate {
 export const useGetDrafts = () => {
   const [drafts, setDrafts] = useState<any>([]);
   useEffect(() => {
-    getDrafts(setDrafts);
+    getDrafts(pipe(addMarkdown, setDrafts));
   }, []);
   return drafts;
 };

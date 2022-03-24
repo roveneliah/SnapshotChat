@@ -1,0 +1,58 @@
+export const STEWARDS = [
+  {
+    address: "0xC8Af50428848b28ec5168037B54b7C7D83e168EE",
+    signer: "Commodore",
+    status: "Pending",
+    requested: true,
+    tag: "Steward",
+  },
+  {
+    address: "0x5715E8a86c4b785dE5114ed9b2233C566f73756C",
+    signer: "Flex Chapman",
+    status: "Pending",
+    requested: true,
+    tag: "Steward",
+  },
+  {
+    address: "0xea0774226d998a2f513c3698901869189195C1b5",
+    signer: "Mario Lopes",
+    status: "Pending",
+    requested: true,
+    tag: "Steward",
+  },
+  {
+    address: "0x1983dA5059F7d7DA6b4c6cDc3D42D69a334A5E7E",
+    signer: "Eli",
+    status: "Pending",
+    requested: true,
+    tag: "Steward",
+  },
+  {
+    address: "0x4CFc602F2AeCD761c437A3bEAdbD9E0c74Fd8703",
+    signer: "Magnus",
+    status: "Pending",
+    requested: true,
+    tag: "Steward",
+  },
+  {
+    address: "0xb9E10cd54eD3A02063f97E53eb3DCeD2b970994a",
+    signer: "Dogestoevsky",
+    status: "Pending",
+    requested: true,
+    tag: "Steward",
+  },
+  {
+    address: "0xAEa967842976600f1a9256DcA207E4435A6f0112",
+    signer: "Lewwwk",
+    status: "Pending",
+    requested: true,
+    tag: "Steward",
+  },
+  {
+    address: "",
+    signer: "GladRobot",
+    status: "Pending",
+    requested: true,
+    tag: "Steward",
+  },
+];

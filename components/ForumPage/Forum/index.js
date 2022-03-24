@@ -32,7 +32,7 @@ export default function ForumNew({
   const sortedVotes = useGetSortedVotes(votes);
   const votingPower = useGetVotingPowerFromVotes(votes, proposal.snapshot);
 
-  const posts = useGetProposalComments(provider, proposal); // TODO: drafts are using different db...
+  const posts = useGetProposalComments(provider, proposal);
   const sortedPosts = compose(sorts[0].sort, filters[0].sort)(posts);
 
   // TODO: REFACTOR

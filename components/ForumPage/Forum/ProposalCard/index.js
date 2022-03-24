@@ -4,6 +4,9 @@ import { ProposalStats } from "./ProposalStats";
 import { printPass, toPercentStr } from "../../../../utils/functional";
 import { useGetProposalScores } from "../../../../hooks/snapshot/useGetProposalScores";
 import { VotedCard } from "../VotedCard";
+import Markdown from "markdown-to-jsx";
+import { SignersTable } from "../../../PetitionsPage/Petitions/SignersTable";
+import { STEWARDS } from "../../../../config/teams";
 
 export default function ProposalCard({
   wallet,
@@ -19,41 +22,71 @@ export default function ProposalCard({
 
   return (
     <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
-      <div>
-        <div className="mb-2 flex flex-row space-x-2">
-          {proposal.state === "active" ? (
-            <div>
-              <span
-                className={`bg-green-100 text-green-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900`}
-              >
-                Active
-              </span>
-            </div>
-          ) : proposal.state === "closed" ? (
-            <div>
-              <span
-                className={`bg-red-100 text-red-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900`}
-              >
-                Closed
-              </span>
-            </div>
-          ) : (
-            <div>
-              <span
-                className={`bg-yellow-100 text-yellow-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900`}
-              >
-                Review
-              </span>
-            </div>
-          )}
-          <VotedCard
-            choice={userVote}
-            votesLoaded={votesLoaded}
-            wallet={wallet}
-          />
+      <div className="flex flex-row justify-between">
+        <div>
+          <div className="mb-2 flex flex-row space-x-2">
+            {proposal.state === "active" ? (
+              <div>
+                <span
+                  className={`bg-green-100 text-green-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900`}
+                >
+                  Active
+                </span>
+              </div>
+            ) : proposal.state === "closed" ? (
+              <div>
+                <span
+                  className={`bg-red-100 text-red-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900`}
+                >
+                  Closed
+                </span>
+              </div>
+            ) : (
+              <div>
+                <span
+                  className={`bg-yellow-100 text-yellow-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900`}
+                >
+                  Review
+                </span>
+              </div>
+            )}
+            <VotedCard
+              choice={userVote}
+              votesLoaded={votesLoaded}
+              wallet={wallet}
+            />
+          </div>
+          <Heading title={proposal.title} size="2xl" />
         </div>
-        <Heading title={proposal.title} size="2xl" />
+        <div className="flex flex-row space-x-2">
+          <Button
+            title="Back"
+            color="hollow"
+            onClick={() => setSelectedProposal(null)}
+          />
+          {proposal.state === "review" ? (
+            <Button
+              title="View"
+              icon={true}
+              color="hollow"
+              // href={``}
+              newTab={true}
+            />
+          ) : (
+            <Button
+              title="View on Snapshot"
+              icon={true}
+              color="hollow"
+              href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
+              newTab={true}
+            />
+          )}
+        </div>
       </div>
+      {proposal.state === "review" && (
+        <SignersTable title="Proposal Readers" signers={STEWARDS} />
+      )}
+      {/* <Markdown>{`${proposal.markdown}`}</Markdown> */}
       {/* <ProposalStats /> */}
       {proposal.state !== "review" && (
         <>
@@ -112,21 +145,6 @@ export default function ProposalCard({
           </div>
         </>
       )}
-
-      <div className="flex flex-row space-x-2">
-        <Button
-          title="Back"
-          color="hollow"
-          onClick={() => setSelectedProposal(null)}
-        />
-        <Button
-          title="View on Snapshot"
-          icon={true}
-          color="hollow"
-          href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
-          newTab={true}
-        />
-      </div>
     </div>
   );
 }
