@@ -39,6 +39,11 @@ export default function UserProfileCard(props) {
                 {shortenAddress(props.userProfile?.address)}
               </span>
             )}
+            <div>
+              <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
+                {props.wallet?.$KRAUSE || 0} $KRAUSE
+              </span>
+            </div>
             {/* {props.userProfile?.roles?.map((role, i) => (
               <div key={i}>
                 <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
@@ -47,7 +52,7 @@ export default function UserProfileCard(props) {
               </div>
             ))} */}
           </div>
-          <div className="pt-10">
+          {/* <div className="pt-10">
             <div className="flex flex-col items-center space-y-1">
               <div>
                 <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
@@ -60,7 +65,7 @@ export default function UserProfileCard(props) {
                 </span>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* <div className="flex justify-center mt-4 space-x-3 lg:mt-6">
           <a
             href="#"
