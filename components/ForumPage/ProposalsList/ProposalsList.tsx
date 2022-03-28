@@ -1,16 +1,13 @@
 import { ProposalListItem } from "./ProposalListItem";
-import { Button } from "../../Buttons/Button";
 import { useState } from "react";
-import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
 import {
   StreamTemplate,
   CustomTemplate,
 } from "../../../hooks/firestore/useGetDrafts";
 import { ProposalListHeader, ProposalStateFilter } from "./ProposalListHeader";
 import { SubmitProposalCard } from "./SubmitProposalCard";
-import { address } from "../../../hooks/web3/useGetWeb3";
-import { Heading } from "../../Generics/Headings/Heading";
 import { ViewProfileCard } from "./ViewProfileCard";
+import { SubmitViaNotionCard } from "./SubmitViaNotionCard";
 
 type Template = StreamTemplate | CustomTemplate;
 
@@ -25,7 +22,7 @@ interface Props {
 export default function ProposalsList({
   connection,
   proposals,
-  drafts,
+  // drafts,
   setSelectedProposal,
   userVotes,
 }: Props) {
@@ -35,17 +32,18 @@ export default function ProposalsList({
     useState<ProposalStateFilter>(ProposalStateFilter.None);
 
   return (
-    <div className="flex flex-row justify-center space-x-3">
+    <div className="flex flex-row justify-center space-x-3 pb-8">
       <div className="flex flex-col space-y-3">
-        <SubmitProposalCard />
+        <SubmitViaNotionCard />
         <ViewProfileCard />
+        {/* <SubmitProposalCard /> */}
       </div>
       <div className="basis-1/2 flex flex-col space-y-6 px-4 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <ProposalListHeader
           proposalStateFilter={proposalStateFilter}
           setProposalStateFilter={setProposalStateFilter}
         />
-        {(proposalStateFilter === ProposalStateFilter.Review ||
+        {/* {(proposalStateFilter === ProposalStateFilter.Review ||
           proposalStateFilter === ProposalStateFilter.None) &&
           drafts.map((draft: Template, key: number) => (
             <div
@@ -70,7 +68,7 @@ export default function ProposalsList({
                 />
               </div>
             </div>
-          ))}
+          ))} */}
         {proposals
           .filter(
             ({ type }: any) => type === "basic" || type === "single-choice"

@@ -3,7 +3,6 @@ import { avatarUrl } from "../../utils/avatarUrl";
 import { shortenAddress } from "../../utils/web3/shortenAddress";
 
 export default function UserProfileCard(props) {
-  console.log(props.userProfile);
   return (
     props.userProfile && (
       <div className="flex flex-col h-1/2 space-y-5 pt-5 pb-8 w-1/4 max-w-xs bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">

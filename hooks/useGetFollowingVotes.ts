@@ -3,7 +3,7 @@ import { shortenAddress } from "../utils/web3/shortenAddress";
 import { useGetProposalVotes } from "./snapshot/useGetSnapshotVotes";
 import { address } from "./web3/useGetWeb3";
 
-export const useGetDelegationVotes = (proposal: any, userProfile: any) => {
+export const useGetFollowingVotes = (proposal: any, userProfile: any) => {
   const [delegationVotes, setDelegationVotes] = useState();
   const votes = useGetProposalVotes(proposal);
 
@@ -19,7 +19,8 @@ export const useGetDelegationVotes = (proposal: any, userProfile: any) => {
     if (
       votes[0] &&
       userProfile &&
-      userProfile.followingProfiles &&
+      userProfile.followingProfiles != undefined &&
+      Object.keys(userProfile.followingProfiles).length != 0 &&
       delegationVotes == undefined
     ) {
       // TODO: REFACTOR THE SHIT OUT OF THIS

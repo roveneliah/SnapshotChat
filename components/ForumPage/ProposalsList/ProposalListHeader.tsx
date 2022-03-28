@@ -2,12 +2,12 @@ import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
 
 export enum ProposalStateFilter {
   None = "none",
-  Review = "review",
+  // Review = "review",
   Active = "active",
   Closed = "closed",
 }
 
-const { None, Review, Active, Closed } = ProposalStateFilter;
+const { None, Active, Closed } = ProposalStateFilter;
 export function ProposalListHeader(props: any) {
   return (
     <div className="p-6 basis-1/4 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
@@ -22,12 +22,12 @@ export function ProposalListHeader(props: any) {
       >
         {props.proposalStateFilter === None ? "• All •" : "All"}
       </span>
-      <span
+      {/* <span
         onClick={() => props.setProposalStateFilter(Review)}
         className="bg-yellow-100 text-yellow-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900"
       >
         {props.proposalStateFilter === Review ? "• Review •" : "Review"}
-      </span>
+      </span> */}
       <span
         onClick={() => props.setProposalStateFilter(Active)}
         className="bg-green-100 text-green-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900"
@@ -41,12 +41,12 @@ export function ProposalListHeader(props: any) {
         {props.proposalStateFilter === Closed ? "• Closed •" : "Closed"}
       </span>
       <div className="mt-5">
-        {props.proposalStateFilter === Review && (
+        {/* {props.proposalStateFilter === Review && (
           <HeadingFaint
             size="sm"
             title="Proposals posted for review.  You can sign off on it to approve your support or pushback and advocate it moving to Snapshot."
           />
-        )}
+        )} */}
         {props.proposalStateFilter === Active && (
           <HeadingFaint
             size="sm"

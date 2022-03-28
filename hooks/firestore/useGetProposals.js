@@ -8,13 +8,11 @@ export const useGetProposals = (snapshotSpace) => {
 
   const updateDb = map(updateProposal);
   useEffect(() => {
-    proposals ||
-      fetchProposals(snapshotSpace).then((proposals) => {
-        updateDb(proposals); // update in firebase
-        console.log("FETCHED PROSAOLASDFS");
-        setProposals(proposals); // setProposals in state
-      });
-  });
+    fetchProposals(snapshotSpace).then((proposals) => {
+      updateDb(proposals); // update in firebase
+      setProposals(proposals); // setProposals in state
+    });
+  }, []);
 
   return proposals;
 };

@@ -4,19 +4,18 @@ import {
   proposalById,
   draftBySignature,
 } from "../../utils/functional";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetProposals } from "../../hooks/firestore/useGetProposals";
 import { useGetAllUserVotes } from "../../hooks/snapshot/useGetAllUserVotes";
 import ProposalsList from "./ProposalsList/ProposalsList";
-import { useGetDrafts } from "../../hooks/firestore/useGetDrafts";
+import { useGetNotionDrafts } from "../../hooks/notion/useGetNotionDrafts";
+// import { useGetDrafts } from "../../hooks/firestore/useGetDrafts";
 
 export default function ForumPage(props) {
   const [selectedProposal, setSelectedProposal] = useState();
   const proposals = useGetProposals(props.snapshotSpace);
-  const drafts = useGetDrafts();
+  const drafts = useGetNotionDrafts();
   const userVotes = useGetAllUserVotes(props.snapshotSpace, props.wallet);
-
-  console.log(drafts);
 
   return selectedProposal ? (
     <Forum

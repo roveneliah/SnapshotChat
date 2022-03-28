@@ -12,6 +12,7 @@
     "@alch/alchemy-web3": "^1.1.9",
     "@headlessui/react": "^1.4.3",
     "@heroicons/react": "^1.0.5",
+    "@notionhq/client": "^1.0.4",
     "@snapshot-labs/snapshot.js": "^0.3.27",
     "@walletconnect/web3-provider": "^1.7.0",
     "algoliasearch": "^4.12.1",

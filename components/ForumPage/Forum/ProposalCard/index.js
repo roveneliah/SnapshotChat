@@ -58,36 +58,10 @@ export default function ProposalCard({
           </div>
           <Heading title={proposal.title} size="2xl" />
         </div>
-        <div className="flex flex-row space-x-2">
-          <Button
-            title="Back"
-            color="hollow"
-            onClick={() => setSelectedProposal(null)}
-          />
-          {proposal.state === "review" ? (
-            <Button
-              title="View"
-              icon={true}
-              color="hollow"
-              // href={``}
-              newTab={true}
-            />
-          ) : (
-            <Button
-              title="View on Snapshot"
-              icon={true}
-              color="hollow"
-              href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
-              newTab={true}
-            />
-          )}
-        </div>
       </div>
-      {proposal.state === "review" && (
+      {/* {proposal.state === "review" && (
         <SignersTable title="Proposal Readers" signers={STEWARDS} />
-      )}
-      {/* <Markdown>{`${proposal.markdown}`}</Markdown> */}
-      {/* <ProposalStats /> */}
+      )} */}
       {proposal.state !== "review" && (
         <>
           <div>
@@ -142,6 +116,32 @@ export default function ProposalCard({
                 </div>
               </a>
             ))}
+          </div>
+          <div>
+            <div className="flex flex-row space-x-2">
+              <Button
+                title="Back"
+                color="hollow"
+                onClick={() => setSelectedProposal(null)}
+              />
+              {proposal.state === "review" ? (
+                <Button
+                  title="View"
+                  icon={true}
+                  color="hollow"
+                  // href={``}
+                  newTab={true}
+                />
+              ) : (
+                <Button
+                  title="View on Snapshot"
+                  icon={true}
+                  color="hollowFull"
+                  href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
+                  newTab={true}
+                />
+              )}
+            </div>
           </div>
         </>
       )}

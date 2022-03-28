@@ -1,14 +1,16 @@
-import { crowdfundAbi } from "./crowdfundAbi";
+// import { crowdfundAbi } from "./crowdfundAbi";
 
-export const $KRAUSE = "0x9f6f91078a5072a8b54695dafa2374ab3ccd603b";
+// export const $KRAUSE = "0x9f6f91078a5072a8b54695dafa2374ab3ccd603b";
 
 module.exports = {
+  NOTION_DRAFT_DB: "a5d990ad04624d9daa70366b88e88ce4",
+  notionDraftDbId: "a5d990ad04624d9daa70366b88e88ce4",
   $KRAUSE: "0x9f6f91078a5072a8b54695dafa2374ab3ccd603b",
   balanceOfAbi: ["function balanceOf(address owner) view returns (uint256)"],
   tokenOfOwnerByIndex: [
     "function tokenOfOwnerByIndex(address _owner, uint256 _index) external view returns (uint256)",
   ],
-  crowdfundAbi,
+  // crowdfundAbi,
   CROWDFUND: "0xc4e0f3ec24972c75df7c716922096f4270b7bb4e",
   WILLCALL: "0x6F1183aB121e9F05CA4916237012Ed37B6f20583",
   UPPER_LEVEL_ID: 61,

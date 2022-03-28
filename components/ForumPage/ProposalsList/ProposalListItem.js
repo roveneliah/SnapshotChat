@@ -12,7 +12,7 @@ import { useGetProposalScores } from "../../../hooks/snapshot/useGetProposalScor
 import { equals, head, map, pick } from "ramda";
 import { shortenAddress } from "../../../utils/web3/shortenAddress";
 import { vote } from "../../../utils/Snapshot/vote";
-import { useGetDelegationVotes } from "../../../hooks/useGetDelegationVotes";
+import { useGetFollowingVotes } from "../../../hooks/useGetFollowingVotes";
 
 export const ProposalListItem = ({
   provider,
@@ -24,7 +24,7 @@ export const ProposalListItem = ({
   wallet,
   userProfile,
 }) => {
-  const delegationVotes = useGetDelegationVotes(proposal, userProfile);
+  const delegationVotes = useGetFollowingVotes(proposal, userProfile);
 
   const voteChoice = (choice) =>
     vote(provider)({
@@ -72,7 +72,7 @@ export const ProposalListItem = ({
         {/* <Heading title={proposal.title} size={"lg"} /> */}
         <HeadingFaint title={proposal.title} size="xl" />
       </div>
-      {votesFromDelegation && (
+      {/* {votesFromDelegation && (
         <div className="group flex flex-row flex-no-wrap justify-between space-x-1">
           {proposal.choices.map((choice, index) => (
             <div
@@ -108,7 +108,7 @@ export const ProposalListItem = ({
             </div>
           ))}
         </div>
-      )}
+      )} */}
       <div className="flex space-x-4">
         <Button
           title="Forum"
