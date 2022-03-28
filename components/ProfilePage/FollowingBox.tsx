@@ -8,7 +8,7 @@ export default function FollowingBox(props: any) {
         <div className="pl-3">
           <Heading title="Following" size="xl" />
         </div>
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-2">
           {props.following?.map((followingProfile: any, i: number) => (
             <div className="m-2" key={i}>
               <FollowingProfileCard

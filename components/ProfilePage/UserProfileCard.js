@@ -39,13 +39,13 @@ export default function UserProfileCard(props) {
                 {shortenAddress(props.userProfile?.address)}
               </span>
             )}
-            {props.userProfile?.roles?.map((role, i) => (
+            {/* {props.userProfile?.roles?.map((role, i) => (
               <div key={i}>
                 <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
                   {role}
                 </span>
               </div>
-            ))}
+            ))} */}
           </div>
           <div className="pt-10">
             <div className="flex flex-col items-center space-y-1">
@@ -57,11 +57,6 @@ export default function UserProfileCard(props) {
               <div>
                 <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
                   {props.wallet?.TICKETS || 0} Genesis Tickets
-                </span>
-              </div>
-              <div>
-                <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
-                  Rookie Season: Try Outs
                 </span>
               </div>
             </div>

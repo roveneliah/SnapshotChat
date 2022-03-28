@@ -17,7 +17,7 @@ export default function FollowingProfileCard(props) {
         </div>
         <div>
           <p className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
-            {props.followingProfile?.name || "Anon Jerry"}
+            {props.followingProfile?.name || "Jerry"}
           </p>
           <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
             {shortenAddress(props.followingProfile?.address)}
@@ -25,7 +25,8 @@ export default function FollowingProfileCard(props) {
         </div>
       </div>
 
-      <div className="flex flex-col justify-start h-3/4">
+      {/* WILL ADD BACK FOLLOWING LOGIC LATER */}
+      {/* <div className="flex flex-col justify-start h-3/4">
         <div>
           {props.followingProfile.address ===
             props.userProfile.primaryDelegate && (
@@ -51,9 +52,19 @@ export default function FollowingProfileCard(props) {
             </span>
           )}
         </div>
+      </div> */}
+
+      <div
+        onClick={() =>
+          props.userProfile?.unfollow(props.followingProfile.address)
+        }
+      >
+        <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
+          Unfollow
+        </span>
       </div>
 
-      <FollowingDropdown
+      {/* <FollowingDropdown
         unfollow={() =>
           props.userProfile?.unfollow(props.followingProfile.address)
         }
@@ -63,7 +74,7 @@ export default function FollowingProfileCard(props) {
           props.userProfile?.setPrimaryDelegate(props.followingProfile.address)
         }
         clearPrimaryDelegate={() => props.userProfile?.clearPrimaryDelegate()}
-      />
+      /> */}
     </div>
   );
 }
