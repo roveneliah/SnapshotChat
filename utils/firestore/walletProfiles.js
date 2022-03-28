@@ -13,6 +13,8 @@ export const buildLoadProfileAtAddress = (db) => async (address, callback) => {
   if (!address) return;
   const addr = address.toLowerCase();
 
+  console.log("loading profile at addr:", address);
+
   onSnapshot(doc(db, "profiles", addr), async (snapshot) => {
     const walletProfile = snapshot.data();
 

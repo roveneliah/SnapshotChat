@@ -27,6 +27,13 @@ export const useListenUserProfile = (wallet: any) => {
     } else {
       setUserProfile(null);
     }
-  }, [wallet, following]);
+  }, [following]);
+
+  useEffect(() => {
+    console.log("trying to update userProfile!");
+    wallet?.address
+      ? loadProfileAtAddress(wallet?.address, setUserProfile) // TODO: MIGHT need to be a async...
+      : setUserProfile(null);
+  }, [wallet]);
   return userProfile;
 };
