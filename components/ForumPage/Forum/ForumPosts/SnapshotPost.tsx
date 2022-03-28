@@ -96,6 +96,9 @@ export const SnapshotPost = ({
       <div className="flex flex-col space-y-3">
         <div className="flex flex-row space-x-2 justify-between items-center">
           <div>
+            <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+              Vote
+            </span>
             <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
               {outcome}
             </span>

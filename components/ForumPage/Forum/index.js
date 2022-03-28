@@ -137,7 +137,9 @@ export default function ForumNew({
             proposal={proposal}
           />
         )}
-        <CommentBox connection={connection} proposal={proposal} />
+        {proposal.state !== "closed" && (
+          <CommentBox connection={connection} proposal={proposal} />
+        )}
       </div>
     </div>
   );

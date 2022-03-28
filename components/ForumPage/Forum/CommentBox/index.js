@@ -52,10 +52,15 @@ export default function CommentBox({ proposal, connection }) {
         onChange={updatePostText}
       />
       <div className="flex flex-row space-x-3">
-        <Button title="Post" color="purple" icon={true} onClick={postComment} />
-        {proposal.state !== "review" && (
+        <Button
+          title="Post Opinion"
+          color="purple"
+          icon={true}
+          onClick={postComment}
+        />
+        {proposal.state !== "closed" && (
           <Button
-            title="Vote"
+            title="Vote on Snapshot"
             color="purple"
             icon={true}
             onClick={submitToSnapshot}
