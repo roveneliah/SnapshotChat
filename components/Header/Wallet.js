@@ -60,6 +60,7 @@ export function ViewOnlyModal() {
                   <div className="flex flex-col space-y-4">
                     <Image
                       src="https://i.giphy.com/media/5xaOcLxIG8VahUOdOpO/giphy.webp"
+                      alt=";("
                       width={400}
                       height={300}
                       className="rounded-lg mb-10"

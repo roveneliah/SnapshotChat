@@ -33,6 +33,7 @@ export default function JerrySearch(props) {
                 <div>
                   <Image
                     src={avatarUrl(profile)}
+                    alt="avatar"
                     width={50}
                     height={50}
                     className="rounded-full"

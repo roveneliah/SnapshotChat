@@ -10,6 +10,7 @@ export default function FollowingProfileCard(props) {
         <div>
           <Image
             src={avatarUrl(props.followingProfile)}
+            alt="avatar"
             width={50}
             height={50}
             className="rounded-full"

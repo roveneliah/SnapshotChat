@@ -36,6 +36,7 @@ export const ForumPost = ({ connection, post, proposal, votingPower }) => {
           {authorAvatarUrl && (
             <Image
               src={authorAvatarUrl}
+              alt="avatar"
               width={60}
               height={60}
               className="rounded-full"

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const HeaderLogo = () => (
-  <Link href="/">
+  <Link href="/" passHref>
     <Image
       src={kh_logo}
       width={150}

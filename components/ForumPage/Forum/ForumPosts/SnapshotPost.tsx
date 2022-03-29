@@ -47,6 +47,7 @@ export const SnapshotPost = ({
           {authorAvatarUrl && (
             <Image
               src={authorAvatarUrl || "kh_holo.png"}
+              alt="avatar"
               width={60}
               height={60}
               className="rounded-full"
