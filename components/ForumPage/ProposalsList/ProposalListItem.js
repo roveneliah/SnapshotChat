@@ -69,7 +69,6 @@ export const ProposalListItem = ({
             wallet={wallet}
           />
         </div>
-        {/* <Heading title={proposal.title} size={"lg"} /> */}
         <HeadingFaint title={proposal.title} size="xl" />
       </div>
       {/* {votesFromDelegation && (

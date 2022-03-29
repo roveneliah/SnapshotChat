@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { printPass } from "../../utils/functional";
 import { getKhVotingPower } from "../../utils/Snapshot/getVotingPower";
 
-export const useGetProposalScores = (proposal: any, votes: any) => {
+export interface Scores {
+  scores_total: number;
+  [choice: number]: number;
+}
+
+export const useGetProposalScores = (proposal: any, votes: any): Scores => {
   const [scores, setScores] = useState({
     scores: proposal.scores,
     scores_total: proposal.scores_total,
@@ -34,5 +38,4 @@ export const useGetProposalScores = (proposal: any, votes: any) => {
   }, [proposal, votes]);
 
   return scores;
-  // { scores: { choice: amount }, scores_total: 100}
 };
