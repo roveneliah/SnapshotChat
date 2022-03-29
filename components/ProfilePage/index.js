@@ -3,11 +3,15 @@ import UserProfileCard from "./UserProfileCard";
 import JerrySearch from "./JerrySearch";
 import FollowingBox from "./FollowingBox";
 import SignedOutView from "./SignedOutView";
+import { Heading } from "../Generics/Headings/Heading";
+import { LoadingView } from "./LoadingView";
 
 export default function ProfilePage({ connection }) {
   const following = useGetProfiles(connection.userProfile?.following);
-  return !connection.userProfile ? (
+  return !connection.signer ? (
     <SignedOutView />
+  ) : !connection.userProfile ? (
+    <LoadingView />
   ) : (
     <div className="flex flex-row justify-center space-x-10">
       <UserProfileCard

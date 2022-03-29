@@ -7,10 +7,11 @@ export default function SignedOutView() {
       <div className="flex flex-col w-2/3 space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
         <Heading title="Connect your wallet to view your profile." size="xl" />
         <Image
-          src="https://i.giphy.com/media/1AjFHLpytkqt0qYDcW/giphy.webp"
+          src="/morris.webp"
           alt="DO IT"
-          height={800}
-          width={-1} // wtf
+          height={500}
+          width={500} // wtf
+          quality={100}
         />
       </div>
     </div>
