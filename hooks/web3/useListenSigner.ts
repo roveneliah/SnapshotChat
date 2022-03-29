@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-import { head, prop } from "ramda";
 
 const updateSignerIfExists = async (provider: any, setSigner: Function) => {
   try {
     const signer = provider.getSigner();
     signer.address = await signer.getAddress();
-    console.log("UPDATING SIGNER", signer);
     setSigner(signer);
   } catch (e) {
-    console.log("SETTING SIGNER TO NULL");
     setSigner(null);
   }
 };
 
+/**
+ * Update signer on any updates to provider.
+ */
 export const useListenSigner = (provider: any) => {
   const [signer, setSigner] = useState<any>();
 

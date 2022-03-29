@@ -1,30 +1,26 @@
 import { useState, useEffect } from "react";
 import { getKHWallet } from "../../utils/web3/getKHWallet";
 import { Wallet } from "../../types/Wallet";
+import { composeP } from "../../utils/functional";
 
 export const useListenWallet = (provider: any, signer: any): Wallet => {
-  const MISSING_WALLET = { loaded: false };
+  const MISSING_WALLET: Wallet = { loaded: false };
   const [wallet, setWallet] = useState<Wallet>(MISSING_WALLET);
 
   useEffect(() => {
-    const walletStuff = async () => {
+    const updateWallet = async () => {
       if (signer) {
-        console.log("signer", signer);
         const address = await signer.getAddress();
-        const wallet = address && (await getKHWallet(provider)(address));
-
-        console.log("UPDATING WALLET");
-        setWallet(wallet);
+        getKHWallet(provider)(address)
+          .then(setWallet)
+          .catch(() => setWallet(MISSING_WALLET));
       } else {
-        console.log("NO ACTIVE WALLET");
         setWallet(MISSING_WALLET);
       }
     };
 
-    walletStuff();
+    updateWallet();
   }, [signer]);
 
   return wallet;
 };
-
-// DEPRECATED
