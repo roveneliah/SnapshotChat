@@ -8,7 +8,7 @@ import { printPass } from "../../../utils/functional";
 import SnapshotPosts from "./ForumPosts/SnapshotPosts";
 import { useGetWeightedSnapshotVotes } from "../../../hooks/snapshot/useGetSnapshotVotes";
 import { sorts, filters } from "./ForumComplex";
-import { useGetVotingPowerFromVotes } from "../../../hooks/snapshot/useGetVotingPower";
+import { useGetVotingPowerFromVotes } from "../../../hooks/snapshot/useGetVotingPowerFromVotes";
 
 const useGetSortedVotes = (votes) => {
   const [sortedVotes, setSortedVotes] = useState();

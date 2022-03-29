@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAlchemyProvider } from "./useEtherscanProviderAsDefault";
+import { useAlchemyProvider } from "./useAlchemyProvider";
 import { connectWallet } from "../../utils/web3/connectWallet";
 import { updateProvider } from "../../utils/web3/updateProvider";
 
