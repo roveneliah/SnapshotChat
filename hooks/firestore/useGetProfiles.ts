@@ -1,22 +1,7 @@
 import { filter } from "ramda";
 import { useEffect, useState } from "react";
 import { getProfile } from "../../utils/firestore";
-import { printPass } from "../../utils/functional";
-import { address } from "../web3/useGetWeb3";
-
-// export interface UserProfileInfo {
-//   name: string;
-//   about: string;
-//   address: address;
-//   discordUsername: string;
-//   filters: string[];
-//   profileImage: string;
-//   projects: string[];
-//   roles: string[];
-//   twitterUrl: string;
-//   following: address[];
-//   followingNo: address[];
-// }
+import { address } from "../../types/Address";
 
 /**
  * Get the user's profile from firestore.

@@ -1,15 +1,10 @@
 import { ProposalListItem } from "./ProposalListItem";
 import { useState } from "react";
-import {
-  StreamTemplate,
-  CustomTemplate,
-} from "../../../hooks/firestore/useGetDrafts";
-import { ProposalListHeader, ProposalStateFilter } from "./ProposalListHeader";
+import { ProposalListHeader } from "./ProposalListHeader";
+import { ProposalStateFilter } from "../../../types/ProposalStateFilter";
 import { SubmitProposalCard } from "./SubmitProposalCard";
 import { ViewProfileCard } from "./ViewProfileCard";
 import { SubmitViaNotionCard } from "./SubmitViaNotionCard";
-
-type Template = StreamTemplate | CustomTemplate;
 
 interface Props {
   connection: any;

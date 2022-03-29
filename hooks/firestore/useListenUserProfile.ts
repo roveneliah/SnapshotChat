@@ -1,7 +1,7 @@
 import { reduce } from "ramda";
 import { useEffect, useState } from "react";
 import { loadProfileAtAddress } from "../../utils/firestore";
-import { address } from "../web3/useGetWeb3";
+import { address } from "../../types/Address";
 import { useGetProfiles } from "./useGetProfiles";
 
 export const useListenUserProfile = (wallet: any) => {

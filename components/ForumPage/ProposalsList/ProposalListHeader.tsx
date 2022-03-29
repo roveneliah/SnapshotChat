@@ -1,11 +1,5 @@
 import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
-
-export enum ProposalStateFilter {
-  None = "none",
-  // Review = "review",
-  Active = "active",
-  Closed = "closed",
-}
+import { ProposalStateFilter } from "../../../types/ProposalStateFilter";
 
 const { None, Active, Closed } = ProposalStateFilter;
 export function ProposalListHeader(props: any) {

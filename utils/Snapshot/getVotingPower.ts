@@ -1,22 +1,7 @@
 import snapshot from "@snapshot-labs/snapshot.js";
 import { head } from "ramda";
-import { address } from "../../hooks/web3/useGetWeb3";
-import { printPass } from "../functional";
-
-interface Strategy {
-  name: string;
-  params: {
-    address?: address;
-    symbol?: string;
-    decimals?: number;
-  };
-}
-
-interface SnapshotSpace {
-  name: string;
-  strategies: Strategy[];
-  network: string;
-}
+import { address } from "../../types/Address";
+import { SnapshotSpace } from "../../types/SnapshotSpace";
 
 export const fetchVotingPower =
   (space: SnapshotSpace) =>

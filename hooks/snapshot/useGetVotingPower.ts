@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { SnapshotVote } from "../../types/SnapshotVote";
 import { getKhVotingPower } from "../../utils/Snapshot/getVotingPower";
 import { balanceOf } from "../../utils/web3/balanceOf";
-import { address } from "../web3/useGetWeb3";
+import { address } from "../../types/Address";
 import { $KRAUSE } from "../../config";
 
 export const getKrauseBalances = async (

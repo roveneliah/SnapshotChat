@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { shortenAddress } from "../utils/web3/shortenAddress";
 import { useGetProposalVotes } from "./snapshot/useGetSnapshotVotes";
-import { address } from "./web3/useGetWeb3";
+import { address } from "../types/Address";
 
 export const useGetFollowingVotes = (proposal: any, userProfile: any) => {
   const [delegationVotes, setDelegationVotes] = useState();

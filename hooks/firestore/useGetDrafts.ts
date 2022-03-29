@@ -1,33 +1,7 @@
 import { compose, map, pipe } from "ramda";
 import { useEffect, useState } from "react";
 import { getDrafts } from "../../utils/firestore";
-import { address } from "../web3/useGetWeb3";
-
-export interface CustomTemplate {
-  title: string;
-  author: address;
-  choices: string[];
-  url: string;
-  state: string;
-  id: string;
-  signature: string;
-}
-
-export interface StreamTemplate {
-  author: address;
-  recipient: string;
-  request: {
-    usdc: string;
-    krause: string;
-  };
-  description: string;
-  signers: any;
-  signature: string;
-  markdown?: string;
-  title?: string;
-  id: string;
-  state: string;
-}
+import { StreamTemplate } from "../../types/StreamTemplate";
 
 export const useGetDrafts = () => {
   const [drafts, setDrafts] = useState<any>([]);

@@ -1,4 +1,4 @@
-import { address } from "../hooks/web3/useGetWeb3";
+import { address } from "./Address";
 export interface SnapshotVote {
   voter: address;
   id: string;

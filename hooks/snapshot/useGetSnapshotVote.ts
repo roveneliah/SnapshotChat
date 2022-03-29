@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchProposalVote } from "../../utils/Snapshot/fetch";
-import { address } from "../web3/useGetWeb3";
+import { address } from "../../types/Address";
 
 /**
  * Get a specific voters vote on a Snapshot proposal.
