@@ -13,6 +13,8 @@ import { equals, head, map, pick } from "ramda";
 import { shortenAddress } from "../../../utils/web3/shortenAddress";
 import { vote } from "../../../utils/Snapshot/vote";
 import { useGetFollowingVotes } from "../../../hooks/useGetFollowingVotes";
+import { ProposalStateBadge } from "../Forum/ProposalCard/ProposalStateBadge";
+import { Row } from "../../Generics/Row";
 
 export const ProposalListItem = ({
   provider,
@@ -45,30 +47,14 @@ export const ProposalListItem = ({
       className="flex flex-col space-y-10 p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
     >
       <div>
-        <div className="mb-2 flex flex-row space-x-2 pb-2">
-          {proposal.state === "active" ? (
-            <div>
-              <span
-                className={`bg-green-100 text-green-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900`}
-              >
-                Active
-              </span>
-            </div>
-          ) : (
-            <div>
-              <span
-                className={`bg-red-100 text-red-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900`}
-              >
-                Closed
-              </span>
-            </div>
-          )}
+        <Row className="mb-2 pb-2">
+          <ProposalStateBadge state={proposal.state} />
           <VotedCard
             choice={userVote}
             votesLoaded={votesLoaded}
             wallet={wallet}
           />
-        </div>
+        </Row>
         <HeadingFaint title={proposal.title} size="xl" />
       </div>
       {/* {votesFromDelegation && (
@@ -108,7 +94,7 @@ export const ProposalListItem = ({
           ))}
         </div>
       )} */}
-      <div className="flex space-x-4">
+      <Row space={4}>
         <Button
           title="Forum"
           color="hollow"
@@ -121,7 +107,7 @@ export const ProposalListItem = ({
           href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
           newTab={true}
         />
-      </div>
+      </Row>
     </div>
   );
 };
