@@ -1,10 +1,8 @@
 import { Button } from "../../../Buttons/Button";
 import { Heading } from "../../../Generics/Headings/Heading";
 import { ProposalStats } from "./ProposalStats";
-import { printPass } from "../../../../utils/functional";
 import { useGetProposalScores } from "../../../../hooks/snapshot/useGetProposalScores";
 import { VotedCard } from "../VotedCard";
-import Markdown from "markdown-to-jsx";
 import { SignersTable } from "../../../PetitionsPage/Petitions/SignersTable";
 import { STEWARDS } from "../../../../config/teams";
 import { Scores } from "../../../../hooks/snapshot/useGetProposalScores";
@@ -12,6 +10,8 @@ import { Wallet } from "../../../../types/Wallet";
 import { ChoiceFilters } from "./ChoiceFilters";
 import { ProposalStateBadge } from "./ProposalStateBadge";
 import { Badge } from "../../../Generics/Badge";
+import { Row } from "../../../Generics/Row";
+import { Col } from "../../../Generics/Col";
 
 interface Props {
   wallet: Wallet;
@@ -37,16 +37,43 @@ export default function ProposalCard({
   const scores: Scores = useGetProposalScores(proposal, votes);
 
   return (
-    <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
+    <Col
+      space={6}
+      className="p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700"
+    >
+      <Row>
+        <Button
+          title="Back"
+          color="hollow"
+          onClick={() => setSelectedProposal(null)}
+        />
+        {proposal.state === "review" ? (
+          <Button
+            title="View"
+            icon={true}
+            color="hollow"
+            // href={``}
+            newTab={true}
+          />
+        ) : (
+          <Button
+            title="View on Snapshot"
+            icon={true}
+            color="hollowFull"
+            href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
+            newTab={true}
+          />
+        )}
+      </Row>
       <div>
-        <div className="mb-2 flex flex-row space-x-2">
+        <Row className="mb-2">
           <ProposalStateBadge state={proposal.state} />
           <VotedCard
             choice={userVote}
             votesLoaded={votesLoaded}
             wallet={wallet}
           />
-        </div>
+        </Row>
         <Heading title={proposal.title} size="2xl" />
       </div>
       {proposal.state === "review" && (
@@ -54,7 +81,7 @@ export default function ProposalCard({
       )}
       {proposal.state !== "review" && (
         <>
-          <div className="flex flex-row space-y-2 items-end">
+          <Row className="items-end">
             <Badge
               title={`${votes?.length || proposal.votes} Votes`}
               color="purple"
@@ -67,41 +94,15 @@ export default function ProposalCard({
               color="purple"
               size="lg"
             />
-          </div>
+          </Row>
           <ChoiceFilters
             proposal={proposal}
             selectedVote={selectedVote}
             setSelectedVote={setSelectedVote}
             scores={scores}
           />
-          <div>
-            <div className="flex flex-row space-x-2">
-              <Button
-                title="Back"
-                color="hollow"
-                onClick={() => setSelectedProposal(null)}
-              />
-              {proposal.state === "review" ? (
-                <Button
-                  title="View"
-                  icon={true}
-                  color="hollow"
-                  // href={``}
-                  newTab={true}
-                />
-              ) : (
-                <Button
-                  title="View on Snapshot"
-                  icon={true}
-                  color="hollowFull"
-                  href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
-                  newTab={true}
-                />
-              )}
-            </div>
-          </div>
         </>
       )}
-    </div>
+    </Col>
   );
 }

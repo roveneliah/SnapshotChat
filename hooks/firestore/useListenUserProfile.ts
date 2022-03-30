@@ -4,36 +4,36 @@ import { loadProfileAtAddress } from "../../utils/firestore";
 import { address } from "../../types/Address";
 import { useGetProfiles } from "./useGetProfiles";
 
+/**
+ * Turn array of addresses into address -> profile map
+ */
+const toObject: (addresses: address[]) => { [address: address]: any } = reduce(
+  (acc, f: any) => ({ ...acc, [f.address]: f }),
+  {}
+);
+
 export const useListenUserProfile = (wallet: any) => {
   const [userProfile, setUserProfile] = useState<any>();
   const following: address[] = useGetProfiles(userProfile?.following);
   const followingNo: address[] = useGetProfiles(userProfile?.followingNo);
 
-  /**
-   * Turn array of addresses into address -> profile map
-   */
-  const toObject: (addresses: address[]) => { [address: address]: any } =
-    reduce((acc, f: any) => ({ ...acc, [f.address]: f }), {});
-
+  // Load profile on wallet events.
   useEffect(() => {
-    if (wallet?.address) {
-      !userProfile
-        ? loadProfileAtAddress(wallet?.address, setUserProfile) // TODO: MIGHT need to be a async...
-        : setUserProfile({
-            ...userProfile,
-            followingProfiles: toObject(following),
-            followingNoProfiles: toObject(followingNo),
-          });
+    loadProfileAtAddress(wallet?.address, setUserProfile);
+  }, [wallet]);
+
+  // Load profiles on updates to followers.
+  useEffect(() => {
+    if (wallet?.address && userProfile) {
+      setUserProfile({
+        ...userProfile,
+        followingProfiles: toObject(following),
+        followingNoProfiles: toObject(followingNo),
+      });
     } else {
       setUserProfile(null);
     }
-  }, [following]);
+  }, [following, followingNo]);
 
-  useEffect(() => {
-    console.log("trying to update userProfile!");
-    wallet?.address
-      ? loadProfileAtAddress(wallet?.address, setUserProfile) // TODO: MIGHT need to be a async...
-      : setUserProfile(null);
-  }, [wallet]);
   return userProfile;
 };

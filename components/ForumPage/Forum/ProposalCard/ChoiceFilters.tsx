@@ -1,6 +1,7 @@
 import { Heading } from "../../../Generics/Headings/Heading";
 import { toPercentStr } from "../../../../utils/functional";
 import { Badge } from "../../../Generics/Badge";
+import { Col } from "../../../Generics/Col";
 
 export function ChoiceFilters(props: any) {
   return (
@@ -23,7 +24,7 @@ export function ChoiceFilters(props: any) {
           }
           key={i}
         >
-          <div className="flex flex-col space-y-2">
+          <Col>
             <Badge
               color="orange"
               size="sm"
@@ -47,7 +48,7 @@ export function ChoiceFilters(props: any) {
                   : Math.floor(props.proposal.scores[i])
               } $KRAUSE`}
             />
-          </div>
+          </Col>
         </a>
       ))}
     </div>
