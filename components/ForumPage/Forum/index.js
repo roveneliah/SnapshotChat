@@ -44,16 +44,26 @@ export default function ForumNew({
   const userIsFollowing = (post) =>
     userProfile?.following?.includes(post.author.toLowerCase());
 
-  const myPosts = sortedPosts?.filter(userIsAuthor).filter(matchesOutcome);
+  const myPosts = sortedPosts
+    ?.filter(userIsAuthor)
+    .filter(matchesOutcome)
+    .filter(({ retrospective }) => !retrospective);
+
   const followedPosts = sortedPosts
     ?.filter(userIsFollowing)
     .filter(matchesOutcome)
-    .filter((post) => !userIsAuthor(post));
+    .filter((post) => !userIsAuthor(post))
+    .filter(({ retrospective }) => !retrospective);
 
   const otherPosts = sortedPosts
     ?.filter((post) => !userIsFollowing(post))
     .filter(matchesOutcome)
-    .filter((post) => !userIsAuthor(post));
+    .filter((post) => !userIsAuthor(post))
+    .filter(({ retrospective }) => !retrospective);
+
+  const retrospectivePosts = sortedPosts
+    ?.filter(matchesOutcome)
+    .filter(({ retrospective }) => retrospective === true);
 
   const hasMessage = (vote) => vote.metadata.message;
   const matchesOutcome1 = (vote) =>
@@ -137,9 +147,15 @@ export default function ForumNew({
             proposal={proposal}
           />
         )}
-        {proposal.state !== "closed" && (
-          <CommentBox connection={connection} proposal={proposal} />
+        {retrospectivePosts && (
+          <ForumPosts
+            connection={connection}
+            posts={retrospectivePosts}
+            proposalId={proposal.id}
+            proposal={proposal}
+          />
         )}
+        <CommentBox connection={connection} proposal={proposal} />
       </div>
     </div>
   );

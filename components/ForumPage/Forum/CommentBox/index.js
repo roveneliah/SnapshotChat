@@ -11,6 +11,7 @@ export default function CommentBox({ proposal, connection }) {
   const [postText, updatePostText, setFormText] = useForm("");
   const [selectedChoice, setSelectedChoice] = useState();
 
+  // TODO: Add "Retrospective" if vote status is closed
   const postComment = async () => {
     if (!signer) return;
 
@@ -19,6 +20,7 @@ export default function CommentBox({ proposal, connection }) {
       author: await signer.getAddress(),
       post: postText,
       outcome: proposal.choices[selectedChoice],
+      retrospective: proposal.state === "closed",
     });
 
     setFormText("");
