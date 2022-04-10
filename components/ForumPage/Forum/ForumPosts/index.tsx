@@ -20,7 +20,7 @@ export default function ForumPosts({ connection, posts, proposal }: Props) {
 
   console.log(votingPower);
 
-  return posts ? (
+  return posts && posts.length > 0 ? (
     <div className="flex flex-col space-y-4 dark:bg-gray-800 dark:border-gray-700">
       {posts.map((post: any, i: number) => (
         <ForumPost

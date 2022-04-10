@@ -14,7 +14,7 @@ export default function SnapshotPosts({
   proposal,
   votingPower,
 }: Props) {
-  return votes ? (
+  return votes && votes.length > 0 ? (
     <div className="flex flex-col space-y-4 dark:bg-gray-800 dark:border-gray-700">
       {votes.map((vote, i) => (
         <SnapshotPost
