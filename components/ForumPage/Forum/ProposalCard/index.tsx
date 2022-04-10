@@ -68,6 +68,11 @@ export default function ProposalCard({
       <div>
         <Row className="mb-2">
           <ProposalStateBadge state={proposal.state} />
+          <Badge
+            title={`${votes?.length || proposal.votes} Votes`}
+            color="purple"
+            size="sm"
+          />
           <VotedCard
             choice={userVote}
             votesLoaded={votesLoaded}
@@ -79,30 +84,12 @@ export default function ProposalCard({
       {proposal.state === "review" && (
         <SignersTable title="Proposal Readers" signers={STEWARDS} />
       )}
-      {proposal.state !== "review" && (
-        <>
-          <Row className="items-end">
-            <Badge
-              title={`${votes?.length || proposal.votes} Votes`}
-              color="purple"
-              size="lg"
-            />
-            <Badge
-              title={`${Math.floor(
-                scores.scores_total || proposal.scores_total
-              )} $KRAUSE Total`}
-              color="purple"
-              size="lg"
-            />
-          </Row>
-          <ChoiceFilters
-            proposal={proposal}
-            selectedVote={selectedVote}
-            setSelectedVote={setSelectedVote}
-            scores={scores}
-          />
-        </>
-      )}
+      <ChoiceFilters
+        proposal={proposal}
+        selectedVote={selectedVote}
+        setSelectedVote={setSelectedVote}
+        scores={scores}
+      />
     </Col>
   );
 }
