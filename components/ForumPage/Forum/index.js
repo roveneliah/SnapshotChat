@@ -14,6 +14,7 @@ import { Row } from "../../Generics/Row";
 import { Heading } from "../../Generics/Headings/Heading";
 import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
 import { Button } from "../../Buttons/Button";
+import { Badge } from "../../Generics/Badge";
 
 const useGetSortedVotes = (votes) => {
   const [sortedVotes, setSortedVotes] = useState();
@@ -21,6 +22,12 @@ const useGetSortedVotes = (votes) => {
     votes && setSortedVotes(sortWith([descend(prop("vp"))])(votes));
   }, [votes]);
   return sortedVotes;
+};
+
+const useCycler = (arr) => {
+  const [i, setI] = useState(0);
+  const selectNext = () => setI((i + 1) % arr.length);
+  return [arr[i], selectNext];
 };
 
 // TODO: MAKE A BOX FOR FOLLOWS THAT ISN'T A POST (not everyone posts)
@@ -34,6 +41,18 @@ export default function ForumNew({
   const [selectedVote, setSelectedVote] = useState(null);
 
   const [commentView, setCommentView] = useState(true);
+  const [postTimeFilter, togglePostTimeFilter] = useCycler([
+    "any time",
+    "during voting",
+    "after voting",
+  ]);
+  const [posterFilter, togglePosterFilter] = useCycler([
+    "anyone",
+    "following",
+    // "contributors",
+    // "full-time team",
+    // "DAO summoners",
+  ]);
 
   const votes = useGetWeightedSnapshotVotes(proposal);
   const sortedVotes = useGetSortedVotes(votes);
@@ -55,6 +74,11 @@ export default function ForumNew({
     ?.filter(userIsAuthor)
     .filter(matchesOutcome)
     .filter(({ retrospective }) => !retrospective);
+
+  const myRetrospectivePosts = sortedPosts
+    ?.filter(userIsAuthor)
+    .filter(matchesOutcome)
+    .filter(({ retrospective }) => retrospective === true);
 
   const followedPosts = sortedPosts
     ?.filter(userIsFollowing)
@@ -126,18 +150,41 @@ export default function ForumNew({
                 />
               )
             )}
+            {myRetrospectivePosts && (
+              <ForumPosts
+                connection={connection}
+                posts={myRetrospectivePosts}
+                proposalId={proposal.id}
+                proposal={proposal}
+              />
+            )}
             <CommentBox connection={connection} proposal={proposal} />
           </>
         ) : (
           <>
-            {/* <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
-              <HeadingFaint title="Comments" size="xl" />
-              <Row>
-                <Button title="Prospectives" color="purple" />
-                <Button title="Retrospectives" color="purple" />
-              </Row>
-            </div> */}
-            {myVote?.length > 0 ? (
+            <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
+              <HeadingFaint title="Filter Comments" size="xl" />
+              <h2>
+                Posted{" "}
+                <span
+                  className={`select-none cursor-pointer bg-purple-100 text-purple-800 text-sm font-semibold px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900`}
+                  onClick={togglePostTimeFilter}
+                >
+                  {postTimeFilter}
+                </span>{" "}
+                by{" "}
+                <span
+                  className={`select-none cursor-pointer bg-purple-100 text-purple-800 text-sm font-semibold px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900`}
+                  onClick={togglePosterFilter}
+                >
+                  {posterFilter}
+                </span>
+                .
+              </h2>
+            </div>
+            {(postTimeFilter === "during voting" ||
+              postTimeFilter === "any time") &&
+            myVote?.length > 0 ? (
               <SnapshotPosts
                 connection={connection}
                 votes={myVote}
@@ -146,6 +193,9 @@ export default function ForumNew({
                 votingPower={votingPower}
               />
             ) : (
+              (postTimeFilter === "during voting" ||
+                postTimeFilter === "any time") &&
+              (posterFilter === "anyone" || posterFilter === "me") &&
               myPosts && (
                 <ForumPosts
                   connection={connection}
@@ -155,48 +205,62 @@ export default function ForumNew({
                 />
               )
             )}
-            {followingVotes && (
-              <SnapshotPosts
-                connection={connection}
-                votes={followingVotes}
-                proposalId={proposal.id}
-                proposal={proposal}
-                votingPower={votingPower}
-              />
-            )}
-            {followedPosts && (
-              <ForumPosts
-                connection={connection}
-                posts={followedPosts}
-                proposalId={proposal.id}
-                proposal={proposal}
-              />
-            )}
-            {otherVotes && (
-              <SnapshotPosts
-                connection={connection}
-                votes={otherVotes}
-                proposalId={proposal.id}
-                proposal={proposal}
-                votingPower={votingPower}
-              />
-            )}
-            {otherPosts && (
-              <ForumPosts
-                connection={connection}
-                posts={otherPosts}
-                proposalId={proposal.id}
-                proposal={proposal}
-              />
-            )}
-            {retrospectivePosts && (
-              <ForumPosts
-                connection={connection}
-                posts={retrospectivePosts}
-                proposalId={proposal.id}
-                proposal={proposal}
-              />
-            )}
+            {(postTimeFilter === "during voting" ||
+              postTimeFilter === "any time") &&
+              (posterFilter === "anyone" || posterFilter === "following") &&
+              followingVotes && (
+                <SnapshotPosts
+                  connection={connection}
+                  votes={followingVotes}
+                  proposalId={proposal.id}
+                  proposal={proposal}
+                  votingPower={votingPower}
+                />
+              )}
+            {(postTimeFilter === "during voting" ||
+              postTimeFilter === "any time") &&
+              (posterFilter === "anyone" || posterFilter === "following") &&
+              followedPosts && (
+                <ForumPosts
+                  connection={connection}
+                  posts={followedPosts}
+                  proposalId={proposal.id}
+                  proposal={proposal}
+                />
+              )}
+            {(postTimeFilter === "during voting" ||
+              postTimeFilter === "any time") &&
+              posterFilter === "anyone" &&
+              otherVotes && (
+                <SnapshotPosts
+                  connection={connection}
+                  votes={otherVotes}
+                  proposalId={proposal.id}
+                  proposal={proposal}
+                  votingPower={votingPower}
+                />
+              )}
+            {(postTimeFilter === "during voting" ||
+              postTimeFilter === "any time") &&
+              posterFilter === "anyone" &&
+              otherPosts && (
+                <ForumPosts
+                  connection={connection}
+                  posts={otherPosts}
+                  proposalId={proposal.id}
+                  proposal={proposal}
+                />
+              )}
+            {(postTimeFilter === "any time" ||
+              postTimeFilter === "after voting") &&
+              retrospectivePosts && (
+                <ForumPosts
+                  connection={connection}
+                  posts={retrospectivePosts}
+                  proposalId={proposal.id}
+                  proposal={proposal}
+                />
+              )}
           </>
         )}
       </div>
