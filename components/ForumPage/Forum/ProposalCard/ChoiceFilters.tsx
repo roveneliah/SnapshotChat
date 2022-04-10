@@ -9,7 +9,7 @@ export function ChoiceFilters(props: any) {
     <div
       className={
         props.proposal.choices.length % 2
-          ? "grid grid-cols-3"
+          ? "grid grid-cols-2"
           : "grid grid-cols-2"
       }
     >

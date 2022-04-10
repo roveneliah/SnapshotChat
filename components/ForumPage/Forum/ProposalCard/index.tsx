@@ -22,6 +22,8 @@ interface Props {
   userVote: number;
   votesLoaded: boolean;
   votes: any;
+  commentView: boolean;
+  setCommentView: Function;
 }
 
 export default function ProposalCard({
@@ -33,6 +35,8 @@ export default function ProposalCard({
   userVote,
   votesLoaded,
   votes,
+  commentView,
+  setCommentView,
 }: Props) {
   const scores: Scores = useGetProposalScores(proposal, votes);
 
@@ -41,29 +45,36 @@ export default function ProposalCard({
       space={6}
       className="p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700"
     >
-      <Row>
-        <Button
-          title="Back"
-          color="hollow"
-          onClick={() => setSelectedProposal(null)}
-        />
-        {proposal.state === "review" ? (
+      <Row className="justify-between">
+        <Row>
           <Button
-            title="View"
-            icon={true}
+            title="Back"
             color="hollow"
-            // href={``}
-            newTab={true}
+            onClick={() => setSelectedProposal(null)}
           />
-        ) : (
-          <Button
-            title="View on Snapshot"
-            icon={true}
-            color="hollowFull"
-            href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
-            newTab={true}
-          />
-        )}
+          {proposal.state === "review" ? (
+            <Button
+              title="View"
+              icon={true}
+              color="hollow"
+              // href={``}
+              newTab={true}
+            />
+          ) : (
+            <Button
+              title="View on Snapshot"
+              icon={true}
+              color="hollowFull"
+              href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
+              newTab={true}
+            />
+          )}
+        </Row>
+        <Button
+          title={commentView ? "Posts" : "Comment"}
+          color="hollow"
+          onClick={() => setCommentView(!commentView)}
+        />
       </Row>
       <div>
         <Row className="mb-2">

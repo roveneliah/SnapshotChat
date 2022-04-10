@@ -9,6 +9,11 @@ import SnapshotPosts from "./ForumPosts/SnapshotPosts";
 import { useGetWeightedSnapshotVotes } from "../../../hooks/snapshot/useGetSnapshotVotes";
 import { sorts, filters } from "./ForumComplex";
 import { useGetVotingPowerFromVotes } from "../../../hooks/snapshot/useGetVotingPowerFromVotes";
+import { Col } from "../../Generics/Col";
+import { Row } from "../../Generics/Row";
+import { Heading } from "../../Generics/Headings/Heading";
+import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
+import { Button } from "../../Buttons/Button";
 
 const useGetSortedVotes = (votes) => {
   const [sortedVotes, setSortedVotes] = useState();
@@ -27,6 +32,8 @@ export default function ForumNew({
 }) {
   const { provider, userProfile, wallet } = connection;
   const [selectedVote, setSelectedVote] = useState(null);
+
+  const [commentView, setCommentView] = useState(true);
 
   const votes = useGetWeightedSnapshotVotes(proposal);
   const sortedVotes = useGetSortedVotes(votes);
@@ -84,7 +91,7 @@ export default function ForumNew({
 
   return (
     <div className="flex flex-row justify-center">
-      <div className="flex flex-col w-2/3 space-y-4 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex flex-col w-2/5 space-y-4 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <ProposalCard
           votes={votes}
           proposal={proposal}
@@ -94,68 +101,104 @@ export default function ForumNew({
           userVote={userVotes[proposal.id]}
           votesLoaded={userVotes !== null}
           wallet={connection.wallet}
+          commentView={commentView}
+          setCommentView={setCommentView}
         />
-        {myVote?.length > 0 ? (
-          <SnapshotPosts
-            connection={connection}
-            votes={myVote}
-            proposalId={proposal.id}
-            proposal={proposal}
-            votingPower={votingPower}
-          />
+      </div>
+      <div className="flex flex-col w-1/2 space-y-4 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        {commentView ? (
+          <>
+            {myVote?.length > 0 ? (
+              <SnapshotPosts
+                connection={connection}
+                votes={myVote}
+                proposalId={proposal.id}
+                proposal={proposal}
+                votingPower={votingPower}
+              />
+            ) : (
+              myPosts && (
+                <ForumPosts
+                  connection={connection}
+                  posts={myPosts}
+                  proposalId={proposal.id}
+                  proposal={proposal}
+                />
+              )
+            )}
+            <CommentBox connection={connection} proposal={proposal} />
+          </>
         ) : (
-          myPosts && (
-            <ForumPosts
-              connection={connection}
-              posts={myPosts}
-              proposalId={proposal.id}
-              proposal={proposal}
-            />
-          )
+          <>
+            {/* <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
+              <HeadingFaint title="Comments" size="xl" />
+              <Row>
+                <Button title="Prospectives" color="purple" />
+                <Button title="Retrospectives" color="purple" />
+              </Row>
+            </div> */}
+            {myVote?.length > 0 ? (
+              <SnapshotPosts
+                connection={connection}
+                votes={myVote}
+                proposalId={proposal.id}
+                proposal={proposal}
+                votingPower={votingPower}
+              />
+            ) : (
+              myPosts && (
+                <ForumPosts
+                  connection={connection}
+                  posts={myPosts}
+                  proposalId={proposal.id}
+                  proposal={proposal}
+                />
+              )
+            )}
+            {followingVotes && (
+              <SnapshotPosts
+                connection={connection}
+                votes={followingVotes}
+                proposalId={proposal.id}
+                proposal={proposal}
+                votingPower={votingPower}
+              />
+            )}
+            {followedPosts && (
+              <ForumPosts
+                connection={connection}
+                posts={followedPosts}
+                proposalId={proposal.id}
+                proposal={proposal}
+              />
+            )}
+            {otherVotes && (
+              <SnapshotPosts
+                connection={connection}
+                votes={otherVotes}
+                proposalId={proposal.id}
+                proposal={proposal}
+                votingPower={votingPower}
+              />
+            )}
+            {otherPosts && (
+              <ForumPosts
+                connection={connection}
+                posts={otherPosts}
+                proposalId={proposal.id}
+                proposal={proposal}
+              />
+            )}
+            {retrospectivePosts && (
+              <ForumPosts
+                connection={connection}
+                posts={retrospectivePosts}
+                proposalId={proposal.id}
+                proposal={proposal}
+              />
+            )}
+          </>
         )}
-        {followingVotes && (
-          <SnapshotPosts
-            connection={connection}
-            votes={followingVotes}
-            proposalId={proposal.id}
-            proposal={proposal}
-            votingPower={votingPower}
-          />
-        )}
-        {followedPosts && (
-          <ForumPosts
-            connection={connection}
-            posts={followedPosts}
-            proposalId={proposal.id}
-            proposal={proposal}
-          />
-        )}
-        {otherVotes && (
-          <SnapshotPosts
-            connection={connection}
-            votes={otherVotes}
-            proposalId={proposal.id}
-            proposal={proposal}
-            votingPower={votingPower}
-          />
-        )}
-        {otherPosts && (
-          <ForumPosts
-            connection={connection}
-            posts={otherPosts}
-            proposalId={proposal.id}
-            proposal={proposal}
-          />
-        )}
-        {retrospectivePosts && (
-          <ForumPosts
-            connection={connection}
-            posts={retrospectivePosts}
-            proposalId={proposal.id}
-            proposal={proposal}
-          />
-        )}
-        <CommentBox connection={connection} proposal={proposal} />
       </div>
     </div>
   );
