@@ -103,9 +103,11 @@ export const SnapshotPost = ({
             <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
               {outcome}
             </span>
-            <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300">
-              {votingPower} $KRAUSE
-            </span>
+            {votingPower && (
+              <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300">
+                {votingPower} $KRAUSE
+              </span>
+            )}
           </div>
           {proposal.state === "active" && (
             <div>

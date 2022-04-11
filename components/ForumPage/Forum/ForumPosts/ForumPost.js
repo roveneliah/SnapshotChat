@@ -97,7 +97,13 @@ export const ForumPost = ({ connection, post, proposal, votingPower }) => {
               Opinion
             </span> */}
             <Badge title={outcome} color="orange" size="xs" />
-            <Badge title={`${votingPower} $KRAUSE`} color="purple" size="xs" />
+            {votingPower && (
+              <Badge
+                title={`${votingPower} $KRAUSE`}
+                color="purple"
+                size="xs"
+              />
+            )}
             {/* <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
               {outcome}
             </span>
