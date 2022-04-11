@@ -123,7 +123,7 @@ export default function ForumNew({
     .filter((post) => !userIsAuthor(post));
   const otherRetrospectives = retrospectivePosts
     ?.filter((post) => !userIsFollowing(post))
-    .filter((post) => userIsAuthor(post));
+    .filter((post) => !userIsAuthor(post));
 
   const hasMessage = (vote) => vote.metadata.message;
   const matchesOutcome1 = (vote) =>
