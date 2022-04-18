@@ -80,6 +80,7 @@ export default function ProposalsList({
               setSelectedProposal={setSelectedProposal}
               proposal={proposal}
               key={i}
+              index={i}
               userVote={userVotes[proposal.id]}
               votesLoaded={userVotes != null}
               wallet={wallet}

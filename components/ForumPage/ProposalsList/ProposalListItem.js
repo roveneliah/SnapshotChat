@@ -20,7 +20,7 @@ export const ProposalListItem = ({
   provider,
   setSelectedProposal,
   proposal,
-  key,
+  index,
   userVote,
   votesLoaded,
   wallet,
@@ -43,7 +43,7 @@ export const ProposalListItem = ({
 
   return (
     <div
-      key={key}
+      key={index}
       className="flex flex-col space-y-10 p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
     >
       <div>
@@ -98,7 +98,8 @@ export const ProposalListItem = ({
         <Button
           title="Forum"
           color="hollow"
-          onClick={() => setSelectedProposal(proposal.id)}
+          // onClick={() => setSelectedProposal(proposal.id)}
+          onClick={() => setSelectedProposal(index + 1)}
         />
         <Button
           title="View On Snapshot"

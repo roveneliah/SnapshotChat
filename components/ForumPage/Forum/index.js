@@ -21,7 +21,7 @@ const useGetSortedVotes = (votes) => {
 
 const postTypeFilters = [
   {
-    name: "Any",
+    name: "All",
   },
   {
     name: "Vote",
@@ -77,6 +77,7 @@ function CommentView(props) {
 export default function ForumNew({
   connection,
   proposal,
+  selectedProposal,
   setSelectedProposal,
   userVotes,
 }) {
@@ -148,6 +149,7 @@ export default function ForumNew({
         <ProposalCard
           votes={votes}
           proposal={proposal}
+          selectedProposal={selectedProposal}
           setSelectedProposal={setSelectedProposal}
           selectedVote={selectedVote}
           setSelectedVote={setSelectedVote}
@@ -171,7 +173,7 @@ export default function ForumNew({
         ) : (
           <>
             <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
-              <HeadingFaint title="Filter Comments" size="xl" />
+              <HeadingFaint title="Filter Posts" size="xl" />
               <div>
                 {/* <HeadingFaint title="Post Type" size="md" /> */}
                 <Row>

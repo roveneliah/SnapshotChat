@@ -16,6 +16,7 @@ import { Col } from "../../../Generics/Col";
 interface Props {
   wallet: Wallet;
   proposal: any; // TODO: proposal type
+  selectedProposal: number;
   setSelectedProposal: Function;
   selectedVote: number;
   setSelectedVote: Function;
@@ -29,6 +30,7 @@ interface Props {
 export default function ProposalCard({
   wallet,
   proposal,
+  selectedProposal,
   setSelectedProposal,
   selectedVote,
   setSelectedVote,

@@ -8,7 +8,7 @@ import { addDraftPost, addPost } from "../../../../utils/firestore";
 
 export default function CommentBox({ proposal, connection }) {
   const { provider, signer, wallet, snapshotVote } = connection;
-  const [postText, updatePostText, setFormText] = useForm("");
+  const [postText, updatePostText, setPostText] = useForm("");
   const [selectedChoice, setSelectedChoice] = useState();
 
   // TODO: Add "Retrospective" if vote status is closed
@@ -51,7 +51,8 @@ export default function CommentBox({ proposal, connection }) {
         rows="5"
         className="block p-2 w-full caret-purple-400 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
         value={postText}
-        onChange={updatePostText}
+        // onChange={updatePostText}
+        onChange={(e) => setPostText(e.target.value)}
       />
       <div className="flex flex-row space-x-3">
         <Button

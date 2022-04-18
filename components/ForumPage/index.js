@@ -16,10 +16,12 @@ export default function ForumPage(props) {
   const drafts = [];
   const userVotes = useGetAllUserVotes(props.snapshotSpace, props.wallet);
 
-  return selectedProposal ? (
+  return proposals?.[selectedProposal] ? (
     <Forum
       connection={props}
-      proposal={proposalById(proposals.concat(drafts), selectedProposal)}
+      // proposal={proposalById(proposals.concat(drafts), selectedProposal)}
+      proposal={proposals[selectedProposal]}
+      selectedProposal={selectedProposal}
       setSelectedProposal={setSelectedProposal}
       userVotes={userVotes}
     />
