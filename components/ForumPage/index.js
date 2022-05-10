@@ -1,14 +1,14 @@
 import Forum from "./Forum";
-import {
-  printPass,
-  proposalById,
-  draftBySignature,
-} from "../../utils/functional";
+import { printPass, draftBySignature } from "../../utils/functional";
 import { useEffect, useState } from "react";
 import { useGetProposals } from "../../hooks/firestore/useGetProposals";
 import { useGetAllUserVotes } from "../../hooks/snapshot/useGetAllUserVotes";
 import ProposalsList from "./ProposalsList/ProposalsList";
 import { useGetNotionDrafts } from "../../hooks/notion/useGetNotionDrafts";
+import { compose, equals, head, prop } from "ramda";
+
+export const proposalById = (proposals, id) =>
+  head(proposals?.filter(compose(equals(id), prop("id"))) ?? []);
 
 export default function ForumPage(props) {
   const [selectedProposal, setSelectedProposal] = useState();
@@ -16,11 +16,15 @@ export default function ForumPage(props) {
   const drafts = [];
   const userVotes = useGetAllUserVotes(props.snapshotSpace, props.wallet);
 
-  return proposals?.[selectedProposal] ? (
+  const proposal = proposalById(proposals, selectedProposal);
+
+  console.log("proposals", proposals);
+
+  return proposal ? (
     <Forum
       connection={props}
       // proposal={proposalById(proposals.concat(drafts), selectedProposal)}
-      proposal={proposals[selectedProposal]}
+      proposal={proposal}
       selectedProposal={selectedProposal}
       setSelectedProposal={setSelectedProposal}
       userVotes={userVotes}

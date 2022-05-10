@@ -23,7 +23,7 @@ export default function CommentBox({ proposal, connection }) {
       retrospective: proposal.state === "closed",
     });
 
-    setFormText("");
+    setPostText("");
     proposal.state === "review"
       ? await addDraftPost(provider)(proposal.id, post)
       : await addPost(provider)(proposal.id, post);
@@ -40,7 +40,19 @@ export default function CommentBox({ proposal, connection }) {
 
   return wallet?.hodler ? (
     <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
-      <HeadingFaint title="Post your thoughts." />
+      {proposal.state === "closed" ? (
+        <>
+          <div className="rounded-lg bg-orange-200 w-fit px-7 pt-2">
+            <HeadingFaint title="Retrospective" size="2xl" />
+          </div>
+          <HeadingFaint
+            title="This proposal is closed, but you can write a retrospective to document what went well or poorly."
+            size="md"
+          />
+        </>
+      ) : (
+        <HeadingFaint title="What do you think?" size="xl" />
+      )}
       <Selector
         proposal={proposal}
         selectedChoice={selectedChoice}
@@ -55,8 +67,10 @@ export default function CommentBox({ proposal, connection }) {
       />
       <div className="flex flex-row space-x-3">
         <Button
-          title="Post Opinion"
-          color="purple"
+          title={`Post ${
+            proposal.state === "closed" ? "Retrospective" : "Opinion"
+          }`}
+          color={proposal.state === "closed" ? "orangeFull" : "purple"}
           icon={true}
           onClick={postComment}
         />

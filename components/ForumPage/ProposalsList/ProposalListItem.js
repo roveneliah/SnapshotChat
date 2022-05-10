@@ -44,7 +44,7 @@ export const ProposalListItem = ({
   return (
     <div
       key={index}
-      className="flex flex-col space-y-10 p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+      className="flex flex-col space-y-10 p-6 bg-white bg-opacity-90 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
     >
       <div>
         <Row className="mb-2 pb-2">
@@ -98,8 +98,7 @@ export const ProposalListItem = ({
         <Button
           title="Forum"
           color="hollow"
-          // onClick={() => setSelectedProposal(proposal.id)}
-          onClick={() => setSelectedProposal(index + 1)}
+          onClick={() => setSelectedProposal(proposal.id)}
         />
         <Button
           title="View On Snapshot"

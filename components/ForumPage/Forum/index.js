@@ -10,6 +10,10 @@ import { sorts, filters } from "./ForumComplex";
 import { useGetVotingPowerFromVotes } from "../../../hooks/snapshot/useGetVotingPowerFromVotes";
 import { HeadingFaint } from "../../Generics/Headings/HeadingFaint";
 import { Row } from "../../Generics/Row";
+import { Heading } from "../../Generics/Headings/Heading";
+import { ChoiceFilters } from "./ProposalCard/ChoiceFilters";
+import { useGetProposalScores } from "../../../hooks/snapshot/useGetProposalScores";
+import { CommentView } from "./CommentView";
 
 const useGetSortedVotes = (votes) => {
   const [sortedVotes, setSortedVotes] = useState();
@@ -38,42 +42,6 @@ const posterFilters = [
   { name: "Contributors", filter: () => true },
 ];
 
-// TODO: MAKE A BOX FOR FOLLOWS THAT ISN'T A POST (not everyone posts)
-
-function CommentView(props) {
-  return (
-    <div>
-      {props.myVote?.length > 0 ? (
-        <SnapshotPosts
-          connection={props.connection}
-          votes={props.myVote}
-          proposalId={props.proposal.id}
-          proposal={props.proposal}
-          votingPower={props.votingPower}
-        />
-      ) : (
-        props.myPosts && (
-          <ForumPosts
-            connection={props.connection}
-            posts={props.myPosts}
-            proposalId={props.proposal.id}
-            proposal={props.proposal}
-          />
-        )
-      )}
-      {props.myRetrospectivePosts && (
-        <ForumPosts
-          connection={props.connection}
-          posts={props.myRetrospectivePosts}
-          proposalId={props.proposal.id}
-          proposal={props.proposal}
-        />
-      )}
-      <CommentBox connection={props.connection} proposal={props.proposal} />
-    </div>
-  );
-}
-
 export default function ForumNew({
   connection,
   proposal,
@@ -100,6 +68,8 @@ export default function ForumNew({
   const votes = useGetWeightedSnapshotVotes(proposal);
   const sortedVotes = useGetSortedVotes(votes);
   const votingPower = useGetVotingPowerFromVotes(votes, proposal.snapshot);
+
+  const scores = useGetProposalScores(proposal, votes);
 
   const posts = useGetProposalComments(provider, proposal);
   const sortedPosts = sorts[0].sort(posts)?.filter(matchesOutcome);
@@ -144,23 +114,24 @@ export default function ForumNew({
     .filter(hasMessage);
 
   return (
-    <div className="flex flex-row justify-center">
-      <div className="flex flex-col w-2/5 space-y-4 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-        <ProposalCard
-          votes={votes}
-          proposal={proposal}
-          selectedProposal={selectedProposal}
-          setSelectedProposal={setSelectedProposal}
-          selectedVote={selectedVote}
-          setSelectedVote={setSelectedVote}
-          userVote={userVotes[proposal.id]}
-          votesLoaded={userVotes !== null}
-          wallet={connection.wallet}
-          commentView={commentView}
-          setCommentView={setCommentView}
-        />
-      </div>
-      <div className="flex flex-col w-1/2 space-y-4 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex flex-row justify-center ">
+      <div className="flex flex-col h-[90vh] overflow-auto w-[85vw] xl:w-[65vw] space-y-4 p-6 border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div className="grid grid-cols-1 space-x-4">
+          <ProposalCard
+            votes={votes}
+            proposal={proposal}
+            selectedProposal={selectedProposal}
+            setSelectedProposal={setSelectedProposal}
+            selectedVote={selectedVote}
+            setSelectedVote={setSelectedVote}
+            userVote={userVotes[proposal.id]}
+            votesLoaded={userVotes !== null}
+            wallet={connection.wallet}
+            commentView={commentView}
+            setCommentView={setCommentView}
+          />
+        </div>
+
         {commentView ? (
           <CommentView
             connection={connection}
@@ -172,10 +143,9 @@ export default function ForumNew({
           />
         ) : (
           <>
-            <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
-              <HeadingFaint title="Filter Posts" size="xl" />
+            {/* <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700"> */}
+            {/* <HeadingFaint title="Filter Posts" size="xl" />
               <div>
-                {/* <HeadingFaint title="Post Type" size="md" /> */}
                 <Row>
                   {postTypeFilters.map((postType, i) => (
                     <span
@@ -192,7 +162,13 @@ export default function ForumNew({
                   ))}
                 </Row>
               </div>
-              {/* <div>
+              <ChoiceFilters
+                proposal={proposal}
+                selectedVote={selectedVote}
+                setSelectedVote={setSelectedVote}
+                scores={scores}
+              /> */}
+            {/* <div>
                 <HeadingFaint title="Posted By" size="md" />
                 <Row className="flex-wrap">
                   {posterFilters.map((postType, i) => (
@@ -209,7 +185,7 @@ export default function ForumNew({
                   ))}
                 </Row>
               </div> */}
-            </div>
+            {/* </div> */}
             {(selectedPostTypeFilter === 0 || selectedPostTypeFilter === 1) && (
               <>
                 <SnapshotPosts
@@ -279,6 +255,9 @@ export default function ForumNew({
                   proposal={proposal}
                 />
               </>
+            )}
+            {commentView && (
+              <CommentBox connection={connection} proposal={proposal} />
             )}
           </>
         )}

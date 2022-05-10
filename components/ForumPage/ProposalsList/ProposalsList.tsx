@@ -7,6 +7,10 @@ import { ViewProfileCard } from "./ViewProfileCard";
 import { SubmitViaNotionCard } from "./SubmitViaNotionCard";
 import { Col } from "../../Generics/Col";
 import { Row } from "../../Generics/Row";
+import { ProfileView } from "../../ProfilePage/ProfileView";
+import UserProfileCard from "../../ProfilePage/UserProfileCard";
+import { Heading } from "../../Generics/Headings/Heading";
+import Image from "next/image";
 
 interface Props {
   connection: any;
@@ -28,18 +32,44 @@ export default function ProposalsList({
   const [proposalStateFilter, setProposalStateFilter] =
     useState<ProposalStateFilter>(ProposalStateFilter.None);
 
+  const proposalsList = proposals
+    .filter(({ type }: any) => type === "basic" || type === "single-choice")
+    .filter(
+      ({ state }: any) =>
+        proposalStateFilter === ProposalStateFilter.None ||
+        state === proposalStateFilter
+    )
+    .map((proposal: any, i: number) => (
+      <ProposalListItem
+        provider={provider}
+        setSelectedProposal={setSelectedProposal}
+        proposal={proposal}
+        key={i}
+        index={i}
+        userVote={userVotes[proposal.id]}
+        votesLoaded={userVotes != null}
+        wallet={wallet}
+        userProfile={userProfile}
+      />
+    ));
+
   return (
-    <Row space={3} className="justify-center pb-8">
-      <Col space={3}>
-        <SubmitViaNotionCard />
-        <ViewProfileCard />
-      </Col>
-      <div className="basis-1/2 flex flex-col space-y-6 px-4 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-        <ProposalListHeader
-          proposalStateFilter={proposalStateFilter}
-          setProposalStateFilter={setProposalStateFilter}
-        />
-        {/* {(proposalStateFilter === ProposalStateFilter.Review ||
+    <Row space={3} className="justify-center py-8">
+      <div className="w-3/4 grid grid-cols-1 lg:grid-cols-5 px-4">
+        <div className="col-span-2 p-4 space-y-3 h-fit">
+          <ProposalListHeader
+            proposalStateFilter={proposalStateFilter}
+            setProposalStateFilter={setProposalStateFilter}
+          />
+          <div className="hidden lg:block ">
+            <UserProfileCard
+              userProfile={connection.userProfile}
+              wallet={connection.wallet}
+            />
+          </div>
+        </div>
+        <div className="col-span-3 basis-3/4 lg:basis-1/2 flex flex-col space-y-6 p-4 max-h-[87vh] overflow-auto  border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          {/* {(proposalStateFilter === ProposalStateFilter.Review ||
           proposalStateFilter === ProposalStateFilter.None) &&
           drafts.map((draft: Template, key: number) => (
             <div
@@ -65,28 +95,21 @@ export default function ProposalsList({
               </div>
             </div>
           ))} */}
-        {proposals
-          .filter(
-            ({ type }: any) => type === "basic" || type === "single-choice"
-          )
-          .filter(
-            ({ state }: any) =>
-              proposalStateFilter === ProposalStateFilter.None ||
-              state === proposalStateFilter
-          )
-          .map((proposal: any, i: number) => (
-            <ProposalListItem
-              provider={provider}
-              setSelectedProposal={setSelectedProposal}
-              proposal={proposal}
-              key={i}
-              index={i}
-              userVote={userVotes[proposal.id]}
-              votesLoaded={userVotes != null}
-              wallet={wallet}
-              userProfile={userProfile}
-            />
-          ))}
+
+          {proposalsList.length > 0 ? (
+            proposalsList
+          ) : (
+            <div className="flex flex-col space-y-10 p-6 bg-white bg-opacity-90 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+              <Heading title="No proposals found" size="xl" />
+              <Image
+                src="/cube.gif"
+                height={900}
+                width={1200}
+                className="rounded-lg"
+              />
+            </div>
+          )}
+        </div>
       </div>
     </Row>
   );

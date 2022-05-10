@@ -12,6 +12,7 @@ import { ProposalStateBadge } from "./ProposalStateBadge";
 import { Badge } from "../../../Generics/Badge";
 import { Row } from "../../../Generics/Row";
 import { Col } from "../../../Generics/Col";
+import { ProposalModal } from "../ProposalModal";
 
 interface Props {
   wallet: Wallet;
@@ -54,7 +55,7 @@ export default function ProposalCard({
             color="hollow"
             onClick={() => setSelectedProposal(null)}
           />
-          {proposal.state === "review" ? (
+          {/* {proposal.state === "review" ? (
             <Button
               title="View"
               icon={true}
@@ -70,13 +71,31 @@ export default function ProposalCard({
               href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
               newTab={true}
             />
-          )}
+          )} */}
+          <ProposalModal proposal={proposal} />
         </Row>
-        <Button
-          title={commentView ? "Posts" : "Comment"}
-          color="hollow"
-          onClick={() => setCommentView(!commentView)}
-        />
+        <Row>
+          <Button
+            title={proposal.state == "closed" ? "Comment" : "Vote"}
+            color={
+              commentView
+                ? proposal.state == "closed"
+                  ? "orangeFull"
+                  : "purpleFull"
+                : "hollowFull"
+            }
+            onClick={() => {
+              setCommentView(true);
+            }}
+          />
+          <Button
+            title="Feed"
+            color={commentView ? "hollowFull" : "purpleFull"}
+            onClick={() => {
+              setCommentView(false);
+            }}
+          />
+        </Row>
       </Row>
       <div>
         <Row className="mb-2">
@@ -92,17 +111,19 @@ export default function ProposalCard({
             wallet={wallet}
           />
         </Row>
-        <Heading title={proposal.title} size="2xl" />
+        <Heading title={proposal.title} size="xl" />
       </div>
       {proposal.state === "review" && (
         <SignersTable title="Proposal Readers" signers={STEWARDS} />
       )}
-      <ChoiceFilters
-        proposal={proposal}
-        selectedVote={selectedVote}
-        setSelectedVote={setSelectedVote}
-        scores={scores}
-      />
+      {!commentView && (
+        <ChoiceFilters
+          proposal={proposal}
+          selectedVote={selectedVote}
+          setSelectedVote={setSelectedVote}
+          scores={scores}
+        />
+      )}
     </Col>
   );
 }

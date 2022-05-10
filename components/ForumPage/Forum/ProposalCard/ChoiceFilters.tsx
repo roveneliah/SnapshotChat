@@ -9,8 +9,8 @@ export function ChoiceFilters(props: any) {
     <div
       className={
         props.proposal.choices.length % 2
-          ? "grid grid-cols-1"
-          : "grid grid-cols-1"
+          ? "grid grid-cols-3"
+          : "grid grid-cols-2"
       }
     >
       {props.proposal.choices.map((choice: string, i: number) => (
@@ -26,7 +26,7 @@ export function ChoiceFilters(props: any) {
           key={i}
         >
           <Col>
-            <Heading title={choice} size="md" />
+            <Heading title={choice} size="sm" />
             <Row space={1} className="flex-wrap">
               <Badge
                 color="orange"

@@ -129,10 +129,12 @@ export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
   return (
     <div className="flex flex-row space-x-2">
       {wallet.hodler ? (
-        <Button
-          title={`${wallet?.$KRAUSE?.toFixed(0) || 0} $KRAUSE`}
-          color="hollowFull"
-        />
+        <div className="invisible md:visible">
+          <Button
+            title={`${wallet?.$KRAUSE?.toFixed(0) || 0} $KRAUSE`}
+            color="hollowFull"
+          />
+        </div>
       ) : (
         // <div>
         //   <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
@@ -149,17 +151,21 @@ export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
       )}
       {wallet.loaded && (
         <>
-          <Button
-            title={shortenAddress(wallet.address)}
-            color="hollowFull"
-            href="/profile"
-            newTab={true}
-          />
-          <Button
-            title="Disconnect"
-            onClick={() => disconnect()}
-            color="hollowFull"
-          />
+          <div className="invisible sm:visible">
+            <Button
+              title={shortenAddress(wallet.address)}
+              color="hollowFull"
+              href="/profile"
+              newTab={true}
+            />
+          </div>
+          <div>
+            <Button
+              title="Disconnect"
+              onClick={() => disconnect()}
+              color="hollowFull"
+            />
+          </div>
         </>
       )}
     </div>

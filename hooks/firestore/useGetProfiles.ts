@@ -9,7 +9,7 @@ import { address } from "../../types/Address";
  * TODO: Add a UserProfileInfo type.
  */
 export const useGetProfiles = (addresses: address[]) => {
-  const [profiles, setProfiles] = useState<any>();
+  const [profiles, setProfiles] = useState<any>([]);
 
   useEffect(() => {
     const getAllProfiles = async (addresses: address[]) => {
@@ -22,5 +22,5 @@ export const useGetProfiles = (addresses: address[]) => {
         .then(setProfiles);
   }, [addresses]);
 
-  return profiles || [];
+  return profiles;
 };

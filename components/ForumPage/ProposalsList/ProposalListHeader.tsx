@@ -4,10 +4,10 @@ import { ProposalStateFilter } from "../../../types/ProposalStateFilter";
 const { None, Active, Closed } = ProposalStateFilter;
 export function ProposalListHeader(props: any) {
   return (
-    <div className="p-6 basis-1/4 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="p-6 basis-1/4 h-fit bg-white bg-opacity-90 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <div>
-        <h5 className="mb-2 min-h-max text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          Proposals
+        <h5 className="mb-2 min-h-max text-2xl font-bold tracking-tight text-primaryDark dark:text-white">
+          Krause House Governance Forum
         </h5>
       </div>
       <span
