@@ -10,7 +10,15 @@ export default function Layout({
   wrongNetwork,
 }: any) {
   return (
-    <div className="theme-basic-light bg-background dark:bg-gray-800 h-screen overflow-auto">
+    <div className="theme-basic-light bg-gradient-to-tr from-purple-900 to-purple-500 dark:bg-gray-800 h-screen overflow-auto">
+      <div className="absolute -bottom-9 left-48">
+        <Image
+          src="/coachrick.png"
+          height={150}
+          width={180}
+          className="rounded-lg"
+        />
+      </div>
       <div className="absolute bottom-8 right-14">
         <Image
           src="/mario.png"

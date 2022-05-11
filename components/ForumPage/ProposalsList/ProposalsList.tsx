@@ -61,12 +61,6 @@ export default function ProposalsList({
             proposalStateFilter={proposalStateFilter}
             setProposalStateFilter={setProposalStateFilter}
           />
-          <div className="hidden lg:block ">
-            <UserProfileCard
-              userProfile={connection.userProfile}
-              wallet={connection.wallet}
-            />
-          </div>
         </div>
         <div className="col-span-3 basis-3/4 lg:basis-1/2 flex flex-col space-y-6 p-4 max-h-[87vh] overflow-auto  border-gray-200 dark:bg-gray-800 dark:border-gray-700">
           {/* {(proposalStateFilter === ProposalStateFilter.Review ||
@@ -99,14 +93,18 @@ export default function ProposalsList({
           {proposalsList.length > 0 ? (
             proposalsList
           ) : (
-            <div className="flex flex-col space-y-10 p-6 bg-white bg-opacity-90 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-              <Heading title="No proposals found" size="xl" />
-              <Image
-                src="/cube.gif"
-                height={900}
-                width={1200}
-                className="rounded-lg"
-              />
+            <div className="flex flex-col space-y-5 p-6 bg-cards font-krausehouse2 bg-opacity-75 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <Heading title="No proposals found" size="xl" />
+              </div>
+              <div>
+                <Image
+                  src="/cube.gif"
+                  height={900}
+                  width={1200}
+                  className="rounded-lg"
+                />
+              </div>
             </div>
           )}
         </div>

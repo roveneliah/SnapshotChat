@@ -28,6 +28,10 @@ module.exports = {
         xl: "1440px",
       },
       colors: generateTheme("normal"),
+      fontFamily: {
+        krausehouse1: ["Headline"],
+        krausehouse2: ["SK_Cuber"],
+      },
     },
   },
   plugins: [],

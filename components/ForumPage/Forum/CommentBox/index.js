@@ -39,7 +39,7 @@ export default function CommentBox({ proposal, connection }) {
     });
 
   return wallet?.hodler ? (
-    <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex flex-col space-y-6 p-6 bg-cards bg-opacity-75 rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
       {proposal.state === "closed" ? (
         <>
           <div className="rounded-lg bg-orange-200 w-fit px-7 pt-2">
@@ -60,7 +60,7 @@ export default function CommentBox({ proposal, connection }) {
       />
       <textarea
         rows="5"
-        className="block p-2 w-full caret-purple-400 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
+        className="block p-2 w-full caret-purple-400 text-sm text-gray-900 bg-cards bg-opacity-40 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
         value={postText}
         // onChange={updatePostText}
         onChange={(e) => setPostText(e.target.value)}

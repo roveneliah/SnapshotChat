@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .theme-basic-light {
+    --bg-color: #fff;
+    --text-color: #c98ecd;
+  }
+}
+
+@font-face {
+  font-family: "Headline";
+  src: url("../public/fonts/Headline.otf");
+}
+
+@font-face {
+  font-family: "SK_Cuber";
+  src: url("../public/fonts/SK_Cuber.ttf");
+}

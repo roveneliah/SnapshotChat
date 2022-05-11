@@ -16,6 +16,7 @@ export function ChoiceFilters(props: any) {
       {props.proposal.choices.map((choice: string, i: number) => (
         <a
           onClick={() =>
+            props.setSelectedVote &&
             props.setSelectedVote(props.selectedVote === i ? null : i)
           }
           className={

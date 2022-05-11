@@ -46,7 +46,7 @@ export default function ProposalCard({
   return (
     <Col
       space={6}
-      className="p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700"
+      className="p-6 bg-cards opacity-75 rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700"
     >
       <Row className="justify-between">
         <Row>
@@ -72,18 +72,12 @@ export default function ProposalCard({
               newTab={true}
             />
           )} */}
-          <ProposalModal proposal={proposal} />
+          <ProposalModal proposal={proposal} scores={scores} />
         </Row>
         <Row>
           <Button
             title={proposal.state == "closed" ? "Comment" : "Vote"}
-            color={
-              commentView
-                ? proposal.state == "closed"
-                  ? "orangeFull"
-                  : "purpleFull"
-                : "hollowFull"
-            }
+            color={commentView ? "background" : "hollowFull"}
             onClick={() => {
               setCommentView(true);
             }}

@@ -15,6 +15,8 @@ import { vote } from "../../../utils/Snapshot/vote";
 import { useGetFollowingVotes } from "../../../hooks/useGetFollowingVotes";
 import { ProposalStateBadge } from "../Forum/ProposalCard/ProposalStateBadge";
 import { Row } from "../../Generics/Row";
+import Image from "next/image";
+import Link from "next/link";
 
 export const ProposalListItem = ({
   provider,
@@ -44,7 +46,8 @@ export const ProposalListItem = ({
   return (
     <div
       key={index}
-      className="flex flex-col space-y-10 p-6 bg-cards bg-opacity-90 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+      className="relative flex flex-col space-y-10 p-6 bg-cards bg-opacity-75 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+      onClick={() => setSelectedProposal(proposal.id)}
     >
       <div>
         <Row className="mb-2 pb-2">
@@ -94,7 +97,7 @@ export const ProposalListItem = ({
           ))}
         </div>
       )} */}
-      <Row space={4}>
+      {/* <Row space={4}>
         <Button
           title="Forum"
           color="hollow"
@@ -107,7 +110,36 @@ export const ProposalListItem = ({
           href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
           newTab={true}
         />
-      </Row>
+      </Row> */}
+      <div className="absolute -bottom-1 right-0">
+        {proposal.author === "0xC8Af50428848b28ec5168037B54b7C7D83e168EE" && (
+          <Image
+            src="/commodore.png"
+            height={60}
+            width={60}
+            className="rounded-lg"
+            alt="Posted by Commodore"
+          />
+        )}
+        {proposal.author === "0xea0774226d998a2f513c3698901869189195C1b5" && (
+          <Image
+            src="/mario.png"
+            height={60}
+            width={60}
+            className="rounded-lg"
+            alt="Posted by Mario Lopes"
+          />
+        )}
+        {proposal.author === "0x1983dA5059F7d7DA6b4c6cDc3D42D69a334A5E7E" && (
+          <Image
+            src="/icecube.png"
+            height={60}
+            width={90}
+            alt="Posted by Spice"
+            className="rounded-lg"
+          />
+        )}
+      </div>
     </div>
   );
 };

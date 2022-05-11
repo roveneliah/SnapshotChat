@@ -1,6 +1,6 @@
 import Forum from "./Forum";
 import { printPass, draftBySignature } from "../../utils/functional";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useGetProposals } from "../../hooks/firestore/useGetProposals";
 import { useGetAllUserVotes } from "../../hooks/snapshot/useGetAllUserVotes";
 import ProposalsList from "./ProposalsList/ProposalsList";
@@ -15,10 +15,10 @@ export default function ForumPage(props) {
   const proposals = useGetProposals(props.snapshotSpace);
   const drafts = [];
   const userVotes = useGetAllUserVotes(props.snapshotSpace, props.wallet);
-
-  const proposal = proposalById(proposals, selectedProposal);
-
-  console.log("proposals", proposals);
+  const proposal = useMemo(
+    () => proposalById(proposals, selectedProposal),
+    [proposals, selectedProposal]
+  );
 
   return proposal ? (
     <Forum
