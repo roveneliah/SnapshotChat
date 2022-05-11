@@ -10,7 +10,6 @@ const ProposalView = ({ proposal }) => (
   <div className="flex flex-col h-[80vh] overflow-auto space-y-6 p-12 rounded-lg dark:bg-gray-800 dark:border-gray-700">
     <Heading title={proposal.title} size="2xl" />
     <Markdown
-      children={proposal.body}
       options={{
         overrides: {
           h1: { component: MarkdownHeader, props: { size: "2xl" } },
@@ -23,7 +22,9 @@ const ProposalView = ({ proposal }) => (
           hr: { component: () => <hr className="mb-8" /> },
         },
       }}
-    />
+    >
+      {proposal.body}
+    </Markdown>
   </div>
 );
 
