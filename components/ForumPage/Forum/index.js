@@ -3,7 +3,7 @@ import CommentBox from "./CommentBox";
 import ProposalCard from "./ProposalCard";
 import { useGetProposalComments } from "../../../hooks/firestore/useGetProposalComments";
 import { compose, descend, filter, pipe, prop, sortWith } from "ramda";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import SnapshotPosts from "./ForumPosts/SnapshotPosts";
 import { useGetWeightedSnapshotVotes } from "../../../hooks/snapshot/useGetSnapshotVotes";
 import { sorts, filters } from "./ForumComplex";
@@ -72,7 +72,11 @@ export default function ForumNew({
   const scores = useGetProposalScores(proposal, votes);
 
   const posts = useGetProposalComments(provider, proposal);
-  const sortedPosts = sorts[0].sort(posts)?.filter(matchesOutcome);
+  // TODO: useMemo for these, no point to redo all these sorts
+  const sortedPosts = useMemo(
+    () => sorts[0].sort(posts)?.filter(matchesOutcome),
+    [posts]
+  );
 
   const opinionPosts = sortedPosts?.filter(
     ({ retrospective }) => !retrospective

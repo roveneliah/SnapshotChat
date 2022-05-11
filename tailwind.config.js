@@ -1,13 +1,17 @@
 const themes = {
+  normal: ["#C98ECD", "#fff", "#000110"],
   white: ["#fff", "#fff", "#fff"],
   purple: ["#C98ECD", "#371939", "#000110"],
   blue: ["#00A8FF", "#371939", "#000110"],
+  test: ["#371939", "#C98ECD", "#000110"],
+  biege: ["#f5f3f4", "#C98ECD", "#000110"],
 };
 
 const generateTheme = (theme) => ({
-  primary: themes[theme][0],
-  primaryDark: themes[theme][1],
-  secondary: themes[theme][2],
+  background: themes[theme][0],
+  cards: themes[theme][1],
+  textPrimary: themes[theme][2],
+  // secondary: themes[theme][2],
 });
 
 module.exports = {
@@ -23,7 +27,7 @@ module.exports = {
         lg: "976px",
         xl: "1440px",
       },
-      colors: generateTheme("purple"),
+      colors: generateTheme("normal"),
     },
   },
   plugins: [],

@@ -7,7 +7,7 @@ const styles = {
   "2xl": "mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white",
 };
 
-export const Heading = ({ title, size }) => {
-  const className = styles[size];
-  return <h5 className={className}>{title}</h5>;
+export const Heading = ({ title, size, className }) => {
+  // const className = styles[size];
+  return <h5 className={`${styles[size]} ${className}`}>{title}</h5>;
 };

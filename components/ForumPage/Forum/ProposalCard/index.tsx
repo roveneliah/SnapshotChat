@@ -90,7 +90,7 @@ export default function ProposalCard({
           />
           <Button
             title="Feed"
-            color={commentView ? "hollowFull" : "purpleFull"}
+            color={commentView ? "hollowFull" : "background"}
             onClick={() => {
               setCommentView(false);
             }}

@@ -20,8 +20,8 @@ export function ChoiceFilters(props: any) {
           }
           className={
             props.selectedVote === i
-              ? "cursor-pointer block p-6 m-2 bg-white rounded-lg border shadow-md shadow-purple-500  dark:border-gray-700 dark:bg-gray-700"
-              : "cursor-pointer block p-6 m-2 bg-white rounded-lg border shadow-md border-gray-200  dark:bg-gray-800 dark:border-gray-700"
+              ? "cursor-pointer block p-6 m-2 rounded-lg border shadow-md shadow-background  dark:border-gray-700 dark:bg-gray-700"
+              : "cursor-pointer block p-6 m-2 rounded-lg border shadow-md border-gray-200  dark:bg-gray-800 dark:border-gray-700"
           }
           key={i}
         >

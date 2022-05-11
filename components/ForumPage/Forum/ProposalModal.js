@@ -10,22 +10,27 @@ const ProposalView = ({ proposal }) => (
   <div className="flex flex-col h-[80vh] overflow-auto space-y-6 p-12 rounded-lg dark:bg-gray-800 dark:border-gray-700">
     <Heading title={proposal.title} size="2xl" />
     <Markdown
+      children={proposal.body}
       options={{
         overrides: {
           h1: { component: MarkdownHeader, props: { size: "2xl" } },
           h2: { component: MarkdownHeader, props: { size: "xl" } },
           h3: { component: MarkdownHeader, props: { size: "lg" } },
-          p: MarkdownHeader,
+          p: { component: MarkdownHeader, props: { className: "mb-4" } },
+          li: {
+            component: ({ children }) => <p className="mb-4">• {children}</p>,
+          },
+          hr: { component: () => <hr className="mb-8" /> },
         },
       }}
-    >
-      {proposal.body}
-    </Markdown>
+    />
   </div>
 );
 
 function MarkdownHeader({ children, ...props }) {
-  return <Heading title={children} size={props.size} />;
+  return (
+    <Heading title={children} size={props.size} className={props.className} />
+  );
 }
 
 export function ProposalModal({ proposal }) {
@@ -77,7 +82,7 @@ export function ProposalModal({ proposal }) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-[70vw] xl:w-[95vh] p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white  shadow-2xl rounded-2xl">
+              <div className="inline-block w-[70vw] xl:w-[95vh] p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-cards  shadow-2xl rounded-lg">
                 <ProposalView proposal={proposal} />
               </div>
             </Transition.Child>

@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Heading } from "./Generics/Headings/Heading";
 import { Header } from "./Header";
 
 export default function Layout({
@@ -11,7 +10,7 @@ export default function Layout({
   wrongNetwork,
 }: any) {
   return (
-    <div className=" bg-primary dark:bg-gray-800 h-screen overflow-auto">
+    <div className="theme-basic-light bg-background dark:bg-gray-800 h-screen overflow-auto">
       <div className="absolute bottom-8 right-14">
         <Image
           src="/mario.png"
@@ -36,7 +35,6 @@ export default function Layout({
           className="rounded-lg"
         />
       </div>
-
       <div className="absolute -bottom-5 left-1">
         <Image
           src="/boosh.png"

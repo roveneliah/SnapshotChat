@@ -1,4 +1,5 @@
 const buttonStyle: any = {
+  background: `inline-flex max-w-fit py-2 px-3 text-sm cursor-pointer font-medium text-center text-white bg-background rounded-lg hover:bg-background focus:ring-4 focus:ring-background dark:bg-background dark:hover:bg-background dark:focus:ring-background`,
   blue: `inline-flex max-w-fit py-2 px-3 text-sm cursor-pointer font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`,
   red: "inline-flex max-w-fit py-2 px-3 text-sm cursor-pointer font-medium text-center text-white bg-red-300 rounded-lg hover:bg-red-400 focus:ring-4 focus:ring-red-300 dark:bg-red-400 dark:hover:bg-red-500 dark:focus:ring-red-800",
   yellow:
