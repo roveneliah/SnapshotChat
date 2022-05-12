@@ -32,104 +32,124 @@ export const ForumPost = ({ connection, post, proposal, votingPower }) => {
 
   const userIsAuthor = authorAddr !== userProfile?.address;
   return (
-    <div className="flex flex-col space-y-7 p-6 bg-cards opacity-75 rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
-      <div className="flex flex-row justify-between">
-        <div className="flex flex-row space-x-2 justify-start">
+    <div className="px-6 py-4 pb-8 bg-cards opacity-75 rounded-lg border border-gray-200 shadow-xl">
+      <div className="flex flex-col space-y-2 rounded-lg border-gray-200">
+        <div className="flex flex-row py-2 items-start space-x-3">
           {authorAvatarUrl && (
-            <Image
-              src={authorAvatarUrl}
-              alt="avatar"
-              width={60}
-              height={60}
-              className="rounded-full"
-            />
+            <div>
+              <Image
+                src={authorAvatarUrl}
+                alt="avatar"
+                width={50}
+                height={50}
+                className="rounded-full"
+              />
+            </div>
           )}
-          <div className="flex flex-col space-y-0">
-            <div className="flex flex-row mb-2 space-x-2 justify-start">
-              {userProfile &&
-                (userProfile.following?.includes(authorAddr)
-                  ? StarButton({
+          <div className="flex flex-col w-full items-start">
+            <div className="flex flex-row mb-2 space-x-2 justify-between w-full">
+              <div>
+                {userProfile &&
+                  (userProfile.following?.includes(authorAddr) ? (
+                    StarButton({
                       removeFriend: () => userProfile?.unfollow(authorAddr),
                     })
-                  : userIsAuthor
-                  ? FollowButton({
+                  ) : userIsAuthor ? (
+                    FollowButton({
                       addFriend: () => userProfile?.follow(authorAddr),
                     })
-                  : SelfIcon())}
-              <h5 className="self-center text-md font-bold tracking-tight text-gray-900 dark:text-white">
-                {/*  need to get the from by the author address */}
-                {userIsAuthor ? authorUsername : "You"}
-              </h5>
+                  ) : (
+                    <></>
+                  ))}
+                <h5 className="self-center text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  {/*  need to get the from by the author address */}
+                  {userIsAuthor ? authorUsername : "You"}
+                </h5>
+              </div>
+              <div className="flex flex-col space-y-2 items-end">
+                <div className="flex flex-row space-x-1">
+                  {retrospective ? (
+                    <Badge title="Retrospective" color="gray" size="md" />
+                  ) : (
+                    <Badge title="Opinion" color="gray" size="md" />
+                  )}
+                  <Badge title={outcome} color="orange" size="md" />
+                  {votingPower && (
+                    <Badge
+                      title={`${votingPower} $KRAUSE`}
+                      color="purple"
+                      size="md"
+                    />
+                  )}
+                </div>
+              </div>
             </div>
-            <div className="flex flex-row space-x-2 items-center">
-              <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-                {shortenAddress(authorAddr)}
-              </span>
-              {userProfile?.primaryDelegate === authorAddr && (
+            {/* <span className="bg-gray-100 text-gray-800 text-xs font-semibold -mt-1 px-2.5 py-0.5 rounded">
+              {shortenAddress(authorAddr)}
+            </span> */}
+
+            {userProfile?.primaryDelegate === authorAddr && (
+              <div>
                 <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
                   Primary Delegate
                 </span>
-              )}
-            </div>
+                <div className="flex flex-col space-y-0">
+                  <div className="flex flex-row mb-2 space-x-2 justify-start">
+                    {userProfile &&
+                      (userProfile.following?.includes(authorAddr)
+                        ? StarButton({
+                            removeFriend: () =>
+                              userProfile?.unfollow(authorAddr),
+                          })
+                        : userIsAuthor
+                        ? FollowButton({
+                            addFriend: () => userProfile?.follow(authorAddr),
+                          })
+                        : SelfIcon())}
+                    <h5 className="self-center text-md font-bold tracking-tight text-gray-900 dark:text-white">
+                      {/*  need to get the from by the author address */}
+                      {userIsAuthor ? authorUsername : "You"}
+                    </h5>
+                  </div>
+                  <div className="flex flex-row space-x-2 items-center">
+                    <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                      {shortenAddress(authorAddr)}
+                    </span>
+                    {userProfile?.primaryDelegate === authorAddr && (
+                      <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+                        Primary Delegate
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        {/* <div className="flex flex-row items-start space-x-2 justify-between">
-          <div>
-            <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
-              {outcome}
-            </span>
-            <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300">
-              {wallet?.$KRAUSE} $KRAUSE
-            </span>
-          </div>
-        </div> */}
-      </div>
+        <p className="font-semibold px-6 py-8 rounded-lg border text-gray-700 dark:text-gray-400">
+          {comment}
+        </p>
+        {/* <div className="flex flex-col space-y-3"> */}
+        {/* <div className="flex flex-row space-x-2 justify-between items-end"> */}
+        {/* {proposal.state === "active" && (
+              <div>
+                <span
+                  onClick={voteWithAuthor}
+                  className="bg-purple-100 text-purple-800 cursor-pointer text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300"
+                >
+                  Vote With {authorUsername}
+                </span>
+              </div>
+            )} */}
 
-      <div className="flex flex-col space-y-3">
-        <div className="flex flex-row space-x-2 justify-between items-center">
-          <Row space={1}>
-            {retrospective ? (
-              <Badge title="Retrospective" color="gray" size="xs" />
-            ) : (
-              <Badge title="Opinion" color="gray" size="xs" />
-            )}
-            {/* <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
-              Opinion
-            </span> */}
-            <Badge title={outcome} color="orange" size="xs" />
-            {votingPower && (
-              <Badge
-                title={`${votingPower} $KRAUSE`}
-                color="purple"
-                size="xs"
+        {/* <div>
+              <VoteButtons
+                proposalId={proposal.id}
+                post={post}
+                signer={connection.signer}
               />
-            )}
-            {/* <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
-              {outcome}
-            </span>
-            <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300">
-              {votingPower} $KRAUSE
-            </span> */}
-          </Row>
-          {proposal.state === "active" && (
-            <div>
-              <span
-                onClick={voteWithAuthor}
-                className="bg-purple-100 text-purple-800 cursor-pointer text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300"
-              >
-                Vote With {authorUsername}
-              </span>
-            </div>
-          )}
-          {/* <div>
-            <VoteButtons proposalId={proposalId} post={post} signer={signer} />
-          </div> */}
-        </div>
-        <div className="flex flex-col h-40 space-y-12 p-3 rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-          <p className="m-3 font-normal text-gray-700 dark:text-gray-400">
-            {comment}
-          </p>
-        </div>
+            </div> */}
+        {/* </div> */}
       </div>
     </div>
   );

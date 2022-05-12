@@ -9,7 +9,7 @@ import { VoteButtons } from "./ForumPosts/VoteButtons";
 import { ChoiceFilters } from "./ProposalCard/ChoiceFilters";
 
 const ProposalView = ({ proposal, scores }) => (
-  <div className="flex flex-col h-[80vh] overflow-auto space-y-6 p-4 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+  <div className="flex flex-col h-[80vh] overflow-auto space-y-6 p-4 rounded-lg">
     <div className="pb-8 space-y-4 rounded-lg border border-gray-300 shadow-lg p-5">
       <Image src="/kh_logo.png" width={150} height={60} />
       <Heading title={proposal.title} size="2xl" />

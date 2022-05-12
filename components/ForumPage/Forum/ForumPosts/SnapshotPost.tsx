@@ -41,7 +41,7 @@ export const SnapshotPost = ({
 
   const userIsAuthor = authorAddr !== userProfile?.address;
   return (
-    <div className="flex flex-col space-y-7 p-6 bg-cards rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex flex-col space-y-7 p-6 bg-cards rounded-lg border border-gray-200 shadow-xl">
       <div className="flex flex-row justify-between">
         <div className="flex flex-row space-x-2 justify-start">
           {authorAvatarUrl && (
@@ -71,7 +71,7 @@ export const SnapshotPost = ({
               </h5>
             </div>
             <div className="flex flex-row space-x-2 items-center">
-              <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+              <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ">
                 {shortenAddress(authorAddr)}
               </span>
               {userProfile?.primaryDelegate === authorAddr && (
@@ -124,7 +124,7 @@ export const SnapshotPost = ({
           </div> */}
         </div>
         {comment && (
-          <div className="flex flex-col h-40 space-y-12 p-3 rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          <div className="flex flex-col h-40 space-y-12 p-3 rounded-lg border border-gray-200">
             <p className="m-3 font-normal text-gray-700 dark:text-gray-400">
               {comment}
             </p>

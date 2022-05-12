@@ -13,9 +13,9 @@ const buttonStyle: any = {
   orangeFull:
     "inline-flex max-w-full py-2 px-3 text-sm cursor-pointer font-medium text-center text-orange-900 bg-orange-200 rounded-lg hover:bg-orange-300 focus:ring-4 focus:ring-orange-300 dark:bg-orange-200 dark:hover:bg-orange-300 dark:focus:ring-orange-200",
   hollow:
-    "inline-flex max-w-fit py-2 px-3 text-sm cursor-pointer font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-700 focus:text-purple-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700",
+    "inline-flex max-w-fit py-2 px-3 text-sm cursor-pointer font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-700 focus:text-purple-700 ",
   hollowFull:
-    "inline-flex max-w-full py-2 px-3 text-sm cursor-pointer font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-700 focus:text-purple-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700",
+    "inline-flex max-w-full py-2 px-3 text-sm cursor-pointer font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-700 focus:text-purple-700",
 };
 
 interface Props {

@@ -3,7 +3,7 @@ import { Button } from "../../Buttons/Button";
 export const ViewProfileCard = () => {
   return (
     <div className="flex flex-col space-y-3">
-      <div className="flex flex-col space-y-3 p-6 basis-1/4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex flex-col space-y-3 p-6 basis-1/4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md">
         <div>
           <a href="#">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

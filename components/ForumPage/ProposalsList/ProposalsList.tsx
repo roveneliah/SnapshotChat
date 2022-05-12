@@ -62,7 +62,7 @@ export default function ProposalsList({
             setProposalStateFilter={setProposalStateFilter}
           />
         </div>
-        <div className="col-span-3 basis-3/4 lg:basis-1/2 flex flex-col space-y-6 p-4 max-h-[87vh] overflow-auto  border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div className="col-span-3 basis-3/4 lg:basis-1/2 flex flex-col space-y-6 p-4 max-h-[87vh] overflow-auto  border-gray-200 ">
           {/* {(proposalStateFilter === ProposalStateFilter.Review ||
           proposalStateFilter === ProposalStateFilter.None) &&
           drafts.map((draft: Template, key: number) => (
@@ -93,7 +93,7 @@ export default function ProposalsList({
           {proposalsList.length > 0 ? (
             proposalsList
           ) : (
-            <div className="flex flex-col space-y-5 p-6 bg-cards font-krausehouse2 bg-opacity-75 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+            <div className="flex flex-col space-y-5 p-6 bg-cards font-krausehouse2 bg-opacity-75 rounded-lg border border-gray-200 shadow-md">
               <div>
                 <Heading title="No proposals found" size="xl" />
               </div>

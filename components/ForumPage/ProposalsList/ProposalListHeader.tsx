@@ -7,7 +7,7 @@ import Link from "next/link";
 const { None, Active, Closed } = ProposalStateFilter;
 export function ProposalListHeader(props: any) {
   return (
-    <div className="relative overflow-hidden p-6 basis-1/4 space-y-16 h-fit bg-cards bg-opacity-75 rounded-lg  border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="relative overflow-hidden p-6 basis-1/4 space-y-16 h-fit bg-cards bg-opacity-75 rounded-lg  border-gray-200 shadow-md">
       <div>
         <h5 className="mb-2 min-h-max text-sm font-krausehouse2 font-bold tracking-wide text-textPrimary dark:text-white">
           Krause House
@@ -48,7 +48,7 @@ export function ProposalListHeader(props: any) {
       <div className="flex flex-row lg:flex-col lg:justify-start font-krausehouse2 space-y-3">
         <div
           onClick={() => props.setProposalStateFilter(Active)}
-          className="flex flex-row space-x-3 px-3 py-1 pb-2 rounded-full lg:rounded-lg hover:border hover:border-gray-400 hover:bg-gray-300"
+          className="flex flex-row space-x-3 px-3 py-1 pb-2 cursor-pointer rounded-full lg:rounded-lg hover:border hover:border-gray-400 hover:bg-gray-300"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@ export function ProposalListHeader(props: any) {
         </div>
         <div
           onClick={() => props.setProposalStateFilter(Closed)}
-          className="flex flex-row space-x-3 px-3 py-1 pb-2 rounded-full lg:rounded-lg hover:border hover:border-gray-400 hover:bg-gray-300"
+          className="flex flex-row space-x-3 px-3 py-1 pb-2 cursor-pointer rounded-full lg:rounded-lg hover:border hover:border-gray-400 hover:bg-gray-300"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +86,7 @@ export function ProposalListHeader(props: any) {
           </svg>
           <a className="hidden lg:block">Archive</a>
         </div>
-        <div className="flex flex-row space-x-3 px-3 py-1 pb-2 rounded-full lg:rounded-lg hover:border hover:border-gray-400 hover:bg-gray-300">
+        <div className="flex flex-row space-x-3 px-3 py-1 pb-2 cursor-pointer rounded-full lg:rounded-lg hover:border hover:border-gray-400 hover:bg-gray-300">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -105,7 +105,7 @@ export function ProposalListHeader(props: any) {
         </div>
         <div>
           <Link href="profile">
-            <div className="flex flex-row space-x-3 px-3 py-1 pb-2 rounded-full lg:rounded-lg hover:border hover:border-gray-400 hover:bg-gray-300">
+            <div className="flex flex-row space-x-3 px-3 py-1 pb-2 cursor-pointer rounded-full lg:rounded-lg hover:border hover:border-gray-400 hover:bg-gray-300">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"

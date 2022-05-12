@@ -75,7 +75,7 @@ export default function ForumNew({
   // TODO: useMemo for these, no point to redo all these sorts
   const sortedPosts = useMemo(
     () => sorts[0].sort(posts)?.filter(matchesOutcome),
-    [posts]
+    [posts, selectedVote]
   );
 
   const opinionPosts = sortedPosts?.filter(
@@ -119,7 +119,7 @@ export default function ForumNew({
 
   return (
     <div className="flex flex-row justify-center ">
-      <div className="flex flex-col h-[90vh] overflow-auto w-[85vw] xl:w-[65vw] space-y-4 p-6 border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex flex-col h-[90vh] overflow-auto w-[85vw] lg:w-[70vw] xl:w-[60vw] space-y-4 p-6 border-gray-200">
         <div className="grid grid-cols-1 space-x-4">
           <ProposalCard
             votes={votes}
@@ -147,8 +147,8 @@ export default function ForumNew({
           />
         ) : (
           <>
-            {/* <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700"> */}
-            {/* <HeadingFaint title="Filter Posts" size="xl" />
+            {/* <div className="flex flex-col space-y-6 p-6 bg-cards bg-opacity-75 rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
+              <HeadingFaint title="Filter Posts" size="xl" />
               <div>
                 <Row>
                   {postTypeFilters.map((postType, i) => (
@@ -171,8 +171,8 @@ export default function ForumNew({
                 selectedVote={selectedVote}
                 setSelectedVote={setSelectedVote}
                 scores={scores}
-              /> */}
-            {/* <div>
+              />
+              <div>
                 <HeadingFaint title="Posted By" size="md" />
                 <Row className="flex-wrap">
                   {posterFilters.map((postType, i) => (
@@ -188,8 +188,8 @@ export default function ForumNew({
                     </span>
                   ))}
                 </Row>
-              </div> */}
-            {/* </div> */}
+              </div>
+            </div> */}
             {(selectedPostTypeFilter === 0 || selectedPostTypeFilter === 1) && (
               <>
                 <SnapshotPosts
