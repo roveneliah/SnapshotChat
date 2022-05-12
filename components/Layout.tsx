@@ -17,7 +17,9 @@ export default function Layout({
         <link rel="icon" href="/kh_holo.png" />
       </Head>
       <main className="w-full">
-        <div className="theme-basic-light bg-gradient-to-tr from-purple-900 to-purple-500 dark:bg-gray-800 h-screen overflow-auto">
+        <div className="absolute inset-0 bg-[url(/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-30"></div>
+
+        <div className="theme-basic-light bg-gradient-to-tr [mask-image-opacity-50] from-purple-900 to-purple-500 dark:bg-gray-800 h-screen overflow-auto">
           <Header
             connect={connect}
             disconnect={disconnect}
