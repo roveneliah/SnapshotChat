@@ -5,7 +5,7 @@ import { shortenAddress } from "../../utils/web3/shortenAddress";
 export default function UserProfileCard(props) {
   return (
     props.userProfile && (
-      <div className="flex flex-col h-1/2 space-y-5 pt-5 pb-8 bg-cards opacity-90 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex flex-col space-y-5 p-5 bg-cards opacity-75 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
         <div className="flex flex-col items-center">
           {props.userProfile?.name ? (
             <div>
@@ -21,7 +21,7 @@ export default function UserProfileCard(props) {
             </div>
           )}
         </div>
-        <div className="flex flex-col space-y-3 items-center rounded-lg m-6 pt-6 pb-6 border border-gray-200 dark:border-gray-700">
+        <div className="flex flex-row space-x-4 justify-start items-center rounded-lg m-6 p-6 border border-gray-200 dark:border-gray-700">
           <Image
             src={avatarUrl(props.userProfile)}
             alt="feeling cute, might delete"

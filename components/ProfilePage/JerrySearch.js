@@ -10,15 +10,15 @@ export default function JerrySearch(props) {
   const searchResults = useGetSearchResults(addressInput);
 
   return (
-    <div className="flex flex-col space-y-4 p-6 bg-white rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
-      <Heading title="Search" size="xl" />
+    <div className="flex flex-col space-y-4 p-8 h-[60vh] overflow-auto bg-cards bg-opacity-75 rounded-lg border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
+      <Heading title="Search" size="xl" className={"font-krausehouse2"} />
       <input
         value={addressInput}
         onChange={updateAddressInput}
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        className="bg-cards bg-opacity-25 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Search the Jerryverse..."
       />
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-1 h-full overflow-auto">
         {searchResults
           .filter(
             ({ address }) => !props.userProfile.following?.includes(address)
@@ -27,7 +27,7 @@ export default function JerrySearch(props) {
           .map((profile, i) => (
             <div
               key={i}
-              className="flex flex-col justify-between space-y-5 p-6 m-2 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+              className="flex flex-col justify-between space-y-5 p-6 my-2 bg-cards bg-opacity-25 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
             >
               <div className="flex flex-row space-x-3 rounded-lg">
                 <div>
