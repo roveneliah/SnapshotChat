@@ -1,3 +1,5 @@
+const green = "bg-green-100";
+
 export const Badge = ({ title, color, size = "sm" }) => (
   <div>
     <span

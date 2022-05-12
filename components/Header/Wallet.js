@@ -133,6 +133,7 @@ export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
           <Button
             title={`${wallet?.$KRAUSE?.toFixed(0) || 0} $KRAUSE`}
             color="hollowFull"
+            className="bg-cards bg-opacity-75"
           />
         </div>
       ) : (
@@ -157,6 +158,7 @@ export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
               color="hollowFull"
               href="/profile"
               newTab={true}
+              className="bg-cards bg-opacity-75"
             />
           </div>
           <div>
@@ -164,6 +166,7 @@ export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
               title="Disconnect"
               onClick={() => disconnect()}
               color="hollowFull"
+              className="bg-cards bg-opacity-75"
             />
           </div>
         </>

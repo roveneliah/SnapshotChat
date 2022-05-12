@@ -10,7 +10,12 @@ export default function HeaderWallet({
   return (
     <div className="flex md:order-2">
       {!wallet.loaded ? (
-        <Button title="Connect" onClick={connect} color="hollow" />
+        <Button
+          title="Connect"
+          onClick={connect}
+          color="hollow"
+          className="bg-cards bg-opacity-75"
+        />
       ) : (
         wallet && (
           <Wallet

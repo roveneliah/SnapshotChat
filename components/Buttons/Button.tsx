@@ -25,6 +25,7 @@ interface Props {
   color?: string;
   icon?: boolean;
   newTab?: boolean;
+  className?: string;
 }
 
 export const Button = ({
@@ -34,11 +35,12 @@ export const Button = ({
   icon = false,
   color = "blue",
   newTab = false,
+  className = "",
 }: Props) => (
   <a
     onClick={onClick}
     href={href}
-    className={buttonStyle[color]}
+    className={`${buttonStyle[color]} ${className}`}
     target={newTab ? "_blank" : undefined}
     rel="noreferrer"
   >

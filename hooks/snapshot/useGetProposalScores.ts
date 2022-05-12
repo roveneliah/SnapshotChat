@@ -33,7 +33,8 @@ export const useGetProposalScores = (proposal: any, votes: any): Scores => {
             )
           );
         })
-        .then(setScores);
+        .then(setScores)
+        .catch(() => {});
     }
   }, [proposal, votes]);
 

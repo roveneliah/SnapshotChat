@@ -115,7 +115,7 @@ export const ForumPost = ({ connection, post, proposal, votingPower }) => {
             <div>
               <span
                 onClick={voteWithAuthor}
-                className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300"
+                className="bg-purple-100 text-purple-800 cursor-pointer text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300"
               >
                 Vote With {authorUsername}
               </span>

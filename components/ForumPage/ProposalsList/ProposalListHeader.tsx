@@ -16,8 +16,13 @@ export function ProposalListHeader(props: any) {
           Governance Forum
         </h5>
       </div>
-      <div className="absolute -bottom-3 right-0">
-        <Image src="/mario.png" height={60} width={60} className="rounded-lg" />
+      <div className="absolute -bottom-3 -right-5">
+        <Image
+          src="/coachrick.png"
+          height={120}
+          width={120}
+          className="rounded-lg"
+        />
       </div>
 
       {/* <div className="mt-5"> */}
@@ -59,7 +64,7 @@ export function ProposalListHeader(props: any) {
               d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
             />
           </svg>
-          <a className="hidden lg:block">Proposals</a>
+          <a className="hidden lg:block">Live Proposals</a>
         </div>
         <div
           onClick={() => props.setProposalStateFilter(Closed)}
@@ -80,6 +85,23 @@ export function ProposalListHeader(props: any) {
             />
           </svg>
           <a className="hidden lg:block">Archive</a>
+        </div>
+        <div className="flex flex-row space-x-3 px-3 py-1 pb-2 rounded-full lg:rounded-lg hover:border hover:border-gray-400 hover:bg-gray-300">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            />
+          </svg>
+          <a className="hidden lg:block">Create Proposal</a>
         </div>
         <div>
           <Link href="profile">
