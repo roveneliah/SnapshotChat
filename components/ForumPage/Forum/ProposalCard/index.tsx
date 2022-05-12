@@ -55,7 +55,7 @@ export default function ProposalCard({
             color="hollow"
             onClick={() => setSelectedProposal(null)}
           />
-          {/* {proposal.state === "review" ? (
+          {/* {proposal.state === "review" && (
             <Button
               title="View"
               icon={true}
@@ -63,18 +63,10 @@ export default function ProposalCard({
               // href={``}
               newTab={true}
             />
-          ) : (
-            <Button
-              title="View on Snapshot"
-              icon={true}
-              color="hollowFull"
-              href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
-              newTab={true}
-            />
           )} */}
           <ProposalModal proposal={proposal} scores={scores} />
         </Row>
-        <Row>
+        {/* <Row>
           <Button
             title={proposal.state == "closed" ? "Comment" : "Vote"}
             color={commentView ? "background" : "hollowFull"}
@@ -89,7 +81,7 @@ export default function ProposalCard({
               setCommentView(false);
             }}
           />
-        </Row>
+        </Row> */}
       </Row>
       <div>
         <Row className="mb-2">

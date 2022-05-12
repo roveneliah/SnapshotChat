@@ -260,9 +260,7 @@ export default function ForumNew({
                 />
               </>
             )}
-            {commentView && (
-              <CommentBox connection={connection} proposal={proposal} />
-            )}
+            <CommentBox connection={connection} proposal={proposal} />
           </>
         )}
       </div>
