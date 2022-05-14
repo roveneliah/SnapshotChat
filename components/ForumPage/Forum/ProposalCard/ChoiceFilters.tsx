@@ -21,8 +21,8 @@ export function ChoiceFilters(props: any) {
           }
           className={
             props.selectedVote === i
-              ? "cursor-pointer block p-6 m-2 rounded-lg border shadow-md shadow-background"
-              : "cursor-pointer block p-6 m-2 rounded-lg border shadow-md border-gray-200"
+              ? "m-2 block cursor-pointer rounded-lg border p-6 shadow-md shadow-background"
+              : "m-2 block cursor-pointer rounded-lg border border-gray-200 p-6 shadow-md"
           }
           key={i}
         >

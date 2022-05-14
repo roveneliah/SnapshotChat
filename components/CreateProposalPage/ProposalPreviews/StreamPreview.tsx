@@ -40,7 +40,7 @@ export function StreamPreview(props: Props) {
   };
 
   return (
-    <div className="flex flex-col space-y-5 w-2/3 p-6 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex w-2/3 flex-col space-y-5 rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
       <div className="flex flex-row justify-between">
         <Heading title="Preview" size="2xl" />
         {complete && props.hodler && (

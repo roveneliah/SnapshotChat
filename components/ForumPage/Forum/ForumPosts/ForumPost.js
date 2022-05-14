@@ -32,9 +32,9 @@ export const ForumPost = ({ connection, post, proposal, votingPower }) => {
 
   const userIsAuthor = authorAddr !== userProfile?.address;
   return (
-    <div className="px-6 py-4 pb-8 bg-cards opacity-75 rounded-lg border border-gray-200 shadow-xl">
+    <div className="rounded-lg border border-gray-200 bg-cards px-6 py-4 pb-8 opacity-75 shadow-xl">
       <div className="flex flex-col space-y-2 rounded-lg border-gray-200">
-        <div className="flex flex-row py-2 items-start space-x-3">
+        <div className="flex flex-row items-start space-x-3 py-2">
           {authorAvatarUrl && (
             <div>
               <Image
@@ -46,8 +46,8 @@ export const ForumPost = ({ connection, post, proposal, votingPower }) => {
               />
             </div>
           )}
-          <div className="flex flex-col w-full items-start">
-            <div className="flex flex-row mb-2 space-x-2 justify-between w-full">
+          <div className="flex w-full flex-col items-start">
+            <div className="mb-2 flex w-full flex-row justify-between space-x-2">
               <div>
                 {userProfile &&
                   (userProfile.following?.includes(authorAddr) ? (
@@ -66,7 +66,7 @@ export const ForumPost = ({ connection, post, proposal, votingPower }) => {
                   {userIsAuthor ? authorUsername : "You"}
                 </h5>
               </div>
-              <div className="flex flex-col space-y-2 items-end">
+              <div className="flex flex-col items-end space-y-2">
                 <div className="flex flex-row space-x-1">
                   {retrospective ? (
                     <Badge title="Retrospective" color="gray" size="md" />
@@ -90,11 +90,11 @@ export const ForumPost = ({ connection, post, proposal, votingPower }) => {
 
             {userProfile?.primaryDelegate === authorAddr && (
               <div>
-                <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+                <span className="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-800 dark:bg-red-200 dark:text-red-900">
                   Primary Delegate
                 </span>
                 <div className="flex flex-col space-y-0">
-                  <div className="flex flex-row mb-2 space-x-2 justify-start">
+                  <div className="mb-2 flex flex-row justify-start space-x-2">
                     {userProfile &&
                       (userProfile.following?.includes(authorAddr)
                         ? StarButton({
@@ -106,17 +106,17 @@ export const ForumPost = ({ connection, post, proposal, votingPower }) => {
                             addFriend: () => userProfile?.follow(authorAddr),
                           })
                         : SelfIcon())}
-                    <h5 className="self-center text-md font-bold tracking-tight text-gray-900 dark:text-white">
+                    <h5 className="text-md self-center font-bold tracking-tight text-gray-900 dark:text-white">
                       {/*  need to get the from by the author address */}
                       {userIsAuthor ? authorUsername : "You"}
                     </h5>
                   </div>
-                  <div className="flex flex-row space-x-2 items-center">
-                    <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                  <div className="flex flex-row items-center space-x-2">
+                    <span className="mr-2 rounded bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-800">
                       {shortenAddress(authorAddr)}
                     </span>
                     {userProfile?.primaryDelegate === authorAddr && (
-                      <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+                      <span className="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-800 dark:bg-red-200 dark:text-red-900">
                         Primary Delegate
                       </span>
                     )}
@@ -126,7 +126,7 @@ export const ForumPost = ({ connection, post, proposal, votingPower }) => {
             )}
           </div>
         </div>
-        <p className="font-semibold px-6 py-8 rounded-lg border text-gray-700 dark:text-gray-400">
+        <p className="rounded-lg border px-6 py-8 font-semibold text-gray-700 dark:text-gray-400">
           {comment}
         </p>
         {/* <div className="flex flex-col space-y-3"> */}

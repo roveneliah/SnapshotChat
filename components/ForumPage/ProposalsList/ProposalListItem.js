@@ -46,7 +46,7 @@ export const ProposalListItem = ({
   return (
     <div
       key={index}
-      className="relative flex flex-col space-y-10 p-6 cursor-pointer bg-cards bg-opacity-75 rounded-lg border border-gray-200 shadow-md"
+      className="relative flex cursor-pointer flex-col space-y-10 rounded-lg border border-gray-200 bg-cards bg-opacity-75 p-6 shadow-md"
       onClick={() => setSelectedProposal(proposal.id)}
     >
       <div>

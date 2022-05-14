@@ -109,13 +109,13 @@ export function ForumComplex({
 
   const stats = basicStats(proposal, sortedPosts);
   return (
-    <div className="flex flex-col space-y-4 p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex flex-col space-y-4 border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
       <ProposalCard
         proposal={proposal}
         setSelectedProposal={setSelectedProposal}
         posts={sortedPosts || posts}
       />
-      <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex flex-col space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-lg dark:border-gray-700 dark:bg-gray-800">
         <Heading title="Curate Quorum" size="lg" />
         <div className="flex flex-row space-x-2">
           {sortedPosts &&
@@ -123,7 +123,7 @@ export function ForumComplex({
             Object.keys(stats).map((key, i) => (
               <span
                 key={i}
-                className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900"
+                className="mr-2 rounded bg-purple-100 px-2.5 py-0.5 text-xs font-semibold text-purple-800 dark:bg-purple-200 dark:text-purple-900"
               >
                 {`${key} ${stats[key]}`}
               </span>
@@ -141,7 +141,7 @@ export function ForumComplex({
           ))}
           </div>{" "} */}
         <Heading title="Sort By" size="md" />
-        <div className="flex flex-row space-x-3 flex-wrap">
+        <div className="flex flex-row flex-wrap space-x-3">
           {sorts.map(({ title: filter }, i) => (
             <Button
               title={filter}
@@ -153,7 +153,7 @@ export function ForumComplex({
           ))}
         </div>
         <Heading title="Filter" size="md" />
-        <div className="flex flex-row space-x-3 flex-wrap">
+        <div className="flex flex-row flex-wrap space-x-3">
           {filters.map(({ title: filter }, i) => (
             <Button
               title={filter}

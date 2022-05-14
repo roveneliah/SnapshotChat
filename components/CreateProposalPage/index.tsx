@@ -18,8 +18,8 @@ export default function CreateProposalPage(props: any) {
 
   return (
     <div className="flex flex-row justify-center">
-      <div className="flex flex-row w-full px-10 space-x-5 justify-center">
-        <div className="flex flex-col space-y-3 w-1/2">
+      <div className="flex w-full flex-row justify-center space-x-5 px-10">
+        <div className="flex w-1/2 flex-col space-y-3">
           <TemplateHeader
             selectedTemplate={selectedTemplate}
             setSelectedTemplate={setSelectedTemplate}

@@ -41,9 +41,9 @@ export const AddressForm = ({ addSigner }) => {
 
   return (
     <div>
-      <div className="flex flex-row space-x-3 justify-evenly">
+      <div className="flex flex-row justify-evenly space-x-3">
         <div className="mb-6 w-1/2">
-          <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-500">
+          <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-500">
             Name
           </label>
           <input
@@ -52,7 +52,7 @@ export const AddressForm = ({ addSigner }) => {
             onChange={compose(setName, prop("value"), prop("target"))}
             type="text"
             id="username-success"
-            className="bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-100 dark:border-gray-400"
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-gray-500 focus:ring-gray-500 dark:border-gray-400 dark:bg-gray-100"
             placeholder="Lebron"
           />
         </div>

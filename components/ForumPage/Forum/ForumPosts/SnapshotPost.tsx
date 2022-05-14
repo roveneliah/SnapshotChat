@@ -41,9 +41,9 @@ export const SnapshotPost = ({
 
   const userIsAuthor = authorAddr !== userProfile?.address;
   return (
-    <div className="flex flex-col space-y-7 p-6 bg-cards rounded-lg border border-gray-200 shadow-xl">
+    <div className="flex flex-col space-y-7 rounded-lg border border-gray-200 bg-cards p-6 shadow-xl">
       <div className="flex flex-row justify-between">
-        <div className="flex flex-row space-x-2 justify-start">
+        <div className="flex flex-row justify-start space-x-2">
           {authorAvatarUrl && (
             <Image
               src={authorAvatarUrl || "kh_holo.png"}
@@ -54,7 +54,7 @@ export const SnapshotPost = ({
             />
           )}
           <div className="flex flex-col space-y-0">
-            <div className="flex flex-row mb-2 space-x-2 justify-start">
+            <div className="mb-2 flex flex-row justify-start space-x-2">
               {userProfile &&
                 (userProfile.following?.includes(authorAddr)
                   ? StarButton({
@@ -65,17 +65,17 @@ export const SnapshotPost = ({
                       addFriend: () => userProfile?.follow(authorAddr),
                     })
                   : SelfIcon())}
-              <h5 className="self-center text-md font-bold tracking-tight text-gray-900 dark:text-white">
+              <h5 className="text-md self-center font-bold tracking-tight text-gray-900 dark:text-white">
                 {/*  need to get the from by the author address */}
                 {userIsAuthor ? authorUsername : "You"}
               </h5>
             </div>
-            <div className="flex flex-row space-x-2 items-center">
-              <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ">
+            <div className="flex flex-row items-center space-x-2">
+              <span className="mr-2 rounded bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-800 ">
                 {shortenAddress(authorAddr)}
               </span>
               {userProfile?.primaryDelegate === authorAddr && (
-                <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+                <span className="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-800 dark:bg-red-200 dark:text-red-900">
                   Primary Delegate
                 </span>
               )}
@@ -95,16 +95,16 @@ export const SnapshotPost = ({
       </div>
 
       <div className="flex flex-col space-y-3">
-        <div className="flex flex-row space-x-2 justify-between items-center">
+        <div className="flex flex-row items-center justify-between space-x-2">
           <div>
-            <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+            <span className="mr-2 rounded bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-800 dark:bg-red-200 dark:text-red-900">
               Vote
             </span>
-            <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
+            <span className="mr-2 rounded bg-orange-100 px-2.5 py-0.5 text-xs font-semibold text-orange-800 dark:bg-orange-200 dark:text-orange-900">
               {outcome}
             </span>
             {votingPower && (
-              <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300">
+              <span className="mr-2 rounded bg-purple-100 px-2.5 py-0.5 text-xs font-semibold text-purple-800 dark:bg-purple-700 dark:text-purple-300">
                 {votingPower} $KRAUSE
               </span>
             )}
@@ -113,7 +113,7 @@ export const SnapshotPost = ({
             <div>
               <span
                 onClick={voteWithAuthor}
-                className="bg-purple-100 text-purple-800 cursor-pointer text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-700 dark:text-purple-300"
+                className="mr-2 cursor-pointer rounded bg-purple-100 px-2.5 py-0.5 text-xs font-semibold text-purple-800 dark:bg-purple-700 dark:text-purple-300"
               >
                 Vote With {authorUsername || authorAddr.substring(0, 6)}...
               </span>
@@ -124,7 +124,7 @@ export const SnapshotPost = ({
           </div> */}
         </div>
         {comment && (
-          <div className="flex flex-col h-40 space-y-12 p-3 rounded-lg border border-gray-200">
+          <div className="flex h-40 flex-col space-y-12 rounded-lg border border-gray-200 p-3">
             <p className="m-3 font-normal text-gray-700 dark:text-gray-400">
               {comment}
             </p>

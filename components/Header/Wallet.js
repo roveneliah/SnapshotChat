@@ -55,7 +55,7 @@ export function ViewOnlyModal() {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white  shadow-2xl rounded-2xl">
+              <div className="my-8 inline-block w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle  shadow-2xl transition-all">
                 <div>
                   <div className="flex flex-col space-y-4">
                     <Image
@@ -63,7 +63,7 @@ export function ViewOnlyModal() {
                       alt=";("
                       width={400}
                       height={300}
-                      className="rounded-lg mb-10"
+                      className="mb-10 rounded-lg"
                     />
                     <Dialog.Title
                       as="h3"
@@ -93,11 +93,11 @@ export function ViewOnlyModal() {
                     </p>
                   </div>
 
-                  <div className="flex flex-row justify-between space-x-3 mt-12">
+                  <div className="mt-12 flex flex-row justify-between space-x-3">
                     <div>
                       <a
                         type="button"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-purple-900 bg-purple-100 border border-transparent rounded-md hover:bg-purple-200 focus:outline-none"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-purple-100 px-4 py-2 text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none"
                         href="https://rarible.com/collection/0xc4e0f3ec24972c75df7c716922096f4270b7bb4e/items"
                         target="_blank"
                         rel="noreferrer"
@@ -108,7 +108,7 @@ export function ViewOnlyModal() {
                     <div>
                       <button
                         type="button"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none"
                         onClick={closeModal}
                       >
                         Got it, thanks!

@@ -17,17 +17,17 @@ export default function Layout({
         <link rel="icon" href="/kh_holo.png" />
       </Head>
       <main className="w-full">
-        <div className="absolute inset-0 bg-[url(/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-30"></div>
+        <div className="absolute inset-0 bg-[url(/grid.svg)] bg-center opacity-30 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
         {/* <div className="absolute inset-0 bg-[url(/crackle.svg)] bg-cover [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-30"></div> */}
 
-        <div className="theme-basic-light bg-gradient-to-tr [mask-image-opacity-50] from-purple-900 to-purple-500 h-screen overflow-auto">
+        <div className="theme-basic-light [mask-image-opacity-50] h-screen overflow-auto bg-gradient-to-tr from-purple-900 to-purple-500">
           <Header
             connect={connect}
             disconnect={disconnect}
             wallet={wallet}
             wrongNetwork={wrongNetwork}
           />
-          <div className="absolute top-24 overflow-auto h-screen w-screen">
+          <div className="absolute top-24 h-screen w-screen overflow-auto">
             {children}
           </div>
           {/* <div className="absolute -bottom-9 left-48">

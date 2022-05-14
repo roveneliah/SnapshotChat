@@ -10,7 +10,7 @@ const Row = ({ colHeaders, r, remove }) => {
     "py-4 px-6 text-sm text-red-500 whitespace-nowrap dark:text-red-400";
 
   return (
-    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+    <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
       {colHeaders
         .map((col) => col.toLowerCase())
         .map((col, i) => {
@@ -51,7 +51,7 @@ export const Table = ({
   return (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="inline-block py-2 min-w-full sm:px-6 lg:px-8">
+        <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
           <div className="overflow-hidden shadow-md sm:rounded-lg">
             <table className="min-w-full">
               <thead className="bg-gray-50 dark:bg-gray-700">
@@ -59,7 +59,7 @@ export const Table = ({
                   {columnNames.map((name, i) => (
                     <th
                       scope="col"
-                      className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-400"
                       key={i}
                     >
                       {name}
@@ -68,7 +68,7 @@ export const Table = ({
                   {removeAtIndex && (
                     <th
                       scope="col"
-                      className="py-3 px-6 text-xs font-medium tracking-wider text-left text-red-700 uppercase dark:text-red-400"
+                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-red-700 dark:text-red-400"
                       key={-1}
                     />
                   )}

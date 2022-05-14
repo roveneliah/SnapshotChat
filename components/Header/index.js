@@ -6,7 +6,7 @@ import { navItems } from "../../config/navItems";
 export const Header = ({ connect, disconnect, wallet, wrongNetwork }) => {
   return (
     <nav className="absolute top-0  w-full border-gray-200">
-      <div className="flex justify-between items-center px-10 py-6">
+      <div className="flex items-center justify-between px-10 py-6">
         {/* <NavBar navItems={navItems} /> */}
         <HeaderLogo />
         <HeaderWallet

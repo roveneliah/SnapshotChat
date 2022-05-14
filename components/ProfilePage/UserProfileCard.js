@@ -5,23 +5,23 @@ import { shortenAddress } from "../../utils/web3/shortenAddress";
 export default function UserProfileCard(props) {
   return (
     props.userProfile && (
-      <div className="flex flex-col space-y-5 p-5 bg-cards opacity-75 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex flex-col space-y-5 rounded-lg border border-gray-200 bg-cards p-5 opacity-75 shadow-md dark:border-gray-700 dark:bg-gray-800">
         <div className="flex flex-col items-center">
           {props.userProfile?.name ? (
             <div>
-              <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+              <span className="mr-2 rounded bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-800 dark:bg-gray-200 dark:text-gray-900">
                 {shortenAddress(props.wallet?.address)}
               </span>
             </div>
           ) : (
             <div>
-              <span className="bg-orange-100 text-orange-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
+              <span className="text-md mr-2 rounded bg-orange-100 px-2.5 py-0.5 font-semibold text-orange-800 dark:bg-orange-200 dark:text-orange-900">
                 <a href="https://roster.krausehouse.club">Join the roster!</a>
               </span>
             </div>
           )}
         </div>
-        <div className="flex flex-row space-x-4 justify-start items-center rounded-lg m-6 p-6 border border-gray-200 dark:border-gray-700">
+        <div className="m-6 flex flex-row items-center justify-start space-x-4 rounded-lg border border-gray-200 p-6 dark:border-gray-700">
           <Image
             src={avatarUrl(props.userProfile)}
             alt="feeling cute, might delete"
@@ -35,12 +35,12 @@ export default function UserProfileCard(props) {
                 {props.userProfile?.name}
               </h3>
             ) : (
-              <span className="bg-gray-100 text-gray-800 text-lg font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+              <span className="mr-2 rounded bg-gray-100 px-2.5 py-0.5 text-lg font-semibold text-gray-800 dark:bg-gray-200 dark:text-gray-900">
                 {shortenAddress(props.userProfile?.address)}
               </span>
             )}
             <div>
-              <span className="bg-purple-100 text-purple-800 whitespace-nowrap text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
+              <span className="mr-2 whitespace-nowrap rounded bg-purple-100 px-2.5 py-0.5 text-xs font-semibold text-purple-800 dark:bg-purple-200 dark:text-purple-900">
                 {props.wallet?.$KRAUSE || 0} $KRAUSE
               </span>
             </div>

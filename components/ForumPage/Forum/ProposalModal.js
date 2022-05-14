@@ -8,35 +8,70 @@ import Image from "next/image";
 import { VoteButtons } from "./ForumPosts/VoteButtons";
 import { ChoiceFilters } from "./ProposalCard/ChoiceFilters";
 
+const testMd = `# Heading 1
+### Heading 3
+Body text...`;
+
 const ProposalView = ({ proposal, scores }) => (
-  <div className="flex flex-col h-[80vh] overflow-auto space-y-6 p-4 rounded-lg">
-    <div className="pb-8 space-y-4 rounded-lg border border-gray-300 shadow-lg p-5">
+  <div className="flex h-[80vh] flex-col space-y-6 overflow-auto rounded-lg p-4">
+    <div className="space-y-4 rounded-lg border border-gray-300 px-12 py-8 shadow-lg">
       <Image src="/kh_logo.png" width={150} height={60} />
       <Heading title={proposal.title} size="2xl" />
       <Heading title={`Posted by ${proposal.author}`} size="xs" />
     </div>
-    <div className="rounded-lg border border-gray-300 shadow-lg p-5">
+    <div className="rounded-lg border border-gray-300 px-12 py-4 shadow-lg">
       <Markdown
         options={{
           overrides: {
-            h1: { component: MarkdownHeader, props: { size: "2xl" } },
-            h2: { component: MarkdownHeader, props: { size: "xl" } },
-            h3: { component: MarkdownHeader, props: { size: "lg" } },
+            // h1: { component: MarkdownHeader, props: { size: "2xl" } },
+            h1: {
+              component: ({ children }) => (
+                <p className="mt-7 mb-2 text-2xl font-bold">{children}</p>
+              ),
+            },
+            h2: {
+              component: ({ children }) => (
+                <p className="mt-7 mb-2 text-xl font-bold">{children}</p>
+              ),
+            },
+            h3: {
+              component: ({ children }) => (
+                <p className="mt-7 mb-2 text-lg font-bold">{children}</p>
+              ),
+            },
+            // h2: { component: MarkdownHeader, props: { size: "xl" } },
+            // h3: { component: MarkdownHeader, props: { size: "lg" } },
+            // p: {
+            //   component: MarkdownHeader,
+            //   props: {
+            //     size: "sm",
+            //     className: "font-normal",
+            //   },
+            // },
             p: {
-              component: MarkdownHeader,
-              props: { size: "sm", className: "mb-8" },
+              component: ({ children }) => <p className="mb-5">{children}</p>,
             },
             li: {
-              component: ({ children }) => <p className="mb-4">• {children}</p>,
+              component: ({ children }) => <p className="">• {children}</p>,
             },
-            hr: { component: () => <hr className="mb-8" /> },
+            ul: {
+              component: ({ children }) => <ul className="mb-5">{children}</ul>,
+            },
+            hr: {
+              component: () => <div className="my-8 border border-black" />,
+            },
+            code: {
+              component: ({ children }) => (
+                <code className="text-gray-500">{children}</code>
+              ),
+            },
           },
         }}
       >
         {proposal.body}
       </Markdown>
     </div>
-    <div className="pb-8 space-y-4 rounded-lg border border-gray-300 shadow-md p-5">
+    <div className="space-y-4 rounded-lg border border-gray-300 p-5 pb-8 shadow-md">
       <Heading title="Options" size="2xl" />
       <ChoiceFilters proposal={proposal} scores={scores} />
     </div>
@@ -69,7 +104,7 @@ export function ProposalModal({ proposal, scores }) {
           className="fixed inset-0 z-10 overflow-y-auto"
           onClose={closeModal}
         >
-          <div className="min-h-screen px-4 text-center bg-black bg-opacity-80">
+          <div className="min-h-screen bg-black bg-opacity-80 px-4 text-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -98,7 +133,7 @@ export function ProposalModal({ proposal, scores }) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-[70vw] xl:w-[95vh] p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-200  shadow-2xl rounded-lg">
+              <div className="my-8 inline-block w-[70vw] transform overflow-hidden rounded-lg bg-purple-100 p-6 text-left align-middle shadow-2xl  transition-all xl:w-[95vh]">
                 <ProposalView proposal={proposal} scores={scores} />
               </div>
             </Transition.Child>

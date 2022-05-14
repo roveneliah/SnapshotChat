@@ -47,7 +47,7 @@ export const Button = ({
     {title}
     {icon && (
       <svg
-        className="ml-2 -mr-1 w-4 h-4"
+        className="ml-2 -mr-1 h-4 w-4"
         fill="currentColor"
         viewBox="0 0 20 20"
         xmlns="http://www.w3.org/2000/svg"

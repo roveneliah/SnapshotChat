@@ -5,7 +5,7 @@ import FollowingDropdown from "./FollowingDropdown";
 
 export default function FollowingProfileCard(props) {
   return (
-    <div className="flex flex-col justify-between h-full space-y-3 p-6 max-w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex h-full max-w-full flex-col justify-between space-y-3 rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
       <div className="flex flex-row space-x-2">
         <div>
           <Image
@@ -20,7 +20,7 @@ export default function FollowingProfileCard(props) {
           <p className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
             {props.followingProfile?.name || "Jerry"}
           </p>
-          <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900">
+          <span className="mr-2 rounded bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-800 dark:bg-gray-200 dark:text-gray-900">
             {shortenAddress(props.followingProfile?.address)}
           </span>
         </div>
@@ -60,7 +60,7 @@ export default function FollowingProfileCard(props) {
           props.userProfile?.unfollow(props.followingProfile.address)
         }
       >
-        <span className="bg-orange-100 text-orange-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
+        <span className="mr-2 rounded bg-orange-100 px-2.5 py-0.5 text-xs font-semibold text-orange-800 dark:bg-orange-200 dark:text-orange-900">
           Unfollow
         </span>
       </div>

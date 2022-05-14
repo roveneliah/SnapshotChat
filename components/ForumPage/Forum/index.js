@@ -119,7 +119,7 @@ export default function ForumNew({
 
   return (
     <div className="flex flex-row justify-center ">
-      <div className="flex flex-col h-[90vh] overflow-auto w-[85vw] lg:w-[70vw] xl:w-[60vw] space-y-4 p-6 border-gray-200">
+      <div className="flex h-[90vh] w-[85vw] flex-col space-y-4 overflow-auto border-gray-200 p-6 lg:w-[70vw] xl:w-[60vw]">
         <div className="grid grid-cols-1 space-x-4">
           <ProposalCard
             votes={votes}

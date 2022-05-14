@@ -7,12 +7,12 @@ import Link from "next/link";
 const { None, Active, Closed } = ProposalStateFilter;
 export function ProposalListHeader(props: any) {
   return (
-    <div className="relative overflow-hidden p-6 basis-1/4 space-y-16 h-fit bg-cards bg-opacity-75 rounded-lg  border-gray-200 shadow-md">
+    <div className="relative h-fit basis-1/4 space-y-16 overflow-hidden rounded-lg border-gray-200 bg-cards bg-opacity-75  p-6 shadow-md">
       <div>
-        <h5 className="mb-2 min-h-max text-sm font-krausehouse2 font-bold tracking-wide text-textPrimary dark:text-white">
+        <h5 className="mb-2 min-h-max font-krausehouse2 text-sm font-bold tracking-wide text-textPrimary dark:text-white">
           Krause House
         </h5>
-        <h5 className="mb-2 min-h-max text-2xl font-krausehouse2 font-bold tracking-wide text-textPrimary dark:text-white">
+        <h5 className="mb-2 min-h-max font-krausehouse2 text-2xl font-bold tracking-wide text-textPrimary dark:text-white">
           Governance Forum
         </h5>
       </div>
@@ -45,10 +45,10 @@ export function ProposalListHeader(props: any) {
           />
         )}
       </div> */}
-      <div className="flex flex-row lg:flex-col lg:justify-start font-krausehouse2 space-y-3">
+      <div className="flex flex-row space-y-3 font-krausehouse2 lg:flex-col lg:justify-start">
         <div
           onClick={() => props.setProposalStateFilter(Active)}
-          className="flex flex-row space-x-3 px-3 py-1 pb-2 cursor-pointer rounded-full lg:rounded-lg hover:border hover:border-gray-400 hover:bg-gray-300"
+          className="flex cursor-pointer flex-row space-x-3 rounded-full px-3 py-1 pb-2 hover:border hover:border-gray-400 hover:bg-gray-300 lg:rounded-lg"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@ export function ProposalListHeader(props: any) {
         </div>
         <div
           onClick={() => props.setProposalStateFilter(Closed)}
-          className="flex flex-row space-x-3 px-3 py-1 pb-2 cursor-pointer rounded-full lg:rounded-lg hover:border hover:border-gray-400 hover:bg-gray-300"
+          className="flex cursor-pointer flex-row space-x-3 rounded-full px-3 py-1 pb-2 hover:border hover:border-gray-400 hover:bg-gray-300 lg:rounded-lg"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +86,7 @@ export function ProposalListHeader(props: any) {
           </svg>
           <a className="hidden lg:block">Archive</a>
         </div>
-        <div className="flex flex-row space-x-3 px-3 py-1 pb-2 cursor-pointer rounded-full lg:rounded-lg hover:border hover:border-gray-400 hover:bg-gray-300">
+        <div className="flex cursor-pointer flex-row space-x-3 rounded-full px-3 py-1 pb-2 hover:border hover:border-gray-400 hover:bg-gray-300 lg:rounded-lg">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -105,7 +105,7 @@ export function ProposalListHeader(props: any) {
         </div>
         <div>
           <Link href="profile">
-            <div className="flex flex-row space-x-3 px-3 py-1 pb-2 cursor-pointer rounded-full lg:rounded-lg hover:border hover:border-gray-400 hover:bg-gray-300">
+            <div className="flex cursor-pointer flex-row space-x-3 rounded-full px-3 py-1 pb-2 hover:border hover:border-gray-400 hover:bg-gray-300 lg:rounded-lg">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"

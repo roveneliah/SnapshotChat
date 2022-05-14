@@ -20,7 +20,7 @@ export const VoteButtons = ({ proposalId, post, signer }) => {
         // submit needs to send to firebase db
         <span
           onClick={() => addVoteToForumPost(signer, proposalId, post, vote)}
-          className={`bg-${vote.color}-100 text-${vote.color}-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-${vote.color}-200 dark:text-${vote.color}-900`}
+          className={`bg-${vote.color}-100 text-${vote.color}-800 mr-2 rounded px-2.5 py-0.5 text-xs font-semibold dark:bg-${vote.color}-200 dark:text-${vote.color}-900`}
           key={i}
         >
           {vote.choice}{" "}

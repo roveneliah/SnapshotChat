@@ -2,7 +2,7 @@ import { toPercentStr } from "../../utils/functional";
 
 export const PercentageBar = ({ title, percentage }) => (
   <div>
-    <div className="flex justify-between mb-1">
+    <div className="mb-1 flex justify-between">
       <span className="text-base font-medium text-blue-700 dark:text-white">
         {title}
       </span>
@@ -10,9 +10,9 @@ export const PercentageBar = ({ title, percentage }) => (
         {toPercentStr(percentage)}
       </span>
     </div>
-    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+    <div className="h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-700">
       <div
-        className="bg-purple-300 h-2.5 rounded-full"
+        className="h-2.5 rounded-full bg-purple-300"
         style={{ width: toPercentStr(percentage) }}
       />
     </div>

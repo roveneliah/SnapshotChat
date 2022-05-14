@@ -46,7 +46,7 @@ export default function ProposalCard({
   return (
     <Col
       space={6}
-      className="p-6 bg-cards opacity-75 rounded-lg border border-gray-200 shadow-lg"
+      className="rounded-lg border border-gray-200 bg-cards p-6 opacity-75 shadow-lg"
     >
       <Row className="justify-between">
         <Row>
