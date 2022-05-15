@@ -14,29 +14,35 @@ Body text...`;
 
 const ProposalView = ({ proposal, scores }) => (
   <div className="flex h-[80vh] flex-col space-y-6 overflow-auto rounded-lg p-4">
-    <div className="space-y-4 rounded-lg border border-gray-300 px-12 py-8 shadow-lg">
-      <Image src="/kh_logo.png" width={150} height={60} />
-      <Heading title={proposal.title} size="2xl" />
-      <Heading title={`Posted by ${proposal.author}`} size="xs" />
+    <div className="relative space-y-4 rounded-lg border border-gray-300 px-6 py-6 shadow-lg">
+      {/* <Image src="/kh_logo.png" width={150} height={60} /> */}
+      <div className="space-y-2 rounded-lg border border-black p-4">
+        <p className="w-fit font-krausehouse2">Proposal</p>
+        <Heading title={proposal.title} size="2xl" />
+        {/* <Heading title={`Posted by ${proposal.author}`} size="xs" /> */}
+      </div>
+      <div className="absolute -bottom-1 -right-3">
+        <Image src="/coachrick.png" width={140} height={120} />
+      </div>
     </div>
-    <div className="rounded-lg border border-gray-300 px-12 py-4 shadow-lg">
+    <div className="rounded-lg border border-gray-300 px-7 py-4 text-xl shadow-lg">
       <Markdown
         options={{
           overrides: {
             // h1: { component: MarkdownHeader, props: { size: "2xl" } },
             h1: {
               component: ({ children }) => (
-                <p className="mt-7 mb-2 text-2xl font-bold">{children}</p>
+                <p className="mt-7 mb-2 text-5xl font-bold">{children}</p>
               ),
             },
             h2: {
               component: ({ children }) => (
-                <p className="mt-7 mb-2 text-xl font-bold">{children}</p>
+                <p className="mt-7 mb-2 text-4xl font-bold">{children}</p>
               ),
             },
             h3: {
               component: ({ children }) => (
-                <p className="mt-7 mb-2 text-lg font-bold">{children}</p>
+                <p className="mt-7 mb-2 text-3xl font-bold">{children}</p>
               ),
             },
             // h2: { component: MarkdownHeader, props: { size: "xl" } },
@@ -52,9 +58,12 @@ const ProposalView = ({ proposal, scores }) => (
               component: ({ children }) => <p className="mb-5">{children}</p>,
             },
             li: {
-              component: ({ children }) => <p className="">• {children}</p>,
+              component: ({ children }) => <p className="py-1">• {children}</p>,
             },
             ul: {
+              component: ({ children }) => <ul className="mb-5">{children}</ul>,
+            },
+            ol: {
               component: ({ children }) => <ul className="mb-5">{children}</ul>,
             },
             hr: {

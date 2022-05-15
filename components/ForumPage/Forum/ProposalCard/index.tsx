@@ -103,12 +103,15 @@ export default function ProposalCard({
         <SignersTable title="Proposal Readers" signers={STEWARDS} />
       )}
       {!commentView && (
-        <ChoiceFilters
-          proposal={proposal}
-          selectedVote={selectedVote}
-          setSelectedVote={setSelectedVote}
-          scores={scores}
-        />
+        <div>
+          <p className="px-2 text-xl font-bold">Filters</p>
+          <ChoiceFilters
+            proposal={proposal}
+            selectedVote={selectedVote}
+            setSelectedVote={setSelectedVote}
+            scores={scores}
+          />
+        </div>
       )}
     </Col>
   );

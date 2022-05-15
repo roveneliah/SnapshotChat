@@ -133,18 +133,10 @@ export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
           <Button
             title={`${wallet?.$KRAUSE?.toFixed(0) || 0} $KRAUSE`}
             color="hollowFull"
-            className="bg-cards bg-opacity-75"
+            className="bg-cards/75"
           />
         </div>
       ) : (
-        // <div>
-        //   <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-purple-200 dark:text-purple-900">
-        //     {wallet?.$KRAUSE || 0} $KRAUSE
-        //   </span>
-        //   {/* <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
-        //     {wallet?.TICKETS || 0} Genesis Tickets
-        //   </span> */}
-        // </div>
         <>
           {wrongNetwork && <Button title="Wrong Network" color="yellowFull" />}
           <ViewOnlyModal />
@@ -158,7 +150,7 @@ export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
               color="hollowFull"
               href="/profile"
               newTab={true}
-              className="bg-cards bg-opacity-75"
+              className="bg-cards/75"
             />
           </div>
           <div>
@@ -166,7 +158,7 @@ export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
               title="Disconnect"
               onClick={() => disconnect()}
               color="hollowFull"
-              className="bg-cards bg-opacity-75"
+              className="bg-cards/75"
             />
           </div>
         </>

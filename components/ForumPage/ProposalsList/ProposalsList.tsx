@@ -54,15 +54,15 @@ export default function ProposalsList({
     ));
 
   return (
-    <Row space={3} className="justify-center py-8">
+    <Row space={3} className="justify-center py-2">
       <div className="grid w-3/4 grid-cols-1 px-4 lg:grid-cols-5">
-        <div className="col-span-2 h-fit space-y-3 p-4">
+        <div className="col-span-2 h-fit space-y-3 px-4">
           <ProposalListHeader
             proposalStateFilter={proposalStateFilter}
             setProposalStateFilter={setProposalStateFilter}
           />
         </div>
-        <div className="col-span-3 flex max-h-[87vh] basis-3/4 flex-col space-y-6 overflow-auto border-gray-200 p-4  lg:basis-1/2 ">
+        <div className="col-span-3 flex max-h-[88vh] basis-3/4 flex-col space-y-6 overflow-auto border-gray-200 px-4 lg:basis-1/2 ">
           {/* {(proposalStateFilter === ProposalStateFilter.Review ||
           proposalStateFilter === ProposalStateFilter.None) &&
           drafts.map((draft: Template, key: number) => (
