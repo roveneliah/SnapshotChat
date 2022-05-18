@@ -27,8 +27,10 @@ export function ChoiceFilters(props: any) {
           key={i}
         >
           <Col>
-            <Heading title={choice} size="sm" />
-            <Row space={1} className="flex-wrap">
+            <p className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
+              {choice}
+            </p>
+            <div className="flex flex-row items-end justify-between">
               <Badge
                 color="orange"
                 size="sm"
@@ -42,16 +44,18 @@ export function ChoiceFilters(props: any) {
                       )
                 }`}
               />
-              <Badge
-                color="gray"
-                size="sm"
-                title={`${
-                  props.scores[i + 1] != null
-                    ? Math.floor(props.scores[i + 1])
-                    : Math.floor(props.proposal.scores[i])
-                } $KRAUSE`}
-              />
-            </Row>
+              <div className="hidden xl:block">
+                <Badge
+                  color="gray"
+                  size="sm"
+                  title={`${
+                    props.scores[i + 1] != null
+                      ? Math.floor(props.scores[i + 1])
+                      : Math.floor(props.proposal.scores[i])
+                  } $KRAUSE`}
+                />
+              </div>
+            </div>
           </Col>
         </a>
       ))}

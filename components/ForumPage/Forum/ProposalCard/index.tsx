@@ -104,7 +104,7 @@ export default function ProposalCard({
       )}
       {!commentView && (
         <div>
-          <p className="px-2 text-xl font-bold">Filters</p>
+          <p className="text-xl font-bold">Filters</p>
           <ChoiceFilters
             proposal={proposal}
             selectedVote={selectedVote}

@@ -9,15 +9,14 @@ import { useGetVotingPower } from "./useGetVotingPower";
 export const useGetProposalVotes = (proposal: any) => {
   const [votes, setVotes] = useState<any>();
   useEffect(() => {
-    fetchProposalVotes(proposal.id).then(setVotes);
-  }, []);
+    proposal && fetchProposalVotes(proposal.id).then(setVotes);
+  }, [proposal]);
   return [votes, setVotes];
 };
 
 export const useGetWeightedSnapshotVotes = (proposal: any) => {
   const [votes, setVotes] = useGetProposalVotes(proposal);
 
-  // get voting power once we have votes
   useEffect(() => {
     if (votes) {
       getKhVotingPower(

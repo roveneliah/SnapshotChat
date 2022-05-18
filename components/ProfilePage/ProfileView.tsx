@@ -12,6 +12,7 @@ export enum ProfileViews {
   Wallet = "Wallet",
   Store = "Store",
   MyJerry = "MyJerry",
+  Governance = "Governance",
 }
 
 export function ProfileView(props: any) {
@@ -39,6 +40,7 @@ export function ProfileView(props: any) {
             <FollowingBox
               userProfile={props.connection.userProfile}
               following={props.following}
+              connection={props.connection}
             />
           </div>
         )}
@@ -48,32 +50,35 @@ export function ProfileView(props: any) {
         {view === ProfileViews.Wallet && (
           <div className="flex flex-col space-y-4 rounded-lg border border-gray-200 bg-cards bg-opacity-75 p-8 shadow-xl ">
             <Heading title="Wallet" size="xl" className={"font-krausehouse2"} />
-            <div>
-              <Heading
-                title={props.connection.wallet.$KRAUSE}
-                size="xl"
-                className={"font-krausehouse2"}
-              />
-              <a className="font-krausehouse2">$KRAUSE</a>
-            </div>
-            <div>
-              <Heading
-                title={props.connection.wallet.TICKETS}
-                size="xl"
-                className={"font-krausehouse2"}
-              />
-              <a className="font-krausehouse2">Tickets</a>
-            </div>
-            <div className="flex flex-col">
-              <Heading
-                title={props.connection.wallet.TICKETS_OLD}
-                size="xl"
-                className={"font-krausehouse2"}
-              />
-              <a className="font-krausehouse2">Tickets</a>
-              <a className="font-krausehouse2 text-xs">
-                Please migrate your ticket to v2.
-              </a>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="rounded-lg bg-cards/50 p-8 shadow-lg">
+                <Heading
+                  title={props.connection.wallet.$KRAUSE}
+                  size="xl"
+                  className={"font-krausehouse2"}
+                />
+                <a className="font-krausehouse2">$KRAUSE</a>
+              </div>
+              <div className="rounded-lg bg-cards/50 p-8 shadow-lg">
+                <Heading
+                  title={props.connection.wallet.TICKETS}
+                  size="xl"
+                  className={"font-krausehouse2"}
+                />
+                <a className="font-krausehouse2">Tickets</a>
+              </div>
+              <div />
+              <div className="flex flex-col rounded-lg bg-cards/50 p-8 shadow-lg">
+                <Heading
+                  title={props.connection.wallet.TICKETS_OLD}
+                  size="xl"
+                  className={"font-krausehouse2"}
+                />
+                <a className="font-krausehouse2">Tickets</a>
+                <a className="font-krausehouse2 text-xs">
+                  Please migrate your ticket to v2.
+                </a>
+              </div>
             </div>
           </div>
         )}
@@ -81,8 +86,8 @@ export function ProfileView(props: any) {
           <div className="flex flex-col space-y-5 rounded-lg border border-gray-200 bg-cards bg-opacity-75 p-8 shadow-xl ">
             <Heading title="Store" size="xl" className={"font-krausehouse2"} />
             <div>
-              <div className="flex flex-row space-x-2 font-krausehouse2 text-sm">
-                <a className="cursor-pointer select-none rounded-lg bg-cards/25 px-3 py-2 pb-5 hover:bg-cards/50">
+              <div className="flex flex-row space-x-2 overflow-x-auto whitespace-nowrap font-krausehouse2 text-sm">
+                <a className="cursor-pointer select-none  rounded-lg bg-cards/25 px-3 py-2 pb-5 hover:bg-cards/50">
                   Pre-Season
                 </a>
                 <a className="cursor-pointer select-none rounded-lg bg-cards/25 px-3 py-2 pb-5 hover:bg-cards/50">
@@ -93,6 +98,12 @@ export function ProfileView(props: any) {
                 </a>
                 <a className="cursor-pointer select-none rounded-lg bg-cards px-3 py-2 pb-5">
                   NFT NYC
+                </a>
+                <a className="cursor-pointer select-none rounded-lg bg-cards/25 px-3 py-2 pb-5 hover:bg-cards/50">
+                  Season 3
+                </a>
+                <a className="cursor-pointer select-none rounded-lg bg-cards/25 px-3 py-2 pb-5 hover:bg-cards/50">
+                  Season 3
                 </a>
                 <a className="cursor-pointer select-none rounded-lg bg-cards/25 px-3 py-2 pb-5 hover:bg-cards/50">
                   Season 3

@@ -1,10 +1,8 @@
 import Forum from "./Forum";
-import { printPass, draftBySignature } from "../../utils/functional";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useGetProposals } from "../../hooks/firestore/useGetProposals";
 import { useGetAllUserVotes } from "../../hooks/snapshot/useGetAllUserVotes";
 import ProposalsList from "./ProposalsList/ProposalsList";
-import { useGetNotionDrafts } from "../../hooks/notion/useGetNotionDrafts";
 import { compose, equals, head, prop } from "ramda";
 
 export const proposalById = (proposals, id) =>
@@ -23,7 +21,6 @@ export default function ForumPage(props) {
   return proposal ? (
     <Forum
       connection={props}
-      // proposal={proposalById(proposals.concat(drafts), selectedProposal)}
       proposal={proposal}
       selectedProposal={selectedProposal}
       setSelectedProposal={setSelectedProposal}

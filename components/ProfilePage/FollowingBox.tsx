@@ -25,6 +25,7 @@ export default function FollowingBox(props: any) {
               key={i}
               userProfile={props.userProfile}
               followingProfile={followingProfile}
+              connection={props.connection}
             />
           </div>
         ))}

@@ -39,34 +39,45 @@ export default function CommentBox({ proposal, connection }) {
     });
 
   return wallet?.hodler ? (
-    <div className="flex flex-col space-y-6 rounded-lg border border-gray-200 bg-cards bg-opacity-75 p-6 shadow-lg">
-      {proposal.state === "closed" ? (
-        <>
-          <div className="w-fit rounded-lg bg-orange-200 px-7 pt-2">
+    <div className="flex flex-col space-y-8 rounded-lg border border-gray-200 bg-cards bg-opacity-75 p-6 shadow-lg">
+      <div className="flex flex-col space-y-2">
+        {proposal.state === "closed" ? (
+          <div className="w-fit rounded-lg">
             <HeadingFaint title="Retrospective" size="2xl" />
           </div>
-          <HeadingFaint
-            title="This proposal is closed, but you can write a retrospective to document what went well or poorly."
-            size="md"
-          />
-        </>
-      ) : (
-        <HeadingFaint title="What do you think?" size="xl" />
-      )}
-      <Selector
-        proposal={proposal}
-        selectedChoice={selectedChoice}
-        setSelectedChoice={setSelectedChoice}
-      />
-      <textarea
-        rows="5"
-        className="block w-full rounded-lg border border-gray-300 bg-cards bg-opacity-40 p-2 text-sm text-gray-900 caret-purple-400 focus:border-purple-500 focus:ring-purple-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-purple-500 dark:focus:ring-purple-500"
-        value={postText}
-        placeholder="What do you think?"
-        // onChange={updatePostText}
-        onChange={(e) => setPostText(e.target.value)}
-      />
-      <div className="flex flex-row space-x-3">
+        ) : (
+          <HeadingFaint title="What do you think?" size="xl" />
+        )}
+
+        <textarea
+          rows="5"
+          className="block w-full rounded-lg border border-gray-300 bg-cards bg-opacity-40 p-2 text-sm text-gray-900 caret-purple-400 focus:border-purple-500 focus:ring-purple-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-purple-500 dark:focus:ring-purple-500"
+          value={postText}
+          placeholder={
+            proposal.state === "closed"
+              ? "This proposal is closed, but you can write a retrospective to document what went well or poorly."
+              : "What do you think?"
+          }
+          // onChange={updatePostText}
+          onChange={(e) => setPostText(e.target.value)}
+        />
+      </div>
+      <div className="flex flex-row justify-between space-x-3">
+        <div className="flex flex-row space-x-1">
+          {proposal.choices.map((choice, i) => (
+            <a
+              key={i}
+              className={
+                selectedChoice === i
+                  ? `cursor-pointer rounded-lg bg-purple-400 py-2 px-3 text-sm font-medium text-slate-600`
+                  : `cursor-pointer rounded-lg bg-cards/50 py-2 px-3 text-sm font-medium text-slate-600`
+              }
+              onClick={() => setSelectedChoice(i)}
+            >
+              {choice}
+            </a>
+          ))}
+        </div>
         <Button
           title={`Post ${
             proposal.state === "closed" ? "Retrospective" : "Opinion"

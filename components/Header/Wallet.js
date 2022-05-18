@@ -8,14 +8,8 @@ import { Button } from "../Buttons/Button";
 
 export function ViewOnlyModal() {
   let [isOpen, setIsOpen] = useState(true);
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
+  const closeModal = () => setIsOpen(false);
+  const openModal = () => setIsOpen(true);
 
   return (
     <>
@@ -128,8 +122,8 @@ export function ViewOnlyModal() {
 export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
   return (
     <div className="flex flex-row space-x-2">
-      {wallet.hodler ? (
-        <div className="invisible md:visible">
+      {/* {wallet.hodler ? (
+        <div className="hidden md:block">
           <Button
             title={`${wallet?.$KRAUSE?.toFixed(0) || 0} $KRAUSE`}
             color="hollowFull"
@@ -141,25 +135,37 @@ export const Wallet = ({ wallet, disconnect, wrongNetwork }) => {
           {wrongNetwork && <Button title="Wrong Network" color="yellowFull" />}
           <ViewOnlyModal />
         </>
+      )} */}
+      {!wallet.hodler && (
+        <>
+          {wrongNetwork && <Button title="Wrong Network" color="yellowFull" />}
+          <ViewOnlyModal />
+        </>
       )}
       {wallet.loaded && (
         <>
-          <div className="invisible sm:visible">
+          <div className="hidden sm:block">
+            <Button
+              title={`${wallet?.$KRAUSE?.toFixed(0) || 0} $KRAUSE`}
+              color="hollowFull"
+              className=" bg-cards/75"
+            />
+          </div>
+          <div className="group">
             <Button
               title={shortenAddress(wallet.address)}
               color="hollowFull"
               href="/profile"
               newTab={true}
-              className="bg-cards/75"
+              className="hidden w-[10vw] whitespace-nowrap bg-cards/75 group-hover:hidden md:block"
             />
-          </div>
-          <div>
             <Button
               title="Disconnect"
               onClick={() => disconnect()}
               color="hollowFull"
-              className="bg-cards/75"
+              className="hidden w-[10vw] whitespace-nowrap group-hover:block"
             />
+            {/* </div> */}
           </div>
         </>
       )}

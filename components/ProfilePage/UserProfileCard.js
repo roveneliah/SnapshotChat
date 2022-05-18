@@ -6,7 +6,8 @@ import { shortenAddress } from "../../utils/web3/shortenAddress";
 import { ProfileViews } from "./ProfileView";
 
 export default function UserProfileCard(props) {
-  const { Following, Search, Wallet, Store, MyJerry } = ProfileViews;
+  const { Following, Search, Wallet, Store, MyJerry, Governance } =
+    ProfileViews;
   const button =
     "flex cursor-pointer flex-row space-x-3 rounded-full px-3 py-2 pb-3 lg:rounded-lg";
   const buttonSelected =
@@ -105,6 +106,26 @@ export default function UserProfileCard(props) {
               />
             </svg>
             <a className="hidden lg:block">Search</a>
+          </div>
+          <div
+            onClick={() => props.setView(Governance)}
+            className={props.view === Governance ? buttonSelected : button}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
+              />
+            </svg>
+            <a className="hidden lg:block">Governance</a>
           </div>
           <div
             onClick={() => props.setView(Wallet)}
