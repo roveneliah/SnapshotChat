@@ -24,8 +24,6 @@ interface Props {
   userVote: number;
   votesLoaded: boolean;
   votes: any;
-  commentView: boolean;
-  setCommentView: Function;
 }
 
 export default function ProposalCard({
@@ -38,8 +36,6 @@ export default function ProposalCard({
   userVote,
   votesLoaded,
   votes,
-  commentView,
-  setCommentView,
 }: Props) {
   const scores: Scores = useGetProposalScores(proposal, votes);
 
@@ -102,17 +98,15 @@ export default function ProposalCard({
       {proposal.state === "review" && (
         <SignersTable title="Proposal Readers" signers={STEWARDS} />
       )}
-      {!commentView && (
-        <div>
-          <p className="text-xl font-bold">Filters</p>
-          <ChoiceFilters
-            proposal={proposal}
-            selectedVote={selectedVote}
-            setSelectedVote={setSelectedVote}
-            scores={scores}
-          />
-        </div>
-      )}
+      <div>
+        <p className="text-xl font-bold">Filters</p>
+        <ChoiceFilters
+          proposal={proposal}
+          selectedVote={selectedVote}
+          setSelectedVote={setSelectedVote}
+          scores={scores}
+        />
+      </div>
     </Col>
   );
 }

@@ -4,6 +4,7 @@ import { useGetProposalVotes } from "./snapshot/useGetSnapshotVotes";
 import { address } from "../types/Address";
 import { avatarUrl } from "../utils/avatarUrl";
 
+// TODO: REFACTOR
 export const useGetFollowingVotes = (proposal: any, userProfile: any) => {
   const [delegationVotes, setDelegationVotes] = useState();
   const votes = useGetProposalVotes(proposal);
