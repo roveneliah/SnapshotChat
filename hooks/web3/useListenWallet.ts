@@ -5,7 +5,7 @@ import { composeP } from "../../utils/functional";
 
 export const useListenWallet = (provider: any, signer: any): Wallet => {
   const MISSING_WALLET: Wallet = { loaded: false };
-  const [wallet, setWallet] = useState<Wallet>(MISSING_WALLET);
+  const [wallet, setWallet] = useState<any>(MISSING_WALLET);
 
   useEffect(() => {
     const updateWallet = async () => {

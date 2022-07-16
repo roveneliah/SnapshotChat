@@ -3,7 +3,7 @@ import { AddressForm } from "./AddressForm";
 import { TeamSelector } from "./TeamSelector";
 
 export const AddSignersBox = ({ addSigners }) => (
-  <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+  <div className="flex flex-col space-y-6 rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
     <div>
       <Heading title="Requested Signers" size="lg" />
       <p className="leading-relaxed dark:text-gray-400">

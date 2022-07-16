@@ -12,10 +12,12 @@ import { ProposalStateBadge } from "./ProposalStateBadge";
 import { Badge } from "../../../Generics/Badge";
 import { Row } from "../../../Generics/Row";
 import { Col } from "../../../Generics/Col";
+import { ProposalModal } from "../ProposalModal";
 
 interface Props {
   wallet: Wallet;
   proposal: any; // TODO: proposal type
+  selectedProposal: number;
   setSelectedProposal: Function;
   selectedVote: number;
   setSelectedVote: Function;
@@ -27,6 +29,7 @@ interface Props {
 export default function ProposalCard({
   wallet,
   proposal,
+  selectedProposal,
   setSelectedProposal,
   selectedVote,
   setSelectedVote,
@@ -39,70 +42,71 @@ export default function ProposalCard({
   return (
     <Col
       space={6}
-      className="p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700"
+      className="rounded-lg border border-gray-200 bg-cards p-6 opacity-75 shadow-lg"
     >
-      <Row>
-        <Button
-          title="Back"
-          color="hollow"
-          onClick={() => setSelectedProposal(null)}
-        />
-        {proposal.state === "review" ? (
+      <Row className="justify-between">
+        <Row>
           <Button
-            title="View"
-            icon={true}
+            title="Back"
             color="hollow"
-            // href={``}
-            newTab={true}
+            onClick={() => setSelectedProposal(null)}
           />
-        ) : (
+          {/* {proposal.state === "review" && (
+            <Button
+              title="View"
+              icon={true}
+              color="hollow"
+              // href={``}
+              newTab={true}
+            />
+          )} */}
+          <ProposalModal proposal={proposal} scores={scores} />
+        </Row>
+        {/* <Row>
           <Button
-            title="View on Snapshot"
-            icon={true}
-            color="hollowFull"
-            href={`https://snapshot.org/#/krausehouse.eth/proposal/${proposal.id}`}
-            newTab={true}
+            title={proposal.state == "closed" ? "Comment" : "Vote"}
+            color={commentView ? "background" : "hollowFull"}
+            onClick={() => {
+              setCommentView(true);
+            }}
           />
-        )}
+          <Button
+            title="Feed"
+            color={commentView ? "hollowFull" : "background"}
+            onClick={() => {
+              setCommentView(false);
+            }}
+          />
+        </Row> */}
       </Row>
       <div>
         <Row className="mb-2">
           <ProposalStateBadge state={proposal.state} />
+          <Badge
+            title={`${votes?.length || proposal.votes} Votes`}
+            color="purple"
+            size="sm"
+          />
           <VotedCard
             choice={userVote}
             votesLoaded={votesLoaded}
             wallet={wallet}
           />
         </Row>
-        <Heading title={proposal.title} size="2xl" />
+        <Heading title={proposal.title} size="xl" />
       </div>
       {proposal.state === "review" && (
         <SignersTable title="Proposal Readers" signers={STEWARDS} />
       )}
-      {proposal.state !== "review" && (
-        <>
-          <Row className="items-end">
-            <Badge
-              title={`${votes?.length || proposal.votes} Votes`}
-              color="purple"
-              size="lg"
-            />
-            <Badge
-              title={`${Math.floor(
-                scores.scores_total || proposal.scores_total
-              )} $KRAUSE Total`}
-              color="purple"
-              size="lg"
-            />
-          </Row>
-          <ChoiceFilters
-            proposal={proposal}
-            selectedVote={selectedVote}
-            setSelectedVote={setSelectedVote}
-            scores={scores}
-          />
-        </>
-      )}
+      <div>
+        <p className="text-xl font-bold">Filters</p>
+        <ChoiceFilters
+          proposal={proposal}
+          selectedVote={selectedVote}
+          setSelectedVote={setSelectedVote}
+          scores={scores}
+        />
+      </div>
     </Col>
   );
 }

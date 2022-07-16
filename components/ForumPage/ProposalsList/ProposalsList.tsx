@@ -7,6 +7,10 @@ import { ViewProfileCard } from "./ViewProfileCard";
 import { SubmitViaNotionCard } from "./SubmitViaNotionCard";
 import { Col } from "../../Generics/Col";
 import { Row } from "../../Generics/Row";
+import { ProfileView } from "../../ProfilePage/ProfileView";
+import UserProfileCard from "../../ProfilePage/UserProfileCard";
+import { Heading } from "../../Generics/Headings/Heading";
+import Image from "next/image";
 
 interface Props {
   connection: any;
@@ -28,18 +32,38 @@ export default function ProposalsList({
   const [proposalStateFilter, setProposalStateFilter] =
     useState<ProposalStateFilter>(ProposalStateFilter.None);
 
+  const proposalsList = proposals
+    .filter(({ type }: any) => type === "basic" || type === "single-choice")
+    .filter(
+      ({ state }: any) =>
+        proposalStateFilter === ProposalStateFilter.None ||
+        state === proposalStateFilter
+    )
+    .map((proposal: any, i: number) => (
+      <ProposalListItem
+        provider={provider}
+        setSelectedProposal={setSelectedProposal}
+        proposal={proposal}
+        key={i}
+        index={i}
+        userVote={userVotes[proposal.id]}
+        votesLoaded={userVotes != null}
+        wallet={wallet}
+        userProfile={userProfile}
+      />
+    ));
+
   return (
-    <Row space={3} className="justify-center pb-8">
-      <Col space={3}>
-        <SubmitViaNotionCard />
-        <ViewProfileCard />
-      </Col>
-      <div className="basis-1/2 flex flex-col space-y-6 px-4 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-        <ProposalListHeader
-          proposalStateFilter={proposalStateFilter}
-          setProposalStateFilter={setProposalStateFilter}
-        />
-        {/* {(proposalStateFilter === ProposalStateFilter.Review ||
+    <Row space={3} className="justify-center py-2">
+      <div className="grid w-3/4 grid-cols-1 px-4 lg:grid-cols-5">
+        <div className="col-span-2 h-fit space-y-3 px-4">
+          <ProposalListHeader
+            proposalStateFilter={proposalStateFilter}
+            setProposalStateFilter={setProposalStateFilter}
+          />
+        </div>
+        <div className="col-span-3 flex max-h-[88vh] basis-3/4 flex-col space-y-6 overflow-auto border-gray-200 px-4 lg:basis-1/2 ">
+          {/* {(proposalStateFilter === ProposalStateFilter.Review ||
           proposalStateFilter === ProposalStateFilter.None) &&
           drafts.map((draft: Template, key: number) => (
             <div
@@ -65,27 +89,25 @@ export default function ProposalsList({
               </div>
             </div>
           ))} */}
-        {proposals
-          .filter(
-            ({ type }: any) => type === "basic" || type === "single-choice"
-          )
-          .filter(
-            ({ state }: any) =>
-              proposalStateFilter === ProposalStateFilter.None ||
-              state === proposalStateFilter
-          )
-          .map((proposal: any, i: number) => (
-            <ProposalListItem
-              provider={provider}
-              setSelectedProposal={setSelectedProposal}
-              proposal={proposal}
-              key={i}
-              userVote={userVotes[proposal.id]}
-              votesLoaded={userVotes != null}
-              wallet={wallet}
-              userProfile={userProfile}
-            />
-          ))}
+
+          {proposalsList.length > 0 ? (
+            proposalsList
+          ) : (
+            <div className="flex flex-col space-y-5 rounded-lg border border-gray-200 bg-cards bg-opacity-75 p-6 font-krausehouse2 shadow-md">
+              <div>
+                <Heading title="No proposals found" size="xl" />
+              </div>
+              <div>
+                <Image
+                  src="/cube.gif"
+                  height={900}
+                  width={1200}
+                  className="rounded-lg"
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </Row>
   );

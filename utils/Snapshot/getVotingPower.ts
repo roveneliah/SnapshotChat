@@ -9,7 +9,11 @@ export const fetchVotingPower =
     const { name, strategies, network } = space;
     return await snapshot.utils
       .getScores(name, strategies, network, addresses, blockNumber)
-      .then(head);
+      .then(head)
+      .catch((e) => {
+        console.log("Couldn't fetch voting power.", e);
+        return {};
+      });
   };
 
 const kh_space: SnapshotSpace = {

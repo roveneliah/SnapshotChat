@@ -8,9 +8,14 @@ export default function HeaderWallet({
   wrongNetwork,
 }) {
   return (
-    <div className="flex md:order-2">
+    <div className="flex flex-row space-x-2 md:order-2">
       {!wallet.loaded ? (
-        <Button title="Connect" onClick={connect} color="hollow" />
+        <Button
+          title="Connect"
+          onClick={connect}
+          color="hollow"
+          className="bg-cards/75"
+        />
       ) : (
         wallet && (
           <Wallet
@@ -20,6 +25,12 @@ export default function HeaderWallet({
           />
         )
       )}
+      <Button
+        title="Forum"
+        onClick={() => {}}
+        color="hollowFull"
+        className=" bg-cards/75 "
+      />
     </div>
   );
 }

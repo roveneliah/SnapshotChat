@@ -63,8 +63,8 @@ export default function CreatePetitionPage(props) {
 
   return (
     <div className="flex flex-row justify-center">
-      <div className="flex flex-col space-y-12 p-6 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
-        <div className="flex flex-col space-y-6 p-6 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex flex-col space-y-12 rounded-lg border border-gray-200 bg-white p-6 shadow-lg dark:border-gray-700 dark:bg-gray-800">
+        <div className="flex flex-col space-y-6 rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
           <Heading title="Create a petition." size="2xl" />
           <Heading
             title="Petitions allow you to request signatures from specific people to demonstrate support for a sentiment, initiative, or specific request."

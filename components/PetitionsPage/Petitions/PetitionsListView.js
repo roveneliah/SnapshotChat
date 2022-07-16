@@ -29,8 +29,8 @@ export const PetitionsListView = ({
   return (
     <div className="flex flex-row justify-center space-x-3">
       <CreatePetitionCard />
-      <div className="flex flex-col space-y-6 basis-2/3  p-6 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-        <div className="p-6 flex flex-col space-y-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex basis-2/3 flex-col space-y-6  border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+        <div className="flex flex-col space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
           <Heading title="Live Petitions" size="2xl" />
           <Heading
             title="Petitions are an open to anyone to gather grassroots support from
@@ -38,9 +38,9 @@ export const PetitionsListView = ({
             size="md"
           />
         </div>
-        <div className="p-6 flex flex-col space-y-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+        <div className="flex flex-col space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
           <Heading title="Filter" size="xl" />
-          <div className="flex flex-row space-x-3 flex-wrap">
+          <div className="flex flex-row flex-wrap space-x-3">
             {filters.map(({ title: filter }, i) => (
               <Button
                 title={filter}

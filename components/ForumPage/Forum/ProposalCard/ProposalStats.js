@@ -38,7 +38,7 @@ export const ProposalStats = () => {
   const [selectedView, setSelectedView] = useState(head(Object.keys(views)));
 
   return (
-    <div className="flex flex-col space-y-5 w-full justify-evenly">
+    <div className="flex w-full flex-col justify-evenly space-y-5">
       <NavBar navItems={navItems} />
       {views[selectedView]}
     </div>

@@ -3,7 +3,7 @@ import { Button } from "../../Buttons/Button";
 export const PetitionPreviewCard = ({ petition, setSelected, id }) => (
   <div
     key={id}
-    className="p-6 max-w-2/3 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+    className="max-w-2/3 rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800"
   >
     <div className="flex flex-row space-x-2">
       {/* <svg

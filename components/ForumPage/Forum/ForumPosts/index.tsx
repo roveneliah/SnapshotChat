@@ -11,17 +11,17 @@ interface Props {
 }
 
 export default function ForumPosts({ connection, posts, proposal }: Props) {
-  const addresses = useRef(posts.map((post: any) => post.author));
+  const addresses = useRef(posts?.map((post: any) => post.author));
   const votingPower = useGetVotingPower(
     addresses.current,
     proposal.snapshot,
     connection.provider
   );
 
-  console.log(votingPower);
-
-  return posts ? (
-    <div className="flex flex-col space-y-4 dark:bg-gray-800 dark:border-gray-700">
+  return !posts || posts.length === 0 ? (
+    <></>
+  ) : (
+    <div className="flex flex-col space-y-4">
       {posts.map((post: any, i: number) => (
         <ForumPost
           connection={connection}
@@ -32,7 +32,5 @@ export default function ForumPosts({ connection, posts, proposal }: Props) {
         />
       ))}
     </div>
-  ) : (
-    <></>
   );
 }

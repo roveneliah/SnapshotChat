@@ -3,7 +3,7 @@ type Props = { choice: number; votesLoaded: boolean; wallet: any };
 export const VotedCard = ({ choice, votesLoaded, wallet }: Props) =>
   choice ? (
     <div>
-      <span className="mb-2 bg-orange-100 text-orange-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
+      <span className="mb-2 mr-2 rounded bg-orange-100 px-2.5 py-0.5 text-sm font-semibold text-orange-800 dark:bg-orange-200 dark:text-orange-900">
         Voted: {choice}
       </span>
     </div>

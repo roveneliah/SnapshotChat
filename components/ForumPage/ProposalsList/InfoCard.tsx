@@ -2,12 +2,12 @@ import { Button } from "../../Buttons/Button";
 
 function InfoCard() {
   return (
-    <div className="p-6 h-1/4 basis-1/4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="h-1/4 max-w-sm basis-1/4 rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
       <a href="#">
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           The Watercooler
         </h5>
-        <h5 className="mb-2 text-md font-bold tracking-tight text-gray-900 dark:text-white">
+        <h5 className="text-md mb-2 font-bold tracking-tight text-gray-900 dark:text-white">
           Krause House Governance Forum
         </h5>
       </a>
